@@ -3,6 +3,7 @@
  * @type {number}
  */
 export type RGBATuple = [number, number, number, number];
+export type GLColorTuple = [number, number, number, number];
 
 /**
  * @desc Enum listing palette's colors names

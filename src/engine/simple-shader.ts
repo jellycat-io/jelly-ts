@@ -1,5 +1,5 @@
-import * as core from "./core";
-import * as vertexBuffer from "./vertex-buffer";
+import * as glSys from "./core/gl";
+import * as vertexBuffer from "./core/vertex-buffer";
 
 export class SimpleShader {
   mCompiledShader: WebGLProgram | null;
@@ -11,7 +11,7 @@ export class SimpleShader {
     this.mVertexPositionRef = null;
     this.mPixelColorRef = null;
 
-    const gl = core.getGL();
+    const gl = glSys.get();
 
     if (!gl) return;
 
@@ -57,7 +57,7 @@ export class SimpleShader {
   }
 
   activate(pixelColor: Float32List) {
-    const gl = core.getGL();
+    const gl = glSys.get();
 
     if (!gl || this.mVertexPositionRef === null) return;
 
@@ -85,7 +85,7 @@ function loadAndCompileShader(
   filePath: string,
   shaderType: number
 ): WebGLShader | null {
-  const gl = core.getGL();
+  const gl = glSys.get();
   const xmlReq = new XMLHttpRequest();
 
   if (!gl) return null;
