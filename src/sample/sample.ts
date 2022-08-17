@@ -1,11 +1,11 @@
 import * as engine from "../engine/core";
-import { Color } from "../utils/palette";
+import { Color, Palette } from "../utils/palette";
 
 class Game {
   constructor(width: number, height: number, canvasID?: string) {
     engine.init(width, height, canvasID);
-    engine.clearCanvas(Color.DarkPeach);
-    engine.drawSquare();
+    engine.clearCanvas(Palette[Color.DarkPeach]);
+    engine.drawSquare(Palette[Color.LightPeach]);
   }
 }
 

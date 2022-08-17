@@ -4,10 +4,12 @@ import * as vertexBuffer from "./vertex-buffer";
 export class SimpleShader {
   mCompiledShader: WebGLProgram | null;
   mVertexPositionRef: number | null;
+  mPixelColorRef: WebGLUniformLocation | null;
 
   constructor(vertexSourceID: string, fragmentSourceID: string) {
     this.mCompiledShader = null;
     this.mVertexPositionRef = null;
+    this.mPixelColorRef = null;
 
     const gl = core.getGL();
 
@@ -46,9 +48,15 @@ export class SimpleShader {
       this.mCompiledShader,
       "aVertexPosition"
     );
+
+    // Gets uniform variable uPixelColor in fragment shader
+    this.mPixelColorRef = gl.getUniformLocation(
+      this.mCompiledShader,
+      "uPixelColor"
+    );
   }
 
-  activate() {
+  activate(pixelColor: Float32List) {
     const gl = core.getGL();
 
     if (!gl || this.mVertexPositionRef === null) return;
@@ -67,6 +75,9 @@ export class SimpleShader {
       0 // offsets to the first element
     );
     gl.enableVertexAttribArray(this.mVertexPositionRef);
+
+    // Load uniforms
+    gl.uniform4fv(this.mPixelColorRef, pixelColor);
   }
 }
 

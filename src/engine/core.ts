@@ -1,6 +1,6 @@
 import * as vertexBuffer from "./vertex-buffer";
 import SimpleShader from "./simple-shader";
-import { Color, Palette } from "../utils/palette";
+import { Color, Palette, RGBATuple } from "../utils/palette";
 
 export type GLContext = WebGL2RenderingContext | null;
 
@@ -17,20 +17,20 @@ export function init(width: number, height: number, canvasID?: string): void {
   createShader();
 }
 
-export function drawSquare(): void {
-  mShader?.activate();
+export function drawSquare(color: RGBATuple): void {
+  mShader?.activate(color);
   mGL?.drawArrays(mGL.TRIANGLE_STRIP, 0, 4);
 }
 
-export function clearCanvas(color: Color): void {
-  mGL?.clearColor(...Palette[color]);
+export function clearCanvas(color: RGBATuple): void {
+  mGL?.clearColor(...color);
   mGL?.clear(mGL.COLOR_BUFFER_BIT);
 }
 
 function createShader(): void {
   mShader = new SimpleShader(
     "/src/shaders/simple.vs.glsl",
-    "/src/shaders/white.fs.glsl"
+    "/src/shaders/simple.fs.glsl"
   );
 }
 
@@ -57,9 +57,3 @@ function initWebGL(width: number, height: number, canvasID?: string): void {
     throw new Error("Unable to initialize WebGL2");
   }
 }
-
-window.onload = () => {
-  initWebGL(640, 480, "GLCanvas");
-  clearCanvas(Color.TrueBlue);
-  drawSquare();
-};
