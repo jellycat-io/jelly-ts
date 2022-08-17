@@ -23,3 +23,8 @@ const clearCanvas = (): void => {
 
   gl.clear(gl.COLOR_BUFFER_BIT);
 };
+
+window.onload = () => {
+  initWebGL("GLCanvas");
+  clearCanvas();
+};
