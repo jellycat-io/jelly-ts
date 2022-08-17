@@ -71,16 +71,29 @@ export class SimpleShader {
 }
 
 function loadAndCompileShader(
-  id: string,
+  filePath: string,
   shaderType: number
 ): WebGLShader | null {
   const gl = core.getGL();
+  const xmlReq = new XMLHttpRequest();
 
   if (!gl) return null;
-  const shaderText = document.getElementById(id) as HTMLScriptElement;
-  const shaderSource = shaderText.firstChild?.textContent?.trimStart();
 
-  if (!shaderSource) return null;
+  xmlReq.open("GET", filePath, false);
+
+  try {
+    xmlReq.send();
+  } catch (e) {
+    throw new Error(
+      `Failed to load shader: ${filePath} [Hint: you cannot double click to run this project. The HTML file must be loaded by a web-server]`
+    );
+  }
+
+  const shaderSource = xmlReq.responseText;
+
+  if (!shaderSource) {
+    throw new Error(`WARNING: Loading of ${filePath} failed.`);
+  }
 
   // Create the shader with correct type
   const compiledShader = gl.createShader(shaderType);

@@ -28,7 +28,10 @@ export function clearCanvas(color: Color): void {
 }
 
 function createShader(): void {
-  mShader = new SimpleShader("VertexShader", "FragmentShader");
+  mShader = new SimpleShader(
+    "/src/shaders/simple.vs.glsl",
+    "/src/shaders/white.fs.glsl"
+  );
 }
 
 function initWebGL(width: number, height: number, canvasID?: string): void {
