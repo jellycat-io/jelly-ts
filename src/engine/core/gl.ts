@@ -5,7 +5,7 @@ export function get() {
   return mGL;
 }
 
-export function init(width: number, height: number, canvasID?: string) {
+export function init(width: number, height: number, canvasID?: string): void {
   if (canvasID) {
     mCanvas = document.getElementById(canvasID) as HTMLCanvasElement;
 

@@ -18,7 +18,3 @@ body {
   height: 100vh;
   width: 100vw;
 }
-
-canvas {
-  border-radius: 0.5rem;
-}

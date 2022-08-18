@@ -72,7 +72,11 @@ export class SimpleShader {
     );
   }
 
-  activate(pixelColor: GLColorTuple, trsMatrix: mat4, cameraMatrix: mat4) {
+  activate(
+    pixelColor: GLColorTuple,
+    trsMatrix: mat4,
+    cameraMatrix: mat4
+  ): void {
     const gl = glSys.get();
 
     if (!gl || this.mVertexPositionRef === null) return;

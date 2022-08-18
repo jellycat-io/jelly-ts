@@ -1,5 +1,5 @@
-import { mat4 } from "gl-matrix";
 import { Color, GLColorTuple, Palette } from "../utils/palette";
+import Camera from "./camera";
 import * as glSys from "./core/gl";
 import * as shaderResources from "./core/shader-resources";
 import SimpleShader from "./simple-shader";
@@ -16,22 +16,22 @@ class Renderable {
     this.mTransform = new Transform();
   }
 
-  setColor(color: GLColorTuple) {
+  setColor(color: GLColorTuple): void {
     this.mColor = color;
   }
-  getColor() {
+  getColor(): GLColorTuple {
     return this.mColor;
   }
-  getTransform() {
+  getTransform(): Transform {
     return this.mTransform;
   }
 
-  draw(cameraMatrix: mat4) {
+  draw(camera: Camera): void {
     const gl = glSys.get();
     this.mShader?.activate(
       this.mColor,
       this.mTransform.getTRSMatrix(),
-      cameraMatrix
+      camera.getCameraMatrix()
     );
     gl?.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
   }
