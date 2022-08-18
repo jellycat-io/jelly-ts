@@ -1,6 +1,7 @@
 import * as glSys from "./core/gl";
 import * as vertexBuffer from "./core/vertex-buffer";
 import * as shaderResources from "./core/shader-resources";
+import * as Input from "./input";
 import Renderable from "./renderable";
 import Transform from "./transform";
 import Camera from "./camera";
@@ -11,6 +12,7 @@ function init(width: number, height: number, canvasID?: string) {
   glSys.init(width, height, canvasID);
   vertexBuffer.init();
   shaderResources.init();
+  Input.init();
 }
 
 function clearCanvas(color: GLColorTuple): void {
@@ -23,4 +25,12 @@ function getGL(): WebGL2RenderingContext | null {
   return glSys.get();
 }
 
-export default { Renderable, Transform, Camera, init, clearCanvas, getGL };
+export default {
+  Renderable,
+  Transform,
+  Camera,
+  Input,
+  init,
+  clearCanvas,
+  getGL,
+};

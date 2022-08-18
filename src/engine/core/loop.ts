@@ -1,4 +1,5 @@
 import Scene from "../scene";
+import * as input from "../input";
 
 const kUPS = 60; // Updates per second
 const kMPF = 1000 / kUPS; // Milliseconds per update
@@ -30,6 +31,7 @@ function loopOnce(): void {
     // Update only every kMPF (1/60 of a second)
     // If lag larger than update frames, update until caught up
     while (mLagTime >= kMPF && mLoopRunning) {
+      input.update();
       mCurrentScene.update();
       mLagTime -= kMPF;
     }

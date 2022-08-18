@@ -48,15 +48,22 @@ class Game implements Scene {
     const deltaX = 0.05;
 
     // Move blue square
-    if (blueTransform.getXPos() > 30) blueTransform.setPosition(10, 60);
-    blueTransform.translateX(deltaX);
-    blueTransform.rotateDeg(1);
+    if (Engine.Input.isKeyPressed(Engine.Input.KEYS.ARROW_RIGHT)) {
+      if (blueTransform.getXPos() > 30) blueTransform.setPosition(10, 60);
+      blueTransform.translateX(deltaX);
+    }
+
+    if (Engine.Input.isKeyClicked(Engine.Input.KEYS.ARROW_UP)) {
+      blueTransform.rotateDeg(1);
+    }
 
     // pulse red square
     const redTransform = this.mRedSq.getTransform();
 
-    if (redTransform.getWidth() > 5) redTransform.setScale(2, 2);
-    redTransform.scale(0.05);
+    if (Engine.Input.isKeyPressed(Engine.Input.KEYS.ARROW_DOWN)) {
+      if (redTransform.getWidth() > 5) redTransform.setScale(2, 2);
+      redTransform.scale(0.05);
+    }
   }
 }
 
