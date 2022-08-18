@@ -1,14 +1,7 @@
 import { mat4, vec2, vec3 } from "gl-matrix";
 import * as glSys from "./core/gl";
 import { Color, GLColorTuple, Palette } from "../utils/palette";
-
-enum VIEWPORT {
-  X,
-  Y,
-  WIDTH,
-  HEIGHT,
-}
-
+import { VIEWPORT } from "../utils/common";
 class Camera {
   mWCCenter: vec2;
   mWCWidth: number;
@@ -103,7 +96,7 @@ class Camera {
     // After translation, scale to -1 to 1: 2x2 square at origin
     mat4.scale(
       this.getCameraMatrix(),
-      this.getCameraMatrix(),
+      mat4.create(),
       vec3.fromValues(2.0 / this.getWCWidth(), 2.0 / this.getWCHeight(), 1.0)
     );
     mat4.translate(
