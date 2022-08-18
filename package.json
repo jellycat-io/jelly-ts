@@ -18,5 +18,8 @@
     "vite-plugin-glsl": "^0.3.0"
   },
   "main": "index.js",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "gl-matrix": "^3.4.3"
+  }
 }

@@ -1,4 +1,4 @@
-import { getGL } from "./core";
+import * as glSys from "./gl";
 
 // prettier-ignore
 const mVerticesOfSquare = [
@@ -15,7 +15,7 @@ export function get(): WebGLBuffer | null {
 }
 
 export function init(): void {
-  const gl = getGL();
+  const gl = glSys.get();
 
   if (!gl) return;
 
