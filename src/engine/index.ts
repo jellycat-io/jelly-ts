@@ -18,4 +18,8 @@ function clearCanvas(color: GLColorTuple): void {
   gl?.clear(gl.COLOR_BUFFER_BIT);
 }
 
-export { Renderable, Transform, init, clearCanvas };
+function getGL(): WebGL2RenderingContext | null {
+  return glSys.get();
+}
+
+export { Renderable, Transform, init, clearCanvas, getGL };

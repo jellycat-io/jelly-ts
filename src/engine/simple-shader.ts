@@ -8,12 +8,14 @@ export class SimpleShader {
   mVertexPositionRef: number | null;
   mPixelColorRef: WebGLUniformLocation | null;
   mModelMatrixRef: WebGLUniformLocation | null;
+  mCameraMatrixRed: WebGLUniformLocation | null;
 
   constructor(vertexSourceID: string, fragmentSourceID: string) {
     this.mCompiledShader = null;
     this.mVertexPositionRef = null;
     this.mPixelColorRef = null;
     this.mModelMatrixRef = null;
+    this.mCameraMatrixRed = null;
 
     const gl = glSys.get();
 
@@ -59,14 +61,18 @@ export class SimpleShader {
       "uPixelColor"
     );
 
-    // Gets uniform variable uModelXformMatrix in vertex shader
+    // Gets uniform variables in vertex shader
     this.mModelMatrixRef = gl.getUniformLocation(
       this.mCompiledShader,
-      "uModelXformMatrix"
+      "uModelTransformMatrix"
+    );
+    this.mCameraMatrixRed = gl.getUniformLocation(
+      this.mCompiledShader,
+      "uCameraTransformMatrix"
     );
   }
 
-  activate(pixelColor: GLColorTuple, trsMatrix: mat4) {
+  activate(pixelColor: GLColorTuple, trsMatrix: mat4, cameraMatrix: mat4) {
     const gl = glSys.get();
 
     if (!gl || this.mVertexPositionRef === null) return;
@@ -89,6 +95,7 @@ export class SimpleShader {
     // Load uniforms
     gl.uniform4fv(this.mPixelColorRef, pixelColor);
     gl.uniformMatrix4fv(this.mModelMatrixRef, false, trsMatrix);
+    gl.uniformMatrix4fv(this.mCameraMatrixRed, false, cameraMatrix);
   }
 }
 
