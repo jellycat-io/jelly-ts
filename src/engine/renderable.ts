@@ -1,3 +1,4 @@
+import { mat4 } from "gl-matrix";
 import { Color, GLColorTuple, Palette } from "../utils/palette";
 import * as glSys from "./core/gl";
 import * as shaderResources from "./core/shader-resources";
@@ -19,9 +20,9 @@ class Renderable {
     return this.mColor;
   }
 
-  draw() {
+  draw(trsMatrix: mat4) {
     const gl = glSys.get();
-    this.mShader?.activate(this.mColor);
+    this.mShader?.activate(this.mColor, trsMatrix);
     gl?.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
   }
 }

@@ -2,7 +2,7 @@ import * as glSys from "./core/gl";
 import * as vertexBuffer from "./core/vertex-buffer";
 import * as shaderResources from "./core/shader-resources";
 import Renderable from "./renderable";
-import { RGBATuple } from "../utils/palette";
+import { GLColorTuple } from "../utils/palette";
 
 // General engine utils
 function init(width: number, height: number, canvasID?: string) {
@@ -11,7 +11,7 @@ function init(width: number, height: number, canvasID?: string) {
   shaderResources.init();
 }
 
-function clearCanvas(color: RGBATuple): void {
+function clearCanvas(color: GLColorTuple): void {
   const gl = glSys.get();
   gl?.clearColor(...color);
   gl?.clear(gl.COLOR_BUFFER_BIT);
