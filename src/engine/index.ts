@@ -25,12 +25,4 @@ function getGL(): WebGL2RenderingContext | null {
   return glSys.get();
 }
 
-export default {
-  Renderable,
-  Transform,
-  Camera,
-  Input,
-  init,
-  clearCanvas,
-  getGL,
-};
+export { Renderable, Transform, Camera, init, clearCanvas, getGL };

@@ -1,5 +1,5 @@
 import { vec2 } from "gl-matrix";
-import Engine from "../engine";
+import * as Engine from "../engine";
 import * as loop from "../engine/core/loop";
 import Scene from "../engine/scene";
 import { Color, Palette } from "../utils/palette";
