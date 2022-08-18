@@ -3,6 +3,7 @@ import * as vertexBuffer from "./core/vertex-buffer";
 import * as shaderResources from "./core/shader-resources";
 import Renderable from "./renderable";
 import Transform from "./transform";
+import Camera from "./camera";
 import { GLColorTuple } from "../utils/palette";
 
 // General engine utils
@@ -18,4 +19,8 @@ function clearCanvas(color: GLColorTuple): void {
   gl?.clear(gl.COLOR_BUFFER_BIT);
 }
 
-export { Renderable, Transform, init, clearCanvas };
+function getGL(): WebGL2RenderingContext | null {
+  return glSys.get();
+}
+
+export { Renderable, Transform, Camera, init, clearCanvas, getGL };

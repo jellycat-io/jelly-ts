@@ -8,10 +8,10 @@ export function init() {
   createShaders();
 }
 
-export function getConstColorShader() {
+export function getConstColorShader(): SimpleShader | null {
   return mConstColorShader;
 }
 
-function createShaders() {
+function createShaders(): void {
   mConstColorShader = new SimpleShader(kSimpleVS, kSimpleFS);
 }

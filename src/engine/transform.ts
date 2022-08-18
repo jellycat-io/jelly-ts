@@ -12,63 +12,69 @@ class Transform {
     this.mRotationRad = 0.0;
   }
 
-  setXPos(x: number) {
+  setXPos(x: number): void {
     this.mPosition[0] = x;
   }
-  getXPos() {
+  getXPos(): number {
     return this.mPosition[0];
   }
-  setYPos(y: number) {
+
+  setYPos(y: number): void {
     this.mPosition[1] = y;
   }
-  getYPos() {
+  getYPos(): number {
     return this.mPosition[1];
   }
-  setPosition(x: number, y: number) {
+
+  setPosition(x: number, y: number): void {
     this.setXPos(x);
     this.setYPos(y);
   }
-  getPosition() {
+  getPosition(): vec2 {
     return this.mPosition;
   }
 
-  setWidth(w: number) {
+  setWidth(w: number): void {
     this.mScale[0] = w;
   }
-  getWidth() {
+  getWidth(): number {
     return this.mScale[0];
   }
-  setHeight(h: number) {
+
+  setHeight(h: number): void {
     this.mScale[1] = h;
   }
-  getHeight() {
+  getHeight(): number {
     return this.mScale[1];
   }
-  setScale(w: number, h: number) {
+
+  setScale(w: number, h: number): void {
     this.setWidth(w);
     this.setHeight(h);
   }
-  getScale() {
-    this.mScale;
+  getScale(): vec2 {
+    return this.mScale;
   }
-  setRotationRad(r: number) {
+
+  setRotationRad(r: number): void {
     this.mRotationRad = r;
 
     while (this.mRotationRad > 2 * Math.PI) {
       this.mRotationRad -= 2 * Math.PI;
     }
   }
-  getRotationRad() {
+  getRotationRad(): number {
     return this.mRotationRad;
   }
-  setRotationDeg(r: number) {
+
+  setRotationDeg(r: number): void {
     this.setRotationRad(r * DEGREE);
   }
-  getRotationDeg() {
+  getRotationDeg(): number {
     return this.mRotationRad * DEGREE;
   }
 
-  getTRSMatrix() {
+  getTRSMatrix(): mat4 {
     // Create identity matrix
     const matrix = mat4.create();
 
