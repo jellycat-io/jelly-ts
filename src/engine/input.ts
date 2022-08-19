@@ -1,4 +1,8 @@
-const KEYS = {
+/**
+ * @module Input
+ */
+
+export const KEYS = {
   BACKSPACE: "Backspace",
   TAB: "Tab",
   ENTER: "Enter",
@@ -131,17 +135,28 @@ const mIsKeyClicked: Record<string, boolean> = {};
 
 // Event handler functions
 
+/**
+ * @description Catches pressed key code
+ * @param {KeyboardEvent} event The browser keyboard event
+ */
 function onKeyDown(event: KeyboardEvent): void {
   event.preventDefault();
   mIsKeyPressed[event.code] = true;
 }
 
+/**
+ * @description Catches the pressed key event
+ * @param {KeyboardEvent} event The browser keyboard event
+ */
 function onKeyUp(event: KeyboardEvent): void {
   event.preventDefault();
   mIsKeyPressed[event.code] = false;
 }
 
-function init(): void {
+/**
+ * @description Initializes input listeners
+ */
+export function init(): void {
   Object.values(KEYS).forEach((k) => {
     mKeyPreviousState[k] = false;
     mIsKeyPressed[k] = false;
@@ -153,19 +168,30 @@ function init(): void {
   window.addEventListener("keydown", onKeyDown);
 }
 
-function update(): void {
+/**
+ * @description Catches keyboard input every frame
+ */
+export function update(): void {
   Object.values(KEYS).forEach((k) => {
     mIsKeyClicked[k] = !mKeyPreviousState[k] && mIsKeyPressed[k];
     mKeyPreviousState[k] = mIsKeyPressed[k];
   });
 }
 
-function isKeyPressed(code: string) {
+/**
+ * @description Checks if a certain key is pressed
+ * @param {string} code The keycode
+ * @returns {boolean} true if key is pressed
+ */
+export function isKeyPressed(code: string): boolean {
   return mIsKeyPressed[code];
 }
 
-function isKeyClicked(code: string) {
+/**
+ * @description Checks if a certain key is just pressed
+ * @param {string} code The keycode
+ * @returns {boolean} true if key is just pressed
+ */
+export function isKeyClicked(code: string): boolean {
   return mIsKeyClicked[code];
 }
-
-export { KEYS, init, update, isKeyClicked, isKeyPressed };

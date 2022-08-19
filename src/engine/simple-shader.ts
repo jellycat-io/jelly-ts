@@ -13,10 +13,30 @@ import * as TextResource from "./resources/text";
  * @classdesc The core shader class
  */
 export class SimpleShader {
+  /**
+   * @private
+   * @type {WebGLProgram | null}
+   */
   mCompiledShader: WebGLProgram | null;
+  /**
+   * @private
+   * @type {number | null}
+   */
   mVertexPositionRef: number | null;
+  /**
+   * @private
+   * @type {WebGLUniformLocation | null}
+   */
   mPixelColorRef: WebGLUniformLocation | null;
+  /**
+   * @private
+   * @type {WebGLUniformLocation | null}
+   */
   mModelMatrixRef: WebGLUniformLocation | null;
+  /**
+   * @private
+   * @type {WebGLUniformLocation | null}
+   */
   mCameraMatrixRed: WebGLUniformLocation | null;
 
   /**

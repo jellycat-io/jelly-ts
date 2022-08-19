@@ -7,7 +7,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> engine/core/shader-resources.ts</title>
+  <title> engine/renderable.ts</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -80,7 +80,7 @@
             <div class="content">
                 <header class="page-title">
                     <p>Source</p>
-                    <h1>engine/core/shader-resources.ts</h1>
+                    <h1>engine/renderable.ts</h1>
                 </header>
                 
 
@@ -89,50 +89,80 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import * as TextResource from "../resources/text";
-import * as ResourceMap from "./resource-map";
-import SimpleShader from "../simple-shader";
+            <pre class="prettyprint source linenums"><code>import { Color, GLColorTuple, Palette } from "../utils/palette";
+import Camera from "./camera";
+import * as glSys from "./core/gl";
+import * as shaderResources from "./core/shader-resources";
+import SimpleShader from "./simple-shader";
+import Transform from "./transform";
 
 /**
- * @module ShaderResources
+ * @class
+ * @classdesc A drawable entity
  */
+class Renderable {
+  /**
+   * @private
+   * @type {SimpleShader | null}
+   */
+  mShader: SimpleShader | null;
+  /**
+   * @private
+   * @type {GLColorTuple}
+   */
+  mColor: GLColorTuple;
+  /**
+   * @private
+   * @type {Transform}
+   */
+  mTransform: Transform;
 
-const kSimpleVS = "src/shaders/simple.vs.glsl";
-const kSimpleFS = "src/shaders/simple.fs.glsl";
-let mConstColorShader: SimpleShader | null = null;
+  constructor() {
+    this.mShader = shaderResources.getConstColorShader();
+    this.mColor = Palette[Color.LightPeach];
+    this.mTransform = new Transform();
+  }
 
-/**
- * @description Initializes shaders
- * @returns {void} nothing
- */
-export function init() {
-  // eslint-disable-next-line no-async-promise-executor
-  const loadPromise = new Promise&lt;void>(async (resolve) => {
-    await Promise.all([
-      TextResource.load(kSimpleVS),
-      TextResource.load(kSimpleFS),
-    ]);
-    resolve();
-  }).then(() => createShaders());
+  /**
+   * @description Changes Renderable's color
+   * @param {GLColorTuple} color The new renderable color
+   */
+  setColor(color: GLColorTuple): void {
+    this.mColor = color;
+  }
 
-  ResourceMap.pushPromise(loadPromise);
+  /**
+   * @description Gets Renderable color
+   * @returns {GLColorTuple} the Renderable color
+   */
+  getColor(): GLColorTuple {
+    return this.mColor;
+  }
+
+  /**
+   * @description Gets Renderable transform
+   * @returns {Transform} the Renderable Transform
+   */
+  getTransform(): Transform {
+    return this.mTransform;
+  }
+
+  /**
+   * @description Draws the Renderable
+   * @param {Camera} camera The game camera to display to
+   */
+  draw(camera: Camera): void {
+    const gl = glSys.get();
+    this.mShader?.activate(
+      this.mColor,
+      this.mTransform.getTRSMatrix(),
+      camera.getCameraMatrix()
+    );
+    gl?.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+  }
 }
 
-/**
- * @description Gets the core shader
- * @returns {SimpleShader | null} the core shader
- */
-export function getConstColorShader(): SimpleShader | null {
-  return mConstColorShader;
-}
-
-/**
- * @description Creates the core shader
- * @returns {void} nothing
- */
-function createShaders(): void {
-  mConstColorShader = new SimpleShader(kSimpleVS, kSimpleFS);
-}
+export default Renderable;
 </code></pre>
         </article>
     </section>

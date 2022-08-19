@@ -5,7 +5,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> TextResource</title>
+  <title> Camera</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -77,8 +77,8 @@
         <div class="core" id="main-content-wrapper">
             <div class="content">
                 <header class="page-title">
-                    <p>Module</p>
-                    <h1>TextResource</h1>
+                    <p>Class</p>
+                    <h1>Camera</h1>
                 </header>
                 
 
@@ -89,6 +89,8 @@
 
 <header>
     
+        <h2><span class="attribs"><span class="type-signature"></span></span>
+            <span class="ancestors"><a href="Camera.html">Camera</a>#</span>Camera<span class="signature">(wcCenter, wcWidth, viewportArray, bgColor)</span><span class="type-signature"></span></h2>
         
     
 </header>
@@ -97,44 +99,22 @@
     <div class="container-overview">
     
         
-
-        
-    
-    </div>
-    
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <div class='vertical-section'>
-            <h1>Methods</h1>
-            <div class="members">
-            
-                <div class="member">
+            <div class='vertical-section'>
+                <div class="members">
+                    <div class="member">
+                        <div class=name>
+                            <span class="tag">Constructor</span>
+                        </div>
+                        
 
 
     
-    <h4 class="name" id=".load">
-        <a class="href-link" href="#.load">#</a>
-        
-            
-                <span class='tag'>static</span>
-            
+    <h4 class="name" id="Camera">
+        <a class="href-link" href="#Camera">#</a>
         
         <span class="code-name">
             
-                load<span class="signature">(path)</span><span class="type-signature"> &rarr; {Promise.&lt;void>}</span>
+                new Camera<span class="signature">(wcCenter, wcWidth, viewportArray, bgColor)</span><span class="type-signature"></span>
             
         </span>
     </h4>
@@ -177,13 +157,13 @@
             
 <tr class="deep-level-0">
   
-      <td class="name"><code>path</code></td>
+      <td class="name"><code>wcCenter</code></td>
   
 
   <td class="type">
   
       
-<code class="param-type">string</code>
+<code class="param-type">vec2</code>
 
 
   
@@ -193,7 +173,82 @@
 
   
 
-  <td class="description last">The resource file path</td>
+  <td class="description last">The camera center position</td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>wcWidth</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">number</code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">The camera width</td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>viewportArray</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type"><a href="global.html#Float32List">Float32List</a></code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">The viewport size and position on the canvas</td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>bgColor</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">GLColorTuple</code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">The camera background color</td>
 </tr>
 
 
@@ -239,9 +294,9 @@
 
     
         <p class="tag-source">
-            <a href="engine_resources_text.ts.html" class="button">View Source</a>
+            <a href="engine_camera.ts.html" class="button">View Source</a>
             <span>
-                <a href="engine_resources_text.ts.html">engine/resources/text.ts</a>, <a href="engine_resources_text.ts.html#line31">line 31</a>
+                <a href="engine_camera.ts.html">engine/camera.ts</a>, <a href="engine_camera.ts.html#line197">line 197</a>
             </span>
         </p>
     
@@ -264,390 +319,31 @@
 
 
 
-    <div class='columns method-parameter'>
-        <div class="column is-2"><label>Returns:</label></div>
-        <div class="column is-10">
-            
-                    
 
-<div class="columns">
-    
-    
-    <div class='column is-5 has-text-left'>
-        <label>Type: </label>
-        
-<code class="param-type">Promise.&lt;void></code>
 
 
-    </div>
-    
-</div>
 
-                
-        </div>
-    </div>
-
-
-
-
-</div>
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id="~decodeText">
-        <a class="href-link" href="#~decodeText">#</a>
-        
-            
-                <span class='tag'>inner</span>
-            
-        
-        <span class="code-name">
-            
-                decodeText<span class="signature">(data)</span><span class="type-signature"> &rarr; {Promise.&lt;string>}</span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Decodes string from response
-    </div>
-    
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-<div class="table-container">
-    <table class="params table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>data</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">Response</code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">The fetch response to decode</td>
-</tr>
-
-
-        
-        </tbody>
-    </table>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="engine_resources_text.ts.html" class="button">View Source</a>
-            <span>
-                <a href="engine_resources_text.ts.html">engine/resources/text.ts</a>, <a href="engine_resources_text.ts.html#line15">line 15</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <div class='columns method-parameter'>
-        <div class="column is-2"><label>Returns:</label></div>
-        <div class="column is-10">
-            
-                    
-
-<div class="columns">
-    
-    <div class='param-desc column is-7'>the decoded string</div>
-    
-    
-    <div class='column is-5 has-text-left'>
-        <label>Type: </label>
-        
-<code class="param-type">Promise.&lt;string></code>
-
-
-    </div>
-    
-</div>
-
-                
-        </div>
-    </div>
-
-
-
-
-</div>
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id="~parseText">
-        <a class="href-link" href="#~parseText">#</a>
-        
-            
-                <span class='tag'>inner</span>
-            
-        
-        <span class="code-name">
-            
-                parseText<span class="signature">(text)</span><span class="type-signature"> &rarr; {Promise.&lt;string>}</span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Parses decoded string
-    </div>
-    
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-<div class="table-container">
-    <table class="params table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>text</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">string</code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">The string to parse</td>
-</tr>
-
-
-        
-        </tbody>
-    </table>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="engine_resources_text.ts.html" class="button">View Source</a>
-            <span>
-                <a href="engine_resources_text.ts.html">engine/resources/text.ts</a>, <a href="engine_resources_text.ts.html#line23">line 23</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <div class='columns method-parameter'>
-        <div class="column is-2"><label>Returns:</label></div>
-        <div class="column is-10">
-            
-                    
-
-<div class="columns">
-    
-    <div class='param-desc column is-7'>the parsed string</div>
-    
-    
-    <div class='column is-5 has-text-left'>
-        <label>Type: </label>
-        
-<code class="param-type">Promise.&lt;string></code>
-
-
-    </div>
-    
-</div>
-
-                
-        </div>
-    </div>
-
-
-
-
-</div>
-            
+                    </div>
+                </div>
             </div>
-        </div>
+        
+    
+    </div>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
     
 
     
