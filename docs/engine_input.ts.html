@@ -1,0 +1,318 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> engine/input.ts</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Jelly Engine</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-Engine.html">Engine</a></li><li><a href="module-GameLoop.html">GameLoop</a></li><li><a href="module-GL.html">GL</a></li><li><a href="module-Input.html">Input</a></li><li><a href="module-ResourceMap.html">ResourceMap</a></li><li><a href="module-ShaderResources.html">ShaderResources</a></li><li><a href="module-SimpleShader.html">SimpleShader</a></li><li><a href="module-TextResource.html">TextResource</a></li><li><a href="module-VertexBuffer.html">VertexBuffer</a></li></ul><h3>Classes</h3><ul><li><a href="Camera.html">Camera</a></li><li><a href="Camera_Camera.html">Camera</a></li><li><a href="module-ResourceMap.MapEntry.html">MapEntry</a></li><li><a href="module-ResourceMap.MapEntry_MapEntry.html">MapEntry</a></li><li><a href="module-SimpleShader.SimpleShader.html">SimpleShader</a></li><li><a href="module-SimpleShader.SimpleShader_SimpleShader.html">SimpleShader</a></li><li><a href="Renderable.html">Renderable</a></li><li><a href="Transform.html">Transform</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Color">Color</a></li><li><a href="global.html#DecodeResource">DecodeResource</a></li><li><a href="global.html#Engine">Engine</a></li><li><a href="global.html#Palette">Palette</a></li><li><a href="global.html#rgbaToGL">rgbaToGL</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>engine/input.ts</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @module Input
+ */
+
+export const KEYS = {
+  BACKSPACE: "Backspace",
+  TAB: "Tab",
+  ENTER: "Enter",
+  SHIFT_LEFT: "ShiftLeft",
+  SHIFT_RIGHT: "ShiftRight",
+  CTRL_LEFT: "ControlLeft",
+  CTRL_RIGHT: "ControlRight",
+  ALT_LEFT: "AltLeft",
+  ALT_RIGHT: "AltRight",
+  PAUSE: "Pause",
+  CAPS_LOCK: "CapsLock",
+  ESCAPE: "Escape",
+  SPACE: "Space",
+  PAGE_UP: "PageUp",
+  PAGE_DOWN: "PageDown",
+  END: "End",
+  HOME: "Home",
+  ARROW_LEFT: "ArrowLeft",
+  ARROW_UP: "ArrowUp",
+  ARROW_RIGHT: "ArrowRight",
+  ARROW_DOWN: "ArrowDown",
+  INSERT: "Insert",
+  DELETE: "Delete",
+  PRINT_SCREEN: "PrintScreen",
+  SCROLL_LOCK: "ScrollLock",
+  DIGIT_0: "Digit0",
+  DIGIT_1: "Digit1",
+  DIGIT_2: "Digit2",
+  DIGIT_3: "Digit3",
+  DIGIT_4: "Digit4",
+  DIGIT_5: "Digit5",
+  DIGIT_6: "Digit6",
+  DIGIT_7: "Digit7",
+  DIGIT_8: "Digit8",
+  DIGIT_9: "Digit9",
+  KEY_A: "KeyA",
+  KEY_B: "KeyB",
+  KEY_C: "KeyC",
+  KEY_D: "KeyD",
+  KEY_E: "KeyE",
+  KEY_F: "KeyF",
+  KEY_G: "KeyG",
+  KEY_H: "KeyH",
+  KEY_I: "KeyI",
+  KEY_J: "KeyJ",
+  KEY_K: "KeyK",
+  KEY_L: "KeyL",
+  KEY_M: "KeyM",
+  KEY_N: "KeyN",
+  KEY_O: "KeyO",
+  KEY_P: "KeyP",
+  KEY_Q: "KeyQ",
+  KEY_R: "KeyR",
+  KEY_S: "KeyS",
+  KEY_T: "KeyT",
+  KEY_U: "KeyU",
+  KEY_V: "KeyV",
+  KEY_W: "KeyW",
+  KEY_X: "KeyX",
+  KEY_Y: "KeyY",
+  KEY_Z: "KeyZ",
+  OS_LEFT: "OsLeft",
+  OS_RIGHT: "OsRight",
+  CONTEXT_MENU: "ContextMenu",
+  NUMPAD_0: "Numpad0",
+  NUMPAD_1: "Numpad1",
+  NUMPAD_2: "Numpad2",
+  NUMPAD_3: "Numpad3",
+  NUMPAD_4: "Numpad4",
+  NUMPAD_5: "Numpad5",
+  NUMPAD_6: "Numpad6",
+  NUMPAD_7: "Numpad7",
+  NUMPAD_8: "Numpad8",
+  NUMPAD_9: "Numpad9",
+  NUMPAD_MULTIPLY: "NumpadMultiply",
+  NUMPAD_ADD: "NumpadAdd",
+  NUMPAD_COMMA: "NumpadComma",
+  NUMPAD_SUBSTRACT: "NumpadSubstract",
+  NUMPAD_DECIMAL: "NumpadDecimal",
+  NUMPAD_DIVIDE: "NumpadDivide",
+  NUMPAD_ENTER: "NumpadEnter",
+  NUMPAD_EQUAL: "NumpadEqual",
+  F1: "F1",
+  F2: "F2",
+  F3: "F3",
+  F4: "F4",
+  F5: "F5",
+  F6: "F6",
+  F7: "F7",
+  F8: "F8",
+  F9: "F9",
+  F10: "F10",
+  F11: "F11",
+  F12: "F12",
+  F13: "F13",
+  F14: "F14",
+  F15: "F15",
+  F16: "F16",
+  F17: "F17",
+  F18: "F18",
+  F19: "F19",
+  F20: "F20",
+  F21: "F21",
+  F22: "F22",
+  F23: "F23",
+  F24: "F24",
+  NUM_LOCK: "NumLock",
+  SEMI: "Semicolon",
+  EQUAL: "Equal",
+  COMMA: "Comma",
+  MINUS: "Minus",
+  PERIOD: "Period",
+  INTL_RO: "IntlRo",
+  BACK_QUOTE: "Backquote",
+  BRACKET_LEFT: "BracketLeft",
+  BACK_SLASH: "Backslash",
+  BRACKET_RIGHT: "BracketRight",
+  SINGLE_QUOTE: "Quote",
+  INTL_YEN: "IntlYen",
+};
+
+// Previous key state
+const mKeyPreviousState: Record&lt;string, boolean> = {};
+
+// The pressed keys
+const mIsKeyPressed: Record&lt;string, boolean> = {};
+
+// Click events: once an event is set, it will remain there until polled
+const mIsKeyClicked: Record&lt;string, boolean> = {};
+
+// Event handler functions
+
+/**
+ * @description Catches pressed key code
+ * @param {KeyboardEvent} event The browser keyboard event
+ */
+function onKeyDown(event: KeyboardEvent): void {
+  event.preventDefault();
+  mIsKeyPressed[event.code] = true;
+}
+
+/**
+ * @description Catches the pressed key event
+ * @param {KeyboardEvent} event The browser keyboard event
+ */
+function onKeyUp(event: KeyboardEvent): void {
+  event.preventDefault();
+  mIsKeyPressed[event.code] = false;
+}
+
+/**
+ * @description Initializes input listeners
+ */
+export function init(): void {
+  Object.values(KEYS).forEach((k) => {
+    mKeyPreviousState[k] = false;
+    mIsKeyPressed[k] = false;
+    mIsKeyClicked[k] = false;
+  });
+
+  // Register handlers
+  window.addEventListener("keyup", onKeyUp);
+  window.addEventListener("keydown", onKeyDown);
+}
+
+/**
+ * @description Catches keyboard input every frame
+ */
+export function update(): void {
+  Object.values(KEYS).forEach((k) => {
+    mIsKeyClicked[k] = !mKeyPreviousState[k] &amp;&amp; mIsKeyPressed[k];
+    mKeyPreviousState[k] = mIsKeyPressed[k];
+  });
+}
+
+/**
+ * @description Checks if a certain key is pressed
+ * @param {string} code The keycode
+ * @returns {boolean} true if key is pressed
+ */
+export function isKeyPressed(code: string): boolean {
+  return mIsKeyPressed[code];
+}
+
+/**
+ * @description Checks if a certain key is just pressed
+ * @param {string} code The keycode
+ * @returns {boolean} true if key is just pressed
+ */
+export function isKeyClicked(code: string): boolean {
+  return mIsKeyClicked[code];
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.11</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>

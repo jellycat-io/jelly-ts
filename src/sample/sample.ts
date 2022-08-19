@@ -13,7 +13,7 @@ class Game implements Scene {
     this.mCamera = new Engine.Camera(
       vec2.fromValues(20, 60),
       20,
-      [20, 40, 600, 300]
+      [0, 0, 640, 480]
     );
     this.mCamera.setBackgroundColor(Palette[Color.White]);
 

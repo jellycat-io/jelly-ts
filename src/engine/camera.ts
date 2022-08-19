@@ -2,13 +2,45 @@ import { mat4, vec2, vec3 } from "gl-matrix";
 import * as glSys from "./core/gl";
 import { Color, GLColorTuple, Palette } from "../utils/palette";
 import { VIEWPORT } from "../utils/common";
+
+/**
+ * @class
+ * @classdesc The game camera
+ * @typedef {Float32Array | number[]} Float32List
+ */
 class Camera {
+  /**
+   * @private
+   * @type {vec2}
+   */
   mWCCenter: vec2;
+  /**
+   * @private
+   * @type {number}
+   */
   mWCWidth: number;
+  /**
+   * @private
+   * @type {Float32List}
+   */
   mViewport: Float32List;
+  /**
+   * @private
+   * @type {mat4}
+   */
   mCameraMatrix: mat4;
+  /**
+   * @private
+   * @type {GLColorTuple}
+   */
   mBGColor: GLColorTuple;
 
+  /**
+   * @param {vec2} wcCenter The camera center position
+   * @param {number} wcWidth The camera width
+   * @param {Float32List} viewportArray The viewport size and position on the canvas
+   * @param {GLColorTuple} bgColor The camera background color
+   */
   constructor(
     wcCenter: vec2,
     wcWidth: number,
@@ -26,21 +58,41 @@ class Camera {
     this.mBGColor = bgColor ?? Palette[Color.White];
   }
 
+  /**
+   * @description Sets the camera center position
+   * @param {number} x The new x position of the camera center
+   * @param {number} y The new y position of the camera center
+   */
   setWCCenter(x: number, y: number): void {
     this.mWCCenter[0] = x;
     this.mWCCenter[1] = y;
   }
+  /**
+   * @description Gets the camera center position
+   * @returns {vec2} the camera center position
+   */
   getWCCenter(): vec2 {
     return this.mWCCenter;
   }
-
+  /**
+   * @description Sets the camera width
+   * @param {number} w The new camera width
+   */
   setWCWidth(w: number): void {
     this.mWCWidth = w;
   }
+  /**
+   * @description Gets the camera width
+   * @returns {number} the camera width
+   */
   getWCWidth(): number {
     return this.mWCWidth;
   }
 
+  /**
+   * @description Computes and gets camera height based on h/w ratio
+   * @returns {number} the camera height
+   */
   getWCHeight(): number {
     const ratio =
       this.mViewport[VIEWPORT.HEIGHT] / this.mViewport[VIEWPORT.WIDTH];
@@ -48,25 +100,47 @@ class Camera {
     return this.getWCWidth() * ratio;
   }
 
+  /**
+   * @description Sets the viewport size and position
+   * @param {Float32List} viewportArray The new viewport size and position
+   */
   setViewport(viewportArray: Float32List): void {
     this.mViewport = viewportArray;
   }
+  /**
+   * @description Gets viewport size and position
+   * @returns {Float32Array | number} the viewport size and position
+   */
   getViewport(): Float32List {
     return this.mViewport;
   }
 
+  /**
+   * @description Sets the camera background color
+   * @param {GLColorTuple} c The new camera background color
+   */
   setBackgroundColor(c: GLColorTuple): void {
     this.mBGColor = c;
   }
+  /**
+   * @description Gets the camera background color
+   * @returns {GLColorTuple} the camera background color
+   */
   getBackgroundColor(): GLColorTuple {
     return this.mBGColor;
   }
 
+  /**
+   * @description Gets the camera matrix
+   * @returns {mat4} the camera matrix
+   */
   getCameraMatrix(): mat4 {
     return this.mCameraMatrix;
   }
 
-  // Initializes the camera to begin drawing
+  /**
+   * @description Initializes the camera to begin drawing
+   */
   setViewAndCameraMatrix(): void {
     const gl = glSys.get();
     const [vx, vy, vw, vh] = this.getViewport();

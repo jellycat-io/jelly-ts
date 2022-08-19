@@ -2,15 +2,48 @@ import { mat4 } from "gl-matrix";
 import { GLColorTuple } from "../utils/palette";
 import * as glSys from "./core/gl";
 import * as vertexBuffer from "./core/vertex-buffer";
+import * as TextResource from "./resources/text";
 
+/**
+ * @module SimpleShader
+ */
+
+/**
+ * @class
+ * @classdesc The core shader class
+ */
 export class SimpleShader {
+  /**
+   * @private
+   * @type {WebGLProgram | null}
+   */
   mCompiledShader: WebGLProgram | null;
+  /**
+   * @private
+   * @type {number | null}
+   */
   mVertexPositionRef: number | null;
+  /**
+   * @private
+   * @type {WebGLUniformLocation | null}
+   */
   mPixelColorRef: WebGLUniformLocation | null;
+  /**
+   * @private
+   * @type {WebGLUniformLocation | null}
+   */
   mModelMatrixRef: WebGLUniformLocation | null;
+  /**
+   * @private
+   * @type {WebGLUniformLocation | null}
+   */
   mCameraMatrixRed: WebGLUniformLocation | null;
 
-  constructor(vertexSourceID: string, fragmentSourceID: string) {
+  /**
+   * @param {string} vertexSourceFile The vertex shader file path
+   * @param {string} fragmentSourceFile The fragment shader file path
+   */
+  constructor(vertexSourceFile: string, fragmentSourceFile: string) {
     this.mCompiledShader = null;
     this.mVertexPositionRef = null;
     this.mPixelColorRef = null;
@@ -22,9 +55,9 @@ export class SimpleShader {
     if (!gl) return;
 
     // Load and compile both shaders
-    const vertexShader = loadAndCompileShader(vertexSourceID, gl.VERTEX_SHADER);
-    const fragmentShader = loadAndCompileShader(
-      fragmentSourceID,
+    const vertexShader = compileShader(vertexSourceFile, gl.VERTEX_SHADER);
+    const fragmentShader = compileShader(
+      fragmentSourceFile,
       gl.FRAGMENT_SHADER
     );
 
@@ -72,6 +105,12 @@ export class SimpleShader {
     );
   }
 
+  /**
+   * @description Activates the shader
+   * @param {GLColorTuple} pixelColor The color to apply to the shader
+   * @param {mat4} trsMatrix The transform matrix
+   * @param {mat4} cameraMatrix The camera matrix
+   */
   activate(
     pixelColor: GLColorTuple,
     trsMatrix: mat4,
@@ -103,43 +142,42 @@ export class SimpleShader {
   }
 }
 
-function loadAndCompileShader(
+/**
+ * @description Compiles the shader
+ * @param {string} filePath The shader file path
+ * @param {number} shaderType The shader type
+ * @returns {WebGLShader | null} the compiled shader
+ */
+function compileShader(
   filePath: string,
   shaderType: number
 ): WebGLShader | null {
+  let shaderSource: string | null = null;
+  let compiledShader = null;
+
   const gl = glSys.get();
-  const xmlReq = new XMLHttpRequest();
 
-  if (!gl) return null;
-
-  xmlReq.open("GET", filePath, false);
-
-  try {
-    xmlReq.send();
-  } catch (e) {
-    throw new Error(
-      `Failed to load shader: ${filePath} [Hint: you cannot double click to run this project. The HTML file must be loaded by a web-server]`
-    );
-  }
-
-  const shaderSource = xmlReq.responseText;
+  // Access shader text file
+  shaderSource = TextResource.get(filePath);
 
   if (!shaderSource) {
     throw new Error(`WARNING: Loading of ${filePath} failed.`);
   }
 
   // Create the shader with correct type
-  const compiledShader = gl.createShader(shaderType);
+  compiledShader = gl?.createShader(shaderType);
 
   if (!compiledShader) return null;
 
   // Compile the shader with correct data
-  gl.shaderSource(compiledShader, shaderSource);
-  gl.compileShader(compiledShader);
+  gl?.shaderSource(compiledShader, shaderSource);
+  gl?.compileShader(compiledShader);
 
-  if (!gl.getShaderParameter(compiledShader, gl.COMPILE_STATUS)) {
+  if (!gl?.getShaderParameter(compiledShader, gl.COMPILE_STATUS)) {
     throw new Error(
-      `A shader compiling error occured: ${gl.getShaderInfoLog(compiledShader)}`
+      `A shader compiling error occured: ${gl?.getShaderInfoLog(
+        compiledShader
+      )}`
     );
   }
 

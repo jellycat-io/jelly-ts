@@ -1,3 +1,7 @@
+/**
+ * @module VertexBuffer
+ */
+
 import * as glSys from "./gl";
 
 // prettier-ignore
@@ -10,10 +14,18 @@ const mVerticesOfSquare = [
 
 let mGLVertexBuffer: WebGLBuffer | null = null;
 
+/**
+ * @description Gets the vertex buffer
+ * @returns {WebGLBuffer | null} the vertex buffer
+ */
 export function get(): WebGLBuffer | null {
   return mGLVertexBuffer;
 }
 
+/**
+ * @description Initializes the vertex buffer
+ * @returns {void} nothing
+ */
 export function init(): void {
   const gl = glSys.get();
 

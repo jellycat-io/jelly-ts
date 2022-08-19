@@ -6,12 +6,16 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "doc": "jsdoc -c jsdoc.json",
     "preview": "vite preview"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.33.1",
     "@typescript-eslint/parser": "^5.33.1",
+    "better-docs": "^2.7.2",
     "eslint": "^8.22.0",
+    "eslint-plugin-jsdoc": "^39.3.6",
+    "jsdoc": "^3.6.11",
     "prettier": "^2.7.1",
     "typescript": "^4.6.4",
     "vite": "^3.0.7",
