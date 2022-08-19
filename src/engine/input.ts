@@ -195,3 +195,11 @@ export function isKeyPressed(code: string): boolean {
 export function isKeyClicked(code: string): boolean {
   return mIsKeyClicked[code];
 }
+
+/**
+ * @todo
+ * @description Cleans up the input handler
+ */
+export function cleanUp(): void {
+  /*TODO */
+}

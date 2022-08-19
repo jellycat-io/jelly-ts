@@ -21,7 +21,7 @@ let mLagTime: number;
 
 // The current loop state
 let mLoopRunning = false;
-let mCurrentScene: Scene;
+let mCurrentScene: Scene | null;
 let mFrameID = -1;
 
 /**
@@ -33,7 +33,7 @@ function loopOnce(): void {
     // Set up for next call to loopOnce
     mFrameID = requestAnimationFrame(loopOnce);
 
-    mCurrentScene.draw(); // MUST be called before update() as update() may stop the loop
+    mCurrentScene?.draw(); // MUST be called before update() as update() may stop the loop
 
     // Compute time elapsed since last loopOnce was executed
     const currentTime = performance.now();
@@ -47,7 +47,7 @@ function loopOnce(): void {
     // If lag larger than update frames, update until caught up
     while (mLagTime >= kMPF && mLoopRunning) {
       input.update();
-      mCurrentScene.update();
+      mCurrentScene?.update();
       mLagTime -= kMPF;
     }
   }
@@ -85,4 +85,16 @@ export function stop(): void {
   mLoopRunning = false;
   // Make sure no more animation frames
   cancelAnimationFrame(mFrameID);
+}
+
+/**
+ * @description Cleans up the loop
+ */
+export function cleanUp(): void {
+  if (mLoopRunning) {
+    stop();
+    // Unload all resources
+    mCurrentScene?.unload();
+    mCurrentScene = null;
+  }
 }

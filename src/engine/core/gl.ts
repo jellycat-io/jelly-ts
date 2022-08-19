@@ -40,3 +40,14 @@ export function init(width: number, height: number, canvasID?: string): void {
     throw new Error("Unable to initialize WebGL2");
   }
 }
+
+/**
+ * @description Cleans up WebGL context
+ */
+export function cleanUp(): void {
+  if (!mGL || !mCanvas)
+    throw new Error("Engine cleanup: system not initialized");
+
+  mGL = null;
+  mCanvas = null;
+}

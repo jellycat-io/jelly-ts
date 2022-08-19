@@ -44,3 +44,13 @@ export function init(): void {
     gl.STATIC_DRAW
   );
 }
+
+/**
+ * @description Cleans up vertex buffer from GPU
+ */
+export function cleanUp(): void {
+  if (mGLVertexBuffer) {
+    glSys.get()?.deleteBuffer(mGLVertexBuffer);
+    mGLVertexBuffer = null;
+  }
+}

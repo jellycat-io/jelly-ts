@@ -1,16 +1,16 @@
-import { vec2 } from "gl-matrix";
 import * as Engine from "../engine";
 import * as loop from "../engine/core/loop";
 import Scene from "../engine/scene";
 import { Color, Palette } from "../utils/palette";
 import SceneFileParser from "./util";
 
-class Game implements Scene {
+class Game extends Scene {
   mSceneFile: string;
   mSqSet: Array<Engine.Renderable>;
   mCamera!: Engine.Camera;
 
   constructor() {
+    super();
     this.mSceneFile = "src/assets/scene.xml";
     this.mSqSet = [];
   }

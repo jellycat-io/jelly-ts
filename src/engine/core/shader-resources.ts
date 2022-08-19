@@ -42,3 +42,12 @@ export function getConstColorShader(): SimpleShader | null {
 function createShaders(): void {
   mConstColorShader = new SimpleShader(kSimpleVS, kSimpleFS);
 }
+
+/**
+ * @description Cleans up shaders
+ */
+export function cleanUp(): void {
+  mConstColorShader?.cleanUp();
+  TextResource.unload(kSimpleVS);
+  TextResource.unload(kSimpleFS);
+}

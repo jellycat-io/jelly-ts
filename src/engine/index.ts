@@ -1,12 +1,14 @@
 import * as glSys from "./core/gl";
 import * as vertexBuffer from "./core/vertex-buffer";
 import * as shaderResources from "./core/shader-resources";
+import * as loop from "./core/loop";
 import * as Input from "./input";
 import * as TextResource from "./resources/text";
 import * as XMLResource from "./resources/xml";
 import Renderable from "./renderable";
 import Transform from "./transform";
 import Camera from "./camera";
+import Scene from "./scene";
 import { GLColorTuple } from "../utils/palette";
 
 /**
@@ -44,4 +46,23 @@ export function getGL(): WebGL2RenderingContext | null {
   return glSys.get();
 }
 
-export { Renderable, Transform, Camera, Input, TextResource, XMLResource };
+/**
+ * @description Cleans up the core engine
+ */
+export function cleanUp(): void {
+  loop.cleanUp();
+  Input.cleanUp();
+  shaderResources.cleanUp();
+  vertexBuffer.cleanUp();
+  glSys.cleanUp();
+}
+
+export {
+  Renderable,
+  Transform,
+  Camera,
+  Scene,
+  Input,
+  TextResource,
+  XMLResource,
+};
