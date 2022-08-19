@@ -1,0 +1,301 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> engine/core/resource-map.ts</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Jelly Engine</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-GameLoop.html">GameLoop</a></li><li><a href="module-GL.html">GL</a></li><li><a href="module-ResourceMap.html">ResourceMap</a></li><li><a href="module-ShaderResources.html">ShaderResources</a></li><li><a href="module-VertexBuffer.html">VertexBuffer</a></li></ul><h3>Classes</h3><ul><li><a href="module-ResourceMap.MapEntry.html">MapEntry</a></li><li><a href="module-ResourceMap.MapEntry_MapEntry.html">MapEntry</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Color">Color</a></li><li><a href="global.html#DecodeResource">DecodeResource</a></li><li><a href="global.html#Palette">Palette</a></li><li><a href="global.html#rgbaToGL">rgbaToGL</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>engine/core/resource-map.ts</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @module ResourceMap
+ */
+
+export class MapEntry {
+  mData: unknown | null;
+  mRefCount: number;
+
+  /**
+   * @param {unknown} data The data to load
+   */
+  constructor(data: unknown) {
+    this.mData = data;
+    this.mRefCount = 1;
+  }
+
+  /**
+   * @description Decrement the reference counter of the resource
+   */
+  decRef(): void {
+    this.mRefCount--;
+  }
+
+  /**
+   * @description Increment the reference counter of the resource
+   */
+  incRef(): void {
+    this.mRefCount++;
+  }
+
+  /**
+   * @description Sets data to be loaded
+   * @param {unknown} data The data to be loaded
+   */
+  set(data: unknown): void {
+    this.mData = data;
+  }
+
+  /**
+   * @description Gets loaded data from the resource map
+   * @returns {unknown | null} loaded data if found
+   */
+  data(): unknown | null {
+    return this.mData;
+  }
+
+  /**
+   * @description Checks if data can be removed
+   * @returns {boolean} true if it can be
+   */
+  canRemove(): boolean {
+    return this.mRefCount === 0;
+  }
+}
+
+const mMap = new Map&lt;string, MapEntry>();
+const mOutstandingPromises: Array&lt;Promise&lt;unknown>> = [];
+
+/**
+ *
+ * @param {string} path The resource file path
+ * @returns {boolean} true if data exists in the map
+ */
+function has(path: string): boolean {
+  return mMap.has(path);
+}
+
+/**
+ *
+ * @param {string} path The resource file path
+ * @returns {unknown | null} data if it exists in the map
+ */
+function get(path: string): unknown | null {
+  if (!has(path)) {
+    throw new Error(`Error [${path}]: not loaded`);
+  }
+
+  return mMap.get(path)?.data();
+}
+
+/**
+ *
+ * @param {string} key The key to put data in the map at the correct place
+ * @param {unknown} value The data to be added
+ */
+function set(key: string, value: unknown): void {
+  mMap.get(key)?.set(value);
+}
+
+/**
+ *
+ * @param {string} path The resource file path
+ */
+function loadRequested(path: string): void {
+  mMap.set(path, new MapEntry(null));
+}
+
+/**
+ *
+ * @param {string} path The resource file path
+ */
+function incRef(path: string): void {
+  mMap.get(path)?.incRef();
+}
+
+/**
+ *
+ * @param {string} path The resource file path
+ * @returns {boolean | undefined} true if resource can be removed from the map
+ */
+function unload(path: string): boolean | undefined {
+  const entry = mMap.get(path);
+  entry?.decRef();
+
+  if (entry?.canRemove()) mMap.delete(path);
+
+  return entry?.canRemove();
+}
+
+/**
+ *
+ * @param {Promise&lt;unknown>} p The promise to add to the array
+ */
+function pushPromise(p: Promise&lt;unknown>): void {
+  mOutstandingPromises.push(p);
+}
+
+/**
+ * @typedef
+ * @callback DecodeResource
+ * @param {Response} res
+ * @returns {Promise&lt;unknown>}
+ */
+
+/**
+ * @typedef
+ * @callback ParseResource
+ * @param {unknown} data
+ * @returns {Promise&lt;unknown>}
+ */
+
+/**
+ * @async
+ * @description Generic loading function
+ * 1: Fetch from server
+ * 2: decodeResource on the loaded package
+ * 3: parseResource on the decoded resource
+ * 4: store result into the map
+ * @param {string} path The resource file path
+ * @param {DecodeResource} decodeResource The callback to decode the resource
+ * @param {ParseResource} parseResource The callback to parse the resource
+ * @returns {Promise&lt;unknown> | null} the promise stored if data has not already been loaded
+ */
+function loadDecodeParse(
+  path: string,
+  decodeResource: (res: Response) => Promise&lt;unknown>,
+  parseResource: (data: unknown) => Promise&lt;unknown>
+): Promise&lt;unknown> | null {
+  let fetchPromise = null;
+
+  if (!has(path)) {
+    loadRequested(path);
+
+    fetchPromise = fetch(path)
+      .then((res) => decodeResource(res))
+      .then((data) => parseResource(data))
+      .then((data) => {
+        return set(path, data);
+      })
+      .catch((err) => {
+        throw err;
+      });
+
+    pushPromise(fetchPromise);
+  } else {
+    incRef(path);
+  }
+
+  return fetchPromise;
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.11</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>

@@ -1,10 +1,24 @@
+/**
+ * @module GL
+ */
+
 let mCanvas: HTMLCanvasElement | null = null;
 let mGL: WebGL2RenderingContext | null = null;
 
-export function get() {
+/**
+ * @description Gets the WebGL context
+ * @returns {WebGL2RenderingContext | null} the WebGL context if it exists
+ */
+export function get(): WebGL2RenderingContext | null {
   return mGL;
 }
 
+/**
+ *
+ * @param {number} width The canvas width
+ * @param {number} height The canvas height
+ * @param {string} [canvasID] The canvas tag id
+ */
 export function init(width: number, height: number, canvasID?: string): void {
   if (canvasID) {
     mCanvas = document.getElementById(canvasID) as HTMLCanvasElement;

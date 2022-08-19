@@ -1,0 +1,214 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> utils/palette.ts</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Jelly Engine</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-GameLoop.html">GameLoop</a></li><li><a href="module-GL.html">GL</a></li><li><a href="module-ResourceMap.html">ResourceMap</a></li><li><a href="module-ShaderResources.html">ShaderResources</a></li><li><a href="module-VertexBuffer.html">VertexBuffer</a></li></ul><h3>Classes</h3><ul><li><a href="module-ResourceMap.MapEntry.html">MapEntry</a></li><li><a href="module-ResourceMap.MapEntry_MapEntry.html">MapEntry</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Color">Color</a></li><li><a href="global.html#DecodeResource">DecodeResource</a></li><li><a href="global.html#Palette">Palette</a></li><li><a href="global.html#rgbaToGL">rgbaToGL</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>utils/palette.ts</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @desc RGBA Color Type
+ * @type {number}
+ */
+export type RGBATuple = [number, number, number, number];
+export type GLColorTuple = [number, number, number, number];
+
+/**
+ * @desc Enum listing palette's colors names
+ * @enum {number}
+ */
+export enum Color {
+  Black,
+  DarkBlue,
+  DarkPurple,
+  DarkGreen,
+  Brown,
+  DarkGrey,
+  LightGrey,
+  White,
+  Red,
+  Orange,
+  Yellow,
+  Green,
+  Blue,
+  Lavender,
+  Pink,
+  LightPeach,
+  DarkestGrey,
+  DarkerBlue,
+  DarkerPurple,
+  BlueGreen,
+  DarkBrown,
+  DarkerGrey,
+  MediumGrey,
+  LightYellow,
+  DarkRed,
+  DarkOrange,
+  LimeGreen,
+  MediumGreen,
+  TrueBlue,
+  Mauve,
+  DarkPeach,
+  Peach,
+}
+
+/**
+ * @desc Table containing palette's colors rgba values
+ * @type {Array&lt;RGBATuple>}
+ */
+export const Palette: Array&lt;RGBATuple> = [
+  rgbaToGL([0, 0, 0, 255]), // #000000
+  rgbaToGL([29, 43, 83, 255]), // #1D2B53
+  rgbaToGL([126, 37, 83, 255]), // #7E2553
+  rgbaToGL([0, 135, 81, 255]), // #008751
+  rgbaToGL([171, 82, 54, 255]), // #AB5236
+  rgbaToGL([95, 87, 79, 255]), // #5F574F
+  rgbaToGL([194, 195, 199, 255]), // #C2C3C7
+  rgbaToGL([255, 241, 232, 255]), // #FFF1E8
+  rgbaToGL([255, 0, 77, 255]), // #FF004D
+  rgbaToGL([255, 163, 0, 255]), // #FFA300
+  rgbaToGL([255, 236, 39, 255]), // #FFEC27
+  rgbaToGL([0, 228, 54, 255]), // #00E436
+  rgbaToGL([41, 173, 255, 255]), // #29ADFF
+  rgbaToGL([131, 118, 156, 255]), // #83769C
+  rgbaToGL([255, 119, 168, 255]), // #FF77A8
+  rgbaToGL([255, 204, 170, 255]), // #FFCCAA
+  rgbaToGL([41, 24, 20, 255]), // #291814
+  rgbaToGL([17, 29, 53, 255]), // #111D35
+  rgbaToGL([66, 33, 54, 255]), // #422136
+  rgbaToGL([18, 83, 89, 255]), // #125359
+  rgbaToGL([116, 47, 41, 255]), // #742F29
+  rgbaToGL([73, 51, 59, 255]), // #49333B
+  rgbaToGL([162, 136, 121, 255]), // #A28879
+  rgbaToGL([243, 239, 125, 255]), // #F3EF7D
+  rgbaToGL([190, 18, 80, 255]), // #BE1250
+  rgbaToGL([255, 108, 36, 255]), // #FF6C24
+  rgbaToGL([168, 231, 46, 255]), // #A8E72E
+  rgbaToGL([0, 181, 67, 255]), // #00B543
+  rgbaToGL([6, 90, 181, 255]), // #065AB5
+  rgbaToGL([117, 70, 101, 255]), // #754665
+  rgbaToGL([255, 110, 89, 255]), // #FF6E59
+  rgbaToGL([255, 157, 129, 255]), // #FF9D81
+];
+
+/**
+ * @desc Converts RGBA values to WebGL values
+ * @param {Array&lt;number>} colors The RGBA values to convert
+ * @returns {Array&lt;number>}
+ */
+export function rgbaToGL(color: [number, number, number, number]): RGBATuple {
+  return color.map((c) => (c > 0 ? c / 255 : 0)) as RGBATuple;
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.11</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>
