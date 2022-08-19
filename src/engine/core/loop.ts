@@ -64,10 +64,12 @@ export async function start(scene: Scene): Promise<void> {
     throw new Error("Game loop already running");
   }
 
+  mCurrentScene = scene;
+  mCurrentScene.load();
+
   // Wait for any async request before game loading
   await ResourceMap.waitOnPromises();
 
-  mCurrentScene = scene;
   mCurrentScene.init();
 
   mPrevTime = performance.now();

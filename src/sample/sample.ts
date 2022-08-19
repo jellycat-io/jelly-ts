@@ -9,6 +9,10 @@ class Game implements Scene {
   mBlueSq!: Engine.Renderable;
   mRedSq!: Engine.Renderable;
 
+  load(): void {
+    console.log("Loading...");
+  }
+
   init(): void {
     this.mCamera = new Engine.Camera(
       vec2.fromValues(20, 60),

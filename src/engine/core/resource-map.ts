@@ -162,8 +162,8 @@ export function pushPromise(p: Promise<void>): void {
  */
 export function loadDecodeParse<T = any>(
   path: string,
-  decodeResource: (res: Response) => Promise<T>,
-  parseResource: (data: T) => T
+  decodeResource: (res: Response) => Promise<any>,
+  parseResource: (data: any) => T
 ): Promise<void> | undefined {
   let fetchPromise: Promise<void> | undefined = undefined;
 
