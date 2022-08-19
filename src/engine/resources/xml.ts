@@ -25,7 +25,7 @@ function decodeXML(data: Response): Promise<string> {
  * @param {string} text The string to parse
  * @returns {Document} the parsed document
  */
-function parseXML(text: string): Document {
+function parseXML(text: string): XMLDocument {
   return mParser.parseFromString(text, "text/xml");
 }
 
@@ -35,5 +35,5 @@ function parseXML(text: string): Document {
  * @returns {Promise<void>}
  */
 export function load(path: string): Promise<void> | undefined {
-  return map.loadDecodeParse<Document>(path, decodeXML, parseXML);
+  return map.loadDecodeParse<XMLDocument>(path, decodeXML, parseXML);
 }

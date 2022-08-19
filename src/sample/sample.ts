@@ -3,52 +3,50 @@ import * as Engine from "../engine";
 import * as loop from "../engine/core/loop";
 import Scene from "../engine/scene";
 import { Color, Palette } from "../utils/palette";
+import SceneFileParser from "./util";
 
 class Game implements Scene {
+  mSceneFile: string;
+  mSqSet: Array<Engine.Renderable>;
   mCamera!: Engine.Camera;
-  mBlueSq!: Engine.Renderable;
-  mRedSq!: Engine.Renderable;
+
+  constructor() {
+    this.mSceneFile = "src/assets/scene.xml";
+    this.mSqSet = [];
+  }
 
   load(): void {
-    console.log("Loading...");
+    Engine.XMLResource.load(this.mSceneFile);
+  }
+
+  unload(): void {
+    Engine.XMLResource.unload(this.mSceneFile);
   }
 
   init(): void {
-    this.mCamera = new Engine.Camera(
-      vec2.fromValues(20, 60),
-      20,
-      [0, 0, 640, 480]
-    );
-    this.mCamera.setBackgroundColor(Palette[Color.White]);
+    const sceneFile = Engine.XMLResource.get(this.mSceneFile);
+    const sceneParser = new SceneFileParser(sceneFile);
 
-    this.mBlueSq = new Engine.Renderable();
-    this.mBlueSq.setColor(Palette[Color.Blue]);
-    this.mRedSq = new Engine.Renderable();
-    this.mRedSq.setColor(Palette[Color.Red]);
-
-    // Init blue square: centered, 5x5, rotated
-    this.mBlueSq.getTransform().setPosition(20, 60);
-    this.mBlueSq.getTransform().setRotationRad(0.2);
-    this.mBlueSq.getTransform().setScale(5, 5);
-
-    // Init red square: centered, 2x2
-    this.mRedSq.getTransform().setPosition(20, 60);
-    this.mRedSq.getTransform().setScale(2, 2);
+    this.mCamera = sceneParser.parseCamera();
+    sceneParser.parseSquares(this.mSqSet);
   }
 
   draw(): void {
     Engine.clearCanvas(Palette[Color.Black]);
 
-    // Start drawing by activating the camera
-    this.mCamera.setViewAndCameraMatrix();
+    if (!this.mCamera) {
+      throw new Error("Error: No viewport found");
+    }
 
-    // Draw renderables
-    this.mBlueSq.draw(this.mCamera);
-    this.mRedSq.draw(this.mCamera);
+    // Start drawing by activating the camera
+    this.mCamera?.setViewAndCameraMatrix();
+
+    // Draw squares
+    this.mSqSet.forEach((sq) => sq.draw(this.mCamera));
   }
 
   update() {
-    const blueTransform = this.mBlueSq.getTransform();
+    const blueTransform = this.mSqSet[0].getTransform();
     const deltaX = 0.05;
 
     // Move blue square
@@ -62,7 +60,7 @@ class Game implements Scene {
     }
 
     // pulse red square
-    const redTransform = this.mRedSq.getTransform();
+    const redTransform = this.mSqSet[1].getTransform();
 
     if (Engine.Input.isKeyPressed(Engine.Input.KEYS.ARROW_DOWN)) {
       if (redTransform.getWidth() > 5) redTransform.setScale(2, 2);

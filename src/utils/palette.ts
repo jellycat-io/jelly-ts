@@ -1,12 +1,20 @@
 /**
- * @desc RGBA Color Type
- * @type {number}
+ * @module Palette
+ * @typedef {[number, number, number, number]} RGBATuple
+ */
+
+/**
+ * @typedef {[number, number, number, number]} GLColorTuple
  */
 export type RGBATuple = [number, number, number, number];
+
+/**
+ * @typedef {[number, number, number, number]} GLColorTuple
+ */
 export type GLColorTuple = [number, number, number, number];
 
 /**
- * @desc Enum listing palette's colors names
+ * @description Enum listing palette's colors names
  * @enum {number}
  */
 export enum Color {
@@ -45,7 +53,7 @@ export enum Color {
 }
 
 /**
- * @desc Table containing palette's colors rgba values
+ * @description Table containing palette's colors rgba values
  * @type {Array<RGBATuple>}
  */
 export const Palette: Array<RGBATuple> = [
@@ -84,9 +92,9 @@ export const Palette: Array<RGBATuple> = [
 ];
 
 /**
- * @desc Converts RGBA values to WebGL values
- * @param {Array<number>} colors The RGBA values to convert
- * @returns {Array<number>}
+ * @description Converts RGBA values to WebGL values
+ * @param {RGBATuple} color The RGBA values to convert
+ * @returns {GLColorTuple} the converted color
  */
 export function rgbaToGL(color: [number, number, number, number]): RGBATuple {
   return color.map((c) => (c > 0 ? c / 255 : 0)) as RGBATuple;

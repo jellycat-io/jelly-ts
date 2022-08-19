@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,7 +7,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> Camera</title>
+  <title> engine/resources/xml.ts</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -77,281 +79,58 @@
         <div class="core" id="main-content-wrapper">
             <div class="content">
                 <header class="page-title">
-                    <p>Class</p>
-                    <h1>Camera</h1>
+                    <p>Source</p>
+                    <h1>engine/resources/xml.ts</h1>
                 </header>
                 
 
 
 
-
-<section>
-
-<header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>
-            <span class="ancestors"><a href="Camera.html">Camera</a>#</span>Camera<span class="signature">(wcCenter, wcWidth, viewportArray, bgColor)</span><span class="type-signature"></span></h2>
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-            <div class='vertical-section'>
-                <div class="members">
-                    <div class="member">
-                        <div class=name>
-                            <span class="tag">Constructor</span>
-                        </div>
-                        
-
-
-    
-    <h4 class="name" id="Camera">
-        <a class="href-link" href="#Camera">#</a>
-        
-        <span class="code-name">
-            
-                new Camera<span class="signature">(wcCenter, wcWidth, viewportArray, bgColor)</span><span class="type-signature"></span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-<div class="table-container">
-    <table class="params table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>wcCenter</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">vec2</code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">The camera center position</td>
-</tr>
-
-
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>wcWidth</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">number</code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">The camera width</td>
-</tr>
-
-
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>viewportArray</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type"><a href="global.html#Float32List">Float32List</a></code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">The viewport size and position on the canvas</td>
-</tr>
-
-
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>bgColor</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">GLColorTuple</code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">The camera background color</td>
-</tr>
-
-
-        
-        </tbody>
-    </table>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="engine_camera.ts.html" class="button">View Source</a>
-            <span>
-                <a href="engine_camera.ts.html">engine/camera.ts</a>, <a href="engine_camera.ts.html#line197">line 197</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                    </div>
-                </div>
-            </div>
-        
-    
-    </div>
-    
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import * as map from "../core/resource-map";
+
+/**
+ * @module XMLResource
+ */
+
+// Resource map functions refs
+export const unload = map.unload;
+export const has = map.has;
+export const get = map.get;
+
+const mParser = new DOMParser();
+
+/**
+ * @description Decodes string from response
+ * @param {Response} data The fetch response to decode
+ * @returns {Promise&lt;string>} the decoded string
+ */
+function decodeXML(data: Response): Promise&lt;string> {
+  return data.text();
+}
+
+/**
+ * @description Parses decoded string
+ * @param {string} text The string to parse
+ * @returns {Document} the parsed document
+ */
+function parseXML(text: string): XMLDocument {
+  return mParser.parseFromString(text, "text/xml");
+}
+
+/**
+ *
+ * @param {string} path The resource file path
+ * @returns {Promise&lt;void>}
+ */
+export function load(path: string): Promise&lt;void> | undefined {
+  return map.loadDecodeParse&lt;XMLDocument>(path, decodeXML, parseXML);
+}
+</code></pre>
+        </article>
+    </section>
 
 
 
