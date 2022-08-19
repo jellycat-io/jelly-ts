@@ -197,7 +197,7 @@ export function isKeyClicked(code: string): boolean {
 }
 
 /**
- * @todo
+ * @todo Not yet implemented
  * @description Cleans up the input handler
  */
 export function cleanUp(): void {

@@ -5,7 +5,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> Renderable</title>
+  <title> Scene</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -78,7 +78,7 @@
             <div class="content">
                 <header class="page-title">
                     <p>Class</p>
-                    <h1>Renderable</h1>
+                    <h1>Scene</h1>
                 </header>
                 
 
@@ -89,9 +89,9 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>Renderable<span class="signature">()</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>Scene<span class="signature">()</span><span class="type-signature"></span></h2>
         
-            <div class="class-description">A drawable entity</div>
+            <div class="class-description">The abstract Scene class</div>
         
     
 </header>
@@ -110,12 +110,12 @@
 
 
     
-    <h4 class="name" id="Renderable">
-        <a class="href-link" href="#Renderable">#</a>
+    <h4 class="name" id="Scene">
+        <a class="href-link" href="#Scene">#</a>
         
         <span class="code-name">
             
-                new Renderable<span class="signature">()</span><span class="type-signature"></span>
+                new Scene<span class="signature">()</span><span class="type-signature"></span>
             
         </span>
     </h4>
@@ -169,9 +169,9 @@
 
     
         <p class="tag-source">
-            <a href="engine_renderable.ts.html" class="button">View Source</a>
+            <a href="engine_scene.ts.html" class="button">View Source</a>
             <span>
-                <a href="engine_renderable.ts.html">engine/renderable.ts</a>, <a href="engine_renderable.ts.html#line10">line 10</a>
+                <a href="engine_scene.ts.html">engine/scene.ts</a>, <a href="engine_scene.ts.html#line10">line 10</a>
             </span>
         </p>
     
@@ -231,9 +231,13 @@
     <h4 class="name" id="draw">
         <a class="href-link" href="#draw">#</a>
         
+            
+                <span class='tag'>abstract</span>
+            
+        
         <span class="code-name">
             
-                draw<span class="signature">(camera)</span><span class="type-signature"> &rarr; {void}</span>
+                draw<span class="signature">()</span><span class="type-signature"> &rarr; {void}</span>
             
         </span>
     </h4>
@@ -242,7 +246,8 @@
     
     
     <div class="description">
-        Draws the Renderable
+        Draws the scene (called every frame).
+Must be overwritten by subclass
     </div>
     
 
@@ -253,57 +258,6 @@
 
 
 
-
-    <h5>Parameters:</h5>
-    
-<div class="table-container">
-    <table class="params table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>camera</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type"><a href="Camera.html">Camera</a></code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">The game camera to display to</td>
-</tr>
-
-
-        
-        </tbody>
-    </table>
-</div>
 
 
 
@@ -342,9 +296,9 @@
 
     
         <p class="tag-source">
-            <a href="engine_renderable.ts.html" class="button">View Source</a>
+            <a href="engine_scene.ts.html" class="button">View Source</a>
             <span>
-                <a href="engine_renderable.ts.html">engine/renderable.ts</a>, <a href="engine_renderable.ts.html#line114">line 114</a>
+                <a href="engine_scene.ts.html">engine/scene.ts</a>, <a href="engine_scene.ts.html#line125">line 125</a>
             </span>
         </p>
     
@@ -399,12 +353,12 @@
 
 
     
-    <h4 class="name" id="getColor">
-        <a class="href-link" href="#getColor">#</a>
+    <h4 class="name" id="init">
+        <a class="href-link" href="#init">#</a>
         
         <span class="code-name">
             
-                getColor<span class="signature">()</span><span class="type-signature"> &rarr; {GLColorTuple}</span>
+                init<span class="signature">()</span><span class="type-signature"> &rarr; {void}</span>
             
         </span>
     </h4>
@@ -413,7 +367,7 @@
     
     
     <div class="description">
-        Gets Renderable color
+        Initializes the level (called from loop.start())
     </div>
     
 
@@ -462,9 +416,9 @@
 
     
         <p class="tag-source">
-            <a href="engine_renderable.ts.html" class="button">View Source</a>
+            <a href="engine_scene.ts.html" class="button">View Source</a>
             <span>
-                <a href="engine_renderable.ts.html">engine/renderable.ts</a>, <a href="engine_renderable.ts.html#line101">line 101</a>
+                <a href="engine_scene.ts.html">engine/scene.ts</a>, <a href="engine_scene.ts.html#line105">line 105</a>
             </span>
         </p>
     
@@ -495,13 +449,11 @@
 
 <div class="columns">
     
-    <div class='param-desc column is-7'>the Renderable color</div>
-    
     
     <div class='column is-5 has-text-left'>
         <label>Type: </label>
         
-<code class="param-type">GLColorTuple</code>
+<code class="param-type">void</code>
 
 
     </div>
@@ -521,12 +473,12 @@
 
 
     
-    <h4 class="name" id="getTransform">
-        <a class="href-link" href="#getTransform">#</a>
+    <h4 class="name" id="load">
+        <a class="href-link" href="#load">#</a>
         
         <span class="code-name">
             
-                getTransform<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="Transform.html">Transform</a>}</span>
+                load<span class="signature">()</span><span class="type-signature"> &rarr; {void}</span>
             
         </span>
     </h4>
@@ -535,7 +487,7 @@
     
     
     <div class="description">
-        Gets Renderable transform
+        Loads necessary resources
     </div>
     
 
@@ -584,9 +536,9 @@
 
     
         <p class="tag-source">
-            <a href="engine_renderable.ts.html" class="button">View Source</a>
+            <a href="engine_scene.ts.html" class="button">View Source</a>
             <span>
-                <a href="engine_renderable.ts.html">engine/renderable.ts</a>, <a href="engine_renderable.ts.html#line107">line 107</a>
+                <a href="engine_scene.ts.html">engine/scene.ts</a>, <a href="engine_scene.ts.html#line111">line 111</a>
             </span>
         </p>
     
@@ -617,13 +569,11 @@
 
 <div class="columns">
     
-    <div class='param-desc column is-7'>the Renderable Transform</div>
-    
     
     <div class='column is-5 has-text-left'>
         <label>Type: </label>
         
-<code class="param-type"><a href="Transform.html">Transform</a></code>
+<code class="param-type">void</code>
 
 
     </div>
@@ -643,12 +593,12 @@
 
 
     
-    <h4 class="name" id="setColor">
-        <a class="href-link" href="#setColor">#</a>
+    <h4 class="name" id="next">
+        <a class="href-link" href="#next">#</a>
         
         <span class="code-name">
             
-                setColor<span class="signature">(color)</span><span class="type-signature"> &rarr; {void}</span>
+                next<span class="signature">()</span><span class="type-signature"> &rarr; {void}</span>
             
         </span>
     </h4>
@@ -657,7 +607,7 @@
     
     
     <div class="description">
-        Changes Renderable's color
+        Loads next scene
     </div>
     
 
@@ -669,56 +619,136 @@
 
 
 
-    <h5>Parameters:</h5>
+
+
+
+
+<dl class="details">
+
     
-<div class="table-container">
-    <table class="params table">
-        <thead>
-        <tr>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+    <dt class="tag-todo">To Do:</dt>
+    <dd class="tag-todo">
+        <ul>
+            <li>Not fully implemented yet</li>
+        </ul>
+    </dd>
+    
+
+    
+        <p class="tag-source">
+            <a href="engine_scene.ts.html" class="button">View Source</a>
+            <span>
+                <a href="engine_scene.ts.html">engine/scene.ts</a>, <a href="engine_scene.ts.html#line93">line 93</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
             
-            <th>Name</th>
-            
+                    
 
-            <th>Type</th>
-
-            
-
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
+<div class="columns">
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
         
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>color</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">GLColorTuple</code>
+<code class="param-type">void</code>
 
 
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">The new renderable color</td>
-</tr>
-
-
-        
-        </tbody>
-    </table>
+    </div>
+    
 </div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="start">
+        <a class="href-link" href="#start">#</a>
+        
+            
+                <span class='tag'>async</span>
+            
+        
+        <span class="code-name">
+            
+                start<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;void>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Starts the scene
+    </div>
+    
+
+
+
+
+
+
+
+
 
 
 
@@ -757,9 +787,374 @@
 
     
         <p class="tag-source">
-            <a href="engine_renderable.ts.html" class="button">View Source</a>
+            <a href="engine_scene.ts.html" class="button">View Source</a>
             <span>
-                <a href="engine_renderable.ts.html">engine/renderable.ts</a>, <a href="engine_renderable.ts.html#line95">line 95</a>
+                <a href="engine_scene.ts.html">engine/scene.ts</a>, <a href="engine_scene.ts.html#line86">line 86</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<code class="param-type">Promise.&lt;void></code>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="stop">
+        <a class="href-link" href="#stop">#</a>
+        
+        <span class="code-name">
+            
+                stop<span class="signature">()</span><span class="type-signature"> &rarr; {void}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Stops the scene
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="engine_scene.ts.html" class="button">View Source</a>
+            <span>
+                <a href="engine_scene.ts.html">engine/scene.ts</a>, <a href="engine_scene.ts.html#line99">line 99</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<code class="param-type">void</code>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="unload">
+        <a class="href-link" href="#unload">#</a>
+        
+        <span class="code-name">
+            
+                unload<span class="signature">()</span><span class="type-signature"> &rarr; {void}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Unloads all ressources
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="engine_scene.ts.html" class="button">View Source</a>
+            <span>
+                <a href="engine_scene.ts.html">engine/scene.ts</a>, <a href="engine_scene.ts.html#line117">line 117</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<code class="param-type">void</code>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="update">
+        <a class="href-link" href="#update">#</a>
+        
+            
+                <span class='tag'>abstract</span>
+            
+        
+        <span class="code-name">
+            
+                update<span class="signature">()</span><span class="type-signature"> &rarr; {void}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Updates the scene (called every frame).
+Must be overwritten by subclass
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="engine_scene.ts.html" class="button">View Source</a>
+            <span>
+                <a href="engine_scene.ts.html">engine/scene.ts</a>, <a href="engine_scene.ts.html#line133">line 133</a>
             </span>
         </p>
     

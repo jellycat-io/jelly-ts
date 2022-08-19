@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,7 +7,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> MapEntry</title>
+  <title> engine/scene.ts</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -77,206 +79,100 @@
         <div class="core" id="main-content-wrapper">
             <div class="content">
                 <header class="page-title">
-                    <p>Class</p>
-                    <h1>MapEntry</h1>
+                    <p>Source</p>
+                    <h1>engine/scene.ts</h1>
                 </header>
                 
 
 
 
-
-<section>
-
-<header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>
-            <span class="ancestors"><a href="module-ResourceMap.html">ResourceMap</a><a href="module-ResourceMap.MapEntry.html">.MapEntry</a>#</span>MapEntry<span class="signature">(data)</span><span class="type-signature"></span></h2>
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-            <div class='vertical-section'>
-                <div class="members">
-                    <div class="member">
-                        <div class=name>
-                            <span class="tag">Constructor</span>
-                        </div>
-                        
-
-
-    
-    <h4 class="name" id="MapEntry">
-        <a class="href-link" href="#MapEntry">#</a>
-        
-        <span class="code-name">
-            
-                new MapEntry<span class="signature">(data)</span><span class="type-signature"></span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-<div class="table-container">
-    <table class="params table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>data</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">T</code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">The data to load</td>
-</tr>
-
-
-        
-        </tbody>
-    </table>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="engine_core_resource-map.ts.html" class="button">View Source</a>
-            <span>
-                <a href="engine_core_resource-map.ts.html">engine/core/resource-map.ts</a>, <a href="engine_core_resource-map.ts.html#line182">line 182</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                    </div>
-                </div>
-            </div>
-        
-    
-    </div>
-    
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import * as loop from "./core/loop";
+import * as engine from ".";
+
+const kAbstractClassError = new Error("Abstract Class");
+const kAbstractMethodError = new Error("Abstract Method");
+
+/**
+ * @class
+ * @classdesc The abstract Scene class
+ */
+class Scene {
+  constructor() {
+    if (this.constructor === Scene) {
+      throw kAbstractClassError;
+    }
+  }
+
+  /**
+   * @description Starts the scene
+   */
+  async start(): Promise&lt;void> {
+    await loop.start(this);
+  }
+
+  /**
+   * @description Loads next scene
+   * @todo Not fully implemented yet
+   */
+  next(): void {
+    loop.stop();
+    this.unload();
+  }
+
+  /**
+   * @description Stops the scene
+   */
+  stop(): void {
+    loop.stop();
+    this.unload();
+    engine.cleanUp();
+  }
+
+  /**
+   * @description Initializes the level (called from loop.start())
+   */
+  init(): void {
+    /* */
+  }
+  /**
+   * @description Loads necessary resources
+   */
+  load(): void {
+    /* */
+  }
+  /**
+   * @description Unloads all ressources
+   */
+  unload(): void {
+    /* */
+  }
+
+  /**
+   * @abstract
+   * @description Draws the scene (called every frame).
+   * Must be overwritten by subclass
+   */
+  draw(): void {
+    throw kAbstractMethodError;
+  }
+
+  /**
+   * @abstract
+   * @description Updates the scene (called every frame).
+   * Must be overwritten by subclass
+   */
+  update(): void {
+    throw kAbstractMethodError;
+  }
+}
+
+export default Scene;
+</code></pre>
+        </article>
+    </section>
 
 
 

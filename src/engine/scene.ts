@@ -24,7 +24,7 @@ class Scene {
 
   /**
    * @description Loads next scene
-   * @todo
+   * @todo Not fully implemented yet
    */
   next(): void {
     loop.stop();
