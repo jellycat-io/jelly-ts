@@ -5,7 +5,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> MapEntry</title>
+  <title> SimpleShader</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -78,7 +78,7 @@
             <div class="content">
                 <header class="page-title">
                     <p>Class</p>
-                    <h1>MapEntry</h1>
+                    <h1>SimpleShader</h1>
                 </header>
                 
 
@@ -90,7 +90,9 @@
 <header>
     
         <h2><span class="attribs"><span class="type-signature"></span></span>
-            <span class="ancestors"><a href="module-ResourceMap.html">ResourceMap</a>.</span>MapEntry<span class="signature">(data)</span><span class="type-signature"></span></h2>
+            <span class="ancestors"><a href="module-SimpleShader.html">SimpleShader</a>.</span>SimpleShader<span class="signature">(vertexSourceFile, fragmentSourceFile)</span><span class="type-signature"></span></h2>
+        
+            <div class="class-description">The core shader class</div>
         
     
 </header>
@@ -109,12 +111,12 @@
 
 
     
-    <h4 class="name" id="MapEntry">
-        <a class="href-link" href="#MapEntry">#</a>
+    <h4 class="name" id="SimpleShader">
+        <a class="href-link" href="#SimpleShader">#</a>
         
         <span class="code-name">
             
-                new MapEntry<span class="signature">(data)</span><span class="type-signature"></span>
+                new SimpleShader<span class="signature">(vertexSourceFile, fragmentSourceFile)</span><span class="type-signature"></span>
             
         </span>
     </h4>
@@ -157,13 +159,13 @@
             
 <tr class="deep-level-0">
   
-      <td class="name"><code>data</code></td>
+      <td class="name"><code>vertexSourceFile</code></td>
   
 
   <td class="type">
   
       
-<code class="param-type">T</code>
+<code class="param-type">string</code>
 
 
   
@@ -173,7 +175,32 @@
 
   
 
-  <td class="description last">The data to load</td>
+  <td class="description last">The vertex shader file path</td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>fragmentSourceFile</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">string</code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">The fragment shader file path</td>
 </tr>
 
 
@@ -219,9 +246,9 @@
 
     
         <p class="tag-source">
-            <a href="engine_core_resource-map.ts.html" class="button">View Source</a>
+            <a href="engine_simple-shader.ts.html" class="button">View Source</a>
             <span>
-                <a href="engine_core_resource-map.ts.html">engine/core/resource-map.ts</a>, <a href="engine_core_resource-map.ts.html#line14">line 14</a>
+                <a href="engine_simple-shader.ts.html">engine/simple-shader.ts</a>, <a href="engine_simple-shader.ts.html#line12">line 12</a>
             </span>
         </p>
     
@@ -263,7 +290,7 @@
         <h3 class="subsection-title">Classes</h3>
 
         <dl>
-            <dt><a href="module-ResourceMap.MapEntry_MapEntry.html">MapEntry</a></dt>
+            <dt><a href="module-SimpleShader.SimpleShader_SimpleShader.html">SimpleShader</a></dt>
             <dd></dd>
         </dl>
     
@@ -285,12 +312,12 @@
 
 
     
-    <h4 class="name" id="canRemove">
-        <a class="href-link" href="#canRemove">#</a>
+    <h4 class="name" id="activate">
+        <a class="href-link" href="#activate">#</a>
         
         <span class="code-name">
             
-                canRemove<span class="signature">()</span><span class="type-signature"> &rarr; {boolean}</span>
+                activate<span class="signature">(pixelColor, trsMatrix, cameraMatrix)</span><span class="type-signature"> &rarr; {void}</span>
             
         </span>
     </h4>
@@ -299,494 +326,7 @@
     
     
     <div class="description">
-        Checks if data can be removed
-    </div>
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="engine_core_resource-map.ts.html" class="button">View Source</a>
-            <span>
-                <a href="engine_core_resource-map.ts.html">engine/core/resource-map.ts</a>, <a href="engine_core_resource-map.ts.html#line215">line 215</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <div class='columns method-parameter'>
-        <div class="column is-2"><label>Returns:</label></div>
-        <div class="column is-10">
-            
-                    
-
-<div class="columns">
-    
-    <div class='param-desc column is-7'>true if it can be</div>
-    
-    
-    <div class='column is-5 has-text-left'>
-        <label>Type: </label>
-        
-<code class="param-type">boolean</code>
-
-
-    </div>
-    
-</div>
-
-                
-        </div>
-    </div>
-
-
-
-
-</div>
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id="data">
-        <a class="href-link" href="#data">#</a>
-        
-        <span class="code-name">
-            
-                data<span class="signature">()</span><span class="type-signature"> &rarr; {T|null}</span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Gets loaded data from the resource map
-    </div>
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="engine_core_resource-map.ts.html" class="button">View Source</a>
-            <span>
-                <a href="engine_core_resource-map.ts.html">engine/core/resource-map.ts</a>, <a href="engine_core_resource-map.ts.html#line209">line 209</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <div class='columns method-parameter'>
-        <div class="column is-2"><label>Returns:</label></div>
-        <div class="column is-10">
-            
-                    
-
-<div class="columns">
-    
-    <div class='param-desc column is-7'>loaded data if found</div>
-    
-    
-    <div class='column is-5 has-text-left'>
-        <label>Type: </label>
-        
-<code class="param-type">T</code>
-|
-
-<code class="param-type">null</code>
-
-
-    </div>
-    
-</div>
-
-                
-        </div>
-    </div>
-
-
-
-
-</div>
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id="decRef">
-        <a class="href-link" href="#decRef">#</a>
-        
-        <span class="code-name">
-            
-                decRef<span class="signature">()</span><span class="type-signature"> &rarr; {void}</span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Decrement the reference counter of the resource
-    </div>
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="engine_core_resource-map.ts.html" class="button">View Source</a>
-            <span>
-                <a href="engine_core_resource-map.ts.html">engine/core/resource-map.ts</a>, <a href="engine_core_resource-map.ts.html#line188">line 188</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <div class='columns method-parameter'>
-        <div class="column is-2"><label>Returns:</label></div>
-        <div class="column is-10">
-            
-                    
-
-<div class="columns">
-    
-    
-    <div class='column is-5 has-text-left'>
-        <label>Type: </label>
-        
-<code class="param-type">void</code>
-
-
-    </div>
-    
-</div>
-
-                
-        </div>
-    </div>
-
-
-
-
-</div>
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id="incRef">
-        <a class="href-link" href="#incRef">#</a>
-        
-        <span class="code-name">
-            
-                incRef<span class="signature">()</span><span class="type-signature"> &rarr; {void}</span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Increment the reference counter of the resource
-    </div>
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="engine_core_resource-map.ts.html" class="button">View Source</a>
-            <span>
-                <a href="engine_core_resource-map.ts.html">engine/core/resource-map.ts</a>, <a href="engine_core_resource-map.ts.html#line194">line 194</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <div class='columns method-parameter'>
-        <div class="column is-2"><label>Returns:</label></div>
-        <div class="column is-10">
-            
-                    
-
-<div class="columns">
-    
-    
-    <div class='column is-5 has-text-left'>
-        <label>Type: </label>
-        
-<code class="param-type">void</code>
-
-
-    </div>
-    
-</div>
-
-                
-        </div>
-    </div>
-
-
-
-
-</div>
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id="set">
-        <a class="href-link" href="#set">#</a>
-        
-        <span class="code-name">
-            
-                set<span class="signature">(data)</span><span class="type-signature"> &rarr; {void}</span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Sets data to be loaded
+        Activates the shader
     </div>
     
 
@@ -824,13 +364,13 @@
             
 <tr class="deep-level-0">
   
-      <td class="name"><code>data</code></td>
+      <td class="name"><code>pixelColor</code></td>
   
 
   <td class="type">
   
       
-<code class="param-type">T</code>
+<code class="param-type">GLColorTuple</code>
 
 
   
@@ -840,7 +380,57 @@
 
   
 
-  <td class="description last">The data to be loaded</td>
+  <td class="description last">The color to apply to the shader</td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>trsMatrix</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">mat4</code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">The transform matrix</td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>cameraMatrix</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">mat4</code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">The camera matrix</td>
 </tr>
 
 
@@ -886,9 +476,9 @@
 
     
         <p class="tag-source">
-            <a href="engine_core_resource-map.ts.html" class="button">View Source</a>
+            <a href="engine_simple-shader.ts.html" class="button">View Source</a>
             <span>
-                <a href="engine_core_resource-map.ts.html">engine/core/resource-map.ts</a>, <a href="engine_core_resource-map.ts.html#line202">line 202</a>
+                <a href="engine_simple-shader.ts.html">engine/simple-shader.ts</a>, <a href="engine_simple-shader.ts.html#line133">line 133</a>
             </span>
         </p>
     

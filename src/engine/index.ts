@@ -2,6 +2,7 @@ import * as glSys from "./core/gl";
 import * as vertexBuffer from "./core/vertex-buffer";
 import * as shaderResources from "./core/shader-resources";
 import * as Input from "./input";
+import * as TextResource from "./resources/text";
 import Renderable from "./renderable";
 import Transform from "./transform";
 import Camera from "./camera";
@@ -42,4 +43,4 @@ export function getGL(): WebGL2RenderingContext | null {
   return glSys.get();
 }
 
-export { Renderable, Transform, Camera, Input };
+export { Renderable, Transform, Camera, Input, TextResource };

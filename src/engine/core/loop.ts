@@ -1,5 +1,6 @@
 import Scene from "../scene";
 import * as input from "../input";
+import * as ResourceMap from "./resource-map";
 
 /**
  * @module GameLoop
@@ -53,13 +54,18 @@ function loopOnce(): void {
 }
 
 /**
+ * @async
  * @description Starts the game loop
  * @param {Scene} scene The starting scene of the game
+ * @returns {Promise<void>}
  */
-export function start(scene: Scene): void {
+export async function start(scene: Scene): Promise<void> {
   if (mLoopRunning) {
     throw new Error("Game loop already running");
   }
+
+  // Wait for any async request before game loading
+  await ResourceMap.waitOnPromises();
 
   mCurrentScene = scene;
   mCurrentScene.init();

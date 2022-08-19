@@ -7,7 +7,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> engine/core/loop.ts</title>
+  <title> engine/simple-shader.ts</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -80,7 +80,7 @@
             <div class="content">
                 <header class="page-title">
                     <p>Source</p>
-                    <h1>engine/core/loop.ts</h1>
+                    <h1>engine/simple-shader.ts</h1>
                 </header>
                 
 
@@ -89,92 +89,173 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import Scene from "../scene";
-import * as input from "../input";
-import * as ResourceMap from "./resource-map";
+            <pre class="prettyprint source linenums"><code>import { mat4 } from "gl-matrix";
+import { GLColorTuple } from "../utils/palette";
+import * as glSys from "./core/gl";
+import * as vertexBuffer from "./core/vertex-buffer";
+import * as TextResource from "./resources/text";
 
 /**
- * @module GameLoop
+ * @module SimpleShader
  */
 
 /**
- * @constant
+ * @class
+ * @classdesc The core shader class
  */
-const kUPS = 60; // Updates per second
-/**
- * @constant
- */
-const kMPF = 1000 / kUPS; // Milliseconds per update
+export class SimpleShader {
+  mCompiledShader: WebGLProgram | null;
+  mVertexPositionRef: number | null;
+  mPixelColorRef: WebGLUniformLocation | null;
+  mModelMatrixRef: WebGLUniformLocation | null;
+  mCameraMatrixRed: WebGLUniformLocation | null;
 
-// Variables for timing game loop
-let mPrevTime: number;
-let mLagTime: number;
+  /**
+   * @param {string} vertexSourceFile The vertex shader file path
+   * @param {string} fragmentSourceFile The fragment shader file path
+   */
+  constructor(vertexSourceFile: string, fragmentSourceFile: string) {
+    this.mCompiledShader = null;
+    this.mVertexPositionRef = null;
+    this.mPixelColorRef = null;
+    this.mModelMatrixRef = null;
+    this.mCameraMatrixRed = null;
 
-// The current loop state
-let mLoopRunning = false;
-let mCurrentScene: Scene;
-let mFrameID = -1;
+    const gl = glSys.get();
 
-/**
- * @function
- * @description Loops every frame
- */
-function loopOnce(): void {
-  if (mLoopRunning) {
-    // Set up for next call to loopOnce
-    mFrameID = requestAnimationFrame(loopOnce);
+    if (!gl) return;
 
-    mCurrentScene.draw(); // MUST be called before update() as update() may stop the loop
+    // Load and compile both shaders
+    const vertexShader = compileShader(vertexSourceFile, gl.VERTEX_SHADER);
+    const fragmentShader = compileShader(
+      fragmentSourceFile,
+      gl.FRAGMENT_SHADER
+    );
 
-    // Compute time elapsed since last loopOnce was executed
-    const currentTime = performance.now();
-    const elapsedTime = currentTime - mPrevTime;
-
-    mPrevTime = currentTime;
-    mLagTime += elapsedTime;
-
-    // Update the game the appropriate amount of times
-    // Update only every kMPF (1/60 of a second)
-    // If lag larger than update frames, update until caught up
-    while (mLagTime >= kMPF &amp;&amp; mLoopRunning) {
-      input.update();
-      mCurrentScene.update();
-      mLagTime -= kMPF;
+    if (!vertexShader || !fragmentShader) {
+      throw new Error("Error loading shader source");
     }
+
+    // Link shaders into a new program
+    this.mCompiledShader = gl.createProgram();
+
+    if (!this.mCompiledShader) {
+      throw new Error("Error creating shader program");
+    }
+
+    gl.attachShader(this.mCompiledShader, vertexShader);
+    gl.attachShader(this.mCompiledShader, fragmentShader);
+    gl.linkProgram(this.mCompiledShader);
+
+    if (!gl.getProgramParameter(this.mCompiledShader, gl.LINK_STATUS)) {
+      throw new Error(
+        `Error linking shader: ${gl.getProgramInfoLog(this.mCompiledShader)}`
+      );
+    }
+
+    // Get reference to aPosition in the shader
+    this.mVertexPositionRef = gl.getAttribLocation(
+      this.mCompiledShader,
+      "aVertexPosition"
+    );
+
+    // Gets uniform variable uPixelColor in fragment shader
+    this.mPixelColorRef = gl.getUniformLocation(
+      this.mCompiledShader,
+      "uPixelColor"
+    );
+
+    // Gets uniform variables in vertex shader
+    this.mModelMatrixRef = gl.getUniformLocation(
+      this.mCompiledShader,
+      "uModelTransformMatrix"
+    );
+    this.mCameraMatrixRed = gl.getUniformLocation(
+      this.mCompiledShader,
+      "uCameraTransformMatrix"
+    );
+  }
+
+  /**
+   * @description Activates the shader
+   * @param {GLColorTuple} pixelColor The color to apply to the shader
+   * @param {mat4} trsMatrix The transform matrix
+   * @param {mat4} cameraMatrix The camera matrix
+   */
+  activate(
+    pixelColor: GLColorTuple,
+    trsMatrix: mat4,
+    cameraMatrix: mat4
+  ): void {
+    const gl = glSys.get();
+
+    if (!gl || this.mVertexPositionRef === null) return;
+
+    // Identify the compiled shader to use
+    gl.useProgram(this.mCompiledShader);
+
+    // Bind vertex buffer to attribute defined in vertex shader
+    gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer.get());
+    gl.vertexAttribPointer(
+      this.mVertexPositionRef,
+      3, // each element is a 3-float (x,y,z)
+      gl.FLOAT, // data type is FLOAT
+      false, // is content normalized vectors?
+      0, // number of bytes to skip in between elements
+      0 // offsets to the first element
+    );
+    gl.enableVertexAttribArray(this.mVertexPositionRef);
+
+    // Load uniforms
+    gl.uniform4fv(this.mPixelColorRef, pixelColor);
+    gl.uniformMatrix4fv(this.mModelMatrixRef, false, trsMatrix);
+    gl.uniformMatrix4fv(this.mCameraMatrixRed, false, cameraMatrix);
   }
 }
 
 /**
- * @async
- * @description Starts the game loop
- * @param {Scene} scene The starting scene of the game
- * @returns {Promise&lt;void>}
+ * @description Compiles the shader
+ * @param {string} filePath The shader file path
+ * @param {number} shaderType The shader type
+ * @returns {WebGLShader | null} the compiled shader
  */
-export async function start(scene: Scene): Promise&lt;void> {
-  if (mLoopRunning) {
-    throw new Error("Game loop already running");
+function compileShader(
+  filePath: string,
+  shaderType: number
+): WebGLShader | null {
+  let shaderSource: string | null = null;
+  let compiledShader = null;
+
+  const gl = glSys.get();
+
+  // Access shader text file
+  shaderSource = TextResource.get(filePath);
+
+  if (!shaderSource) {
+    throw new Error(`WARNING: Loading of ${filePath} failed.`);
   }
 
-  // Wait for any async request before game loading
-  await ResourceMap.waitOnPromises();
+  // Create the shader with correct type
+  compiledShader = gl?.createShader(shaderType);
 
-  mCurrentScene = scene;
-  mCurrentScene.init();
+  if (!compiledShader) return null;
 
-  mPrevTime = performance.now();
-  mLagTime = 0.0;
-  mLoopRunning = true;
-  mFrameID = requestAnimationFrame(loopOnce);
+  // Compile the shader with correct data
+  gl?.shaderSource(compiledShader, shaderSource);
+  gl?.compileShader(compiledShader);
+
+  if (!gl?.getShaderParameter(compiledShader, gl.COMPILE_STATUS)) {
+    throw new Error(
+      `A shader compiling error occured: ${gl?.getShaderInfoLog(
+        compiledShader
+      )}`
+    );
+  }
+
+  return compiledShader;
 }
 
-/**
- * @description Stops the game loop
- */
-export function stop(): void {
-  mLoopRunning = false;
-  // Make sure no more animation frames
-  cancelAnimationFrame(mFrameID);
-}
+export default SimpleShader;
 </code></pre>
         </article>
     </section>

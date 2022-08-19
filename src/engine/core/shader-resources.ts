@@ -1,8 +1,10 @@
+import * as TextResource from "../resources/text";
+import * as ResourceMap from "./resource-map";
+import SimpleShader from "../simple-shader";
+
 /**
  * @module ShaderResources
  */
-
-import SimpleShader from "../simple-shader";
 
 const kSimpleVS = "src/shaders/simple.vs.glsl";
 const kSimpleFS = "src/shaders/simple.fs.glsl";
@@ -13,7 +15,16 @@ let mConstColorShader: SimpleShader | null = null;
  * @returns {void} nothing
  */
 export function init() {
-  createShaders();
+  // eslint-disable-next-line no-async-promise-executor
+  const loadPromise = new Promise<void>(async (resolve) => {
+    await Promise.all([
+      TextResource.load(kSimpleVS),
+      TextResource.load(kSimpleFS),
+    ]);
+    resolve();
+  }).then(() => createShaders());
+
+  ResourceMap.pushPromise(loadPromise);
 }
 
 /**

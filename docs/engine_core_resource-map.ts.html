@@ -72,7 +72,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-Engine.html">Engine</a></li><li><a href="module-GameLoop.html">GameLoop</a></li><li><a href="module-GL.html">GL</a></li><li><a href="module-ResourceMap.html">ResourceMap</a></li><li><a href="module-ShaderResources.html">ShaderResources</a></li><li><a href="module-VertexBuffer.html">VertexBuffer</a></li></ul><h3>Classes</h3><ul><li><a href="module-ResourceMap.MapEntry.html">MapEntry</a></li><li><a href="module-ResourceMap.MapEntry_MapEntry.html">MapEntry</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Color">Color</a></li><li><a href="global.html#DecodeResource">DecodeResource</a></li><li><a href="global.html#Engine">Engine</a></li><li><a href="global.html#Palette">Palette</a></li><li><a href="global.html#rgbaToGL">rgbaToGL</a></li></ul></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-Engine.html">Engine</a></li><li><a href="module-GameLoop.html">GameLoop</a></li><li><a href="module-GL.html">GL</a></li><li><a href="module-ResourceMap.html">ResourceMap</a></li><li><a href="module-ShaderResources.html">ShaderResources</a></li><li><a href="module-SimpleShader.html">SimpleShader</a></li><li><a href="module-TextResource.html">TextResource</a></li><li><a href="module-VertexBuffer.html">VertexBuffer</a></li></ul><h3>Classes</h3><ul><li><a href="module-ResourceMap.MapEntry.html">MapEntry</a></li><li><a href="module-ResourceMap.MapEntry_MapEntry.html">MapEntry</a></li><li><a href="module-SimpleShader.SimpleShader.html">SimpleShader</a></li><li><a href="module-SimpleShader.SimpleShader_SimpleShader.html">SimpleShader</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Color">Color</a></li><li><a href="global.html#DecodeResource">DecodeResource</a></li><li><a href="global.html#Engine">Engine</a></li><li><a href="global.html#Palette">Palette</a></li><li><a href="global.html#rgbaToGL">rgbaToGL</a></li></ul></div>
                 
             </nav>
         </div>
@@ -89,18 +89,21 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/**
+            <pre class="prettyprint source linenums"><code>/* eslint-disable @typescript-eslint/no-explicit-any */
+/**
  * @module ResourceMap
  */
 
-export class MapEntry {
-  mData: unknown | null;
+export class MapEntry&lt;T> {
+  mData: T | null;
   mRefCount: number;
 
   /**
-   * @param {unknown} data The data to load
+   * @class
+   * @template T
+   * @param {T} data The data to load
    */
-  constructor(data: unknown) {
+  constructor(data: T | null) {
     this.mData = data;
     this.mRefCount = 1;
   }
@@ -120,18 +123,20 @@ export class MapEntry {
   }
 
   /**
+   * @template T
    * @description Sets data to be loaded
-   * @param {unknown} data The data to be loaded
+   * @param {T} data The data to be loaded
    */
-  set(data: unknown): void {
+  set(data: T): void {
     this.mData = data;
   }
 
   /**
+   * @template T
    * @description Gets loaded data from the resource map
-   * @returns {unknown | null} loaded data if found
+   * @returns {T | null} loaded data if found
    */
-  data(): unknown | null {
+  data(): T | null {
     return this.mData;
   }
 
@@ -144,8 +149,8 @@ export class MapEntry {
   }
 }
 
-const mMap = new Map&lt;string, MapEntry>();
-let mOutstandingPromises: Array&lt;Promise&lt;unknown>> = [];
+const mMap = new Map&lt;string, MapEntry&lt;any>>();
+let mOutstandingPromises: Array&lt;Promise&lt;void>> = [];
 
 /**
  *
@@ -158,10 +163,11 @@ export function has(path: string): boolean {
 
 /**
  *
+ * @template T
  * @param {string} path The resource file path
- * @returns {unknown | null} data if it exists in the map
+ * @returns {T | null} data if it exists in the map
  */
-export function get(path: string): unknown | null {
+export function get&lt;T = any>(path: string): T | null {
   if (!has(path)) {
     throw new Error(`Error [${path}]: not loaded`);
   }
@@ -170,11 +176,11 @@ export function get(path: string): unknown | null {
 }
 
 /**
- *
+ * @template T
  * @param {string} key The key to put data in the map at the correct place
- * @param {unknown} value The data to be added
+ * @param {T} value The data to be added
  */
-export function set(key: string, value: unknown): void {
+export function set&lt;T = any>(key: string, value: T): void {
   mMap.get(key)?.set(value);
 }
 
@@ -182,8 +188,8 @@ export function set(key: string, value: unknown): void {
  *
  * @param {string} path The resource file path
  */
-export function loadRequested(path: string): void {
-  mMap.set(path, new MapEntry(null));
+export function loadRequested&lt;T = any>(path: string): void {
+  mMap.set(path, new MapEntry&lt;T>(null));
 }
 
 /**
@@ -209,29 +215,32 @@ export function unload(path: string): boolean | undefined {
 }
 
 /**
- *
- * @param {Promise&lt;unknown>} p The promise to add to the array
+ * @description Push outstanding promise into the array
+ * @param {Promise&lt;void>} p The promise to add to the array
  */
-export function pushPromise(p: Promise&lt;unknown>): void {
+export function pushPromise(p: Promise&lt;void>): void {
   mOutstandingPromises.push(p);
 }
 
 /**
  * @typedef
+ * @template T
  * @callback DecodeResource
  * @param {Response} res
- * @returns {Promise&lt;unknown>}
+ * @returns {Promise&lt;T>}
  */
 
 /**
  * @typedef
+ * @template T
  * @callback ParseResource
- * @param {unknown} data
- * @returns {Promise&lt;unknown>}
+ * @param {T} data
+ * @returns {T}
  */
 
 /**
  * @async
+ * @template T
  * @description Generic loading function
  * 1: Fetch from server
  * 2: decodeResource on the loaded package
@@ -240,14 +249,14 @@ export function pushPromise(p: Promise&lt;unknown>): void {
  * @param {string} path The resource file path
  * @param {DecodeResource} decodeResource The callback to decode the resource
  * @param {ParseResource} parseResource The callback to parse the resource
- * @returns {Promise&lt;unknown> | null} the promise stored if data has not already been loaded
+ * @returns {Promise&lt;void>} the promise stored if data has not already been loaded
  */
-export function loadDecodeParse(
+export function loadDecodeParse&lt;T = any>(
   path: string,
-  decodeResource: (res: Response) => Promise&lt;unknown>,
-  parseResource: (data: unknown) => Promise&lt;unknown>
-): Promise&lt;unknown> | null {
-  let fetchPromise = null;
+  decodeResource: (res: Response) => Promise&lt;T>,
+  parseResource: (data: T) => T
+): Promise&lt;void> | undefined {
+  let fetchPromise: Promise&lt;void> | undefined = undefined;
 
   if (!has(path)) {
     loadRequested(path);
@@ -262,7 +271,7 @@ export function loadDecodeParse(
         throw err;
       });
 
-    pushPromise(fetchPromise);
+    fetchPromise &amp;&amp; pushPromise(fetchPromise);
   } else {
     incRef(path);
   }

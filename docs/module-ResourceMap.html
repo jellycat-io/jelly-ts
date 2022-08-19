@@ -70,7 +70,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-Engine.html">Engine</a></li><li><a href="module-GameLoop.html">GameLoop</a></li><li><a href="module-GL.html">GL</a></li><li><a href="module-ResourceMap.html">ResourceMap</a></li><li><a href="module-ShaderResources.html">ShaderResources</a></li><li><a href="module-VertexBuffer.html">VertexBuffer</a></li></ul><h3>Classes</h3><ul><li><a href="module-ResourceMap.MapEntry.html">MapEntry</a></li><li><a href="module-ResourceMap.MapEntry_MapEntry.html">MapEntry</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Color">Color</a></li><li><a href="global.html#DecodeResource">DecodeResource</a></li><li><a href="global.html#Engine">Engine</a></li><li><a href="global.html#Palette">Palette</a></li><li><a href="global.html#rgbaToGL">rgbaToGL</a></li></ul></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-Engine.html">Engine</a></li><li><a href="module-GameLoop.html">GameLoop</a></li><li><a href="module-GL.html">GL</a></li><li><a href="module-ResourceMap.html">ResourceMap</a></li><li><a href="module-ShaderResources.html">ShaderResources</a></li><li><a href="module-SimpleShader.html">SimpleShader</a></li><li><a href="module-TextResource.html">TextResource</a></li><li><a href="module-VertexBuffer.html">VertexBuffer</a></li></ul><h3>Classes</h3><ul><li><a href="module-ResourceMap.MapEntry.html">MapEntry</a></li><li><a href="module-ResourceMap.MapEntry_MapEntry.html">MapEntry</a></li><li><a href="module-SimpleShader.SimpleShader.html">SimpleShader</a></li><li><a href="module-SimpleShader.SimpleShader_SimpleShader.html">SimpleShader</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Color">Color</a></li><li><a href="global.html#DecodeResource">DecodeResource</a></li><li><a href="global.html#Engine">Engine</a></li><li><a href="global.html#Palette">Palette</a></li><li><a href="global.html#rgbaToGL">rgbaToGL</a></li></ul></div>
                 
             </nav>
         </div>
@@ -141,7 +141,7 @@
         
         <span class="code-name">
             
-                get<span class="signature">(path)</span><span class="type-signature"> &rarr; {unknown|null}</span>
+                get<span class="signature">(path)</span><span class="type-signature"> &rarr; {T|null}</span>
             
         </span>
     </h4>
@@ -248,7 +248,7 @@
         <p class="tag-source">
             <a href="engine_core_resource-map.ts.html" class="button">View Source</a>
             <span>
-                <a href="engine_core_resource-map.ts.html">engine/core/resource-map.ts</a>, <a href="engine_core_resource-map.ts.html#line64">line 64</a>
+                <a href="engine_core_resource-map.ts.html">engine/core/resource-map.ts</a>, <a href="engine_core_resource-map.ts.html#line70">line 70</a>
             </span>
         </p>
     
@@ -285,7 +285,7 @@
     <div class='column is-5 has-text-left'>
         <label>Type: </label>
         
-<code class="param-type">unknown</code>
+<code class="param-type">T</code>
 |
 
 <code class="param-type">null</code>
@@ -424,7 +424,7 @@
         <p class="tag-source">
             <a href="engine_core_resource-map.ts.html" class="button">View Source</a>
             <span>
-                <a href="engine_core_resource-map.ts.html">engine/core/resource-map.ts</a>, <a href="engine_core_resource-map.ts.html#line56">line 56</a>
+                <a href="engine_core_resource-map.ts.html">engine/core/resource-map.ts</a>, <a href="engine_core_resource-map.ts.html#line61">line 61</a>
             </span>
         </p>
     
@@ -597,7 +597,7 @@
         <p class="tag-source">
             <a href="engine_core_resource-map.ts.html" class="button">View Source</a>
             <span>
-                <a href="engine_core_resource-map.ts.html">engine/core/resource-map.ts</a>, <a href="engine_core_resource-map.ts.html#line89">line 89</a>
+                <a href="engine_core_resource-map.ts.html">engine/core/resource-map.ts</a>, <a href="engine_core_resource-map.ts.html#line95">line 95</a>
             </span>
         </p>
     
@@ -640,7 +640,7 @@
         
         <span class="code-name">
             
-                loadDecodeParse<span class="signature">(path, decodeResource, parseResource)</span><span class="type-signature"> &rarr; {Promise.&lt;unknown>|null}</span>
+                loadDecodeParse<span class="signature">(path, decodeResource, parseResource)</span><span class="type-signature"> &rarr; {Promise.&lt;void>}</span>
             
         </span>
     </h4>
@@ -805,7 +805,7 @@
         <p class="tag-source">
             <a href="engine_core_resource-map.ts.html" class="button">View Source</a>
             <span>
-                <a href="engine_core_resource-map.ts.html">engine/core/resource-map.ts</a>, <a href="engine_core_resource-map.ts.html#line135">line 135</a>
+                <a href="engine_core_resource-map.ts.html">engine/core/resource-map.ts</a>, <a href="engine_core_resource-map.ts.html#line144">line 144</a>
             </span>
         </p>
     
@@ -842,10 +842,7 @@
     <div class='column is-5 has-text-left'>
         <label>Type: </label>
         
-<code class="param-type">Promise.&lt;unknown></code>
-|
-
-<code class="param-type">null</code>
+<code class="param-type">Promise.&lt;void></code>
 
 
     </div>
@@ -981,7 +978,7 @@
         <p class="tag-source">
             <a href="engine_core_resource-map.ts.html" class="button">View Source</a>
             <span>
-                <a href="engine_core_resource-map.ts.html">engine/core/resource-map.ts</a>, <a href="engine_core_resource-map.ts.html#line82">line 82</a>
+                <a href="engine_core_resource-map.ts.html">engine/core/resource-map.ts</a>, <a href="engine_core_resource-map.ts.html#line88">line 88</a>
             </span>
         </p>
     
@@ -1030,6 +1027,10 @@
 
     
     
+    <div class="description">
+        Push outstanding promise into the array
+    </div>
+    
 
 
 
@@ -1071,7 +1072,7 @@
   <td class="type">
   
       
-<code class="param-type">Promise.&lt;unknown></code>
+<code class="param-type">Promise.&lt;void></code>
 
 
   
@@ -1129,7 +1130,7 @@
         <p class="tag-source">
             <a href="engine_core_resource-map.ts.html" class="button">View Source</a>
             <span>
-                <a href="engine_core_resource-map.ts.html">engine/core/resource-map.ts</a>, <a href="engine_core_resource-map.ts.html#line108">line 108</a>
+                <a href="engine_core_resource-map.ts.html">engine/core/resource-map.ts</a>, <a href="engine_core_resource-map.ts.html#line114">line 114</a>
             </span>
         </p>
     
@@ -1244,7 +1245,7 @@
   <td class="type">
   
       
-<code class="param-type">unknown</code>
+<code class="param-type">T</code>
 
 
   
@@ -1302,7 +1303,7 @@
         <p class="tag-source">
             <a href="engine_core_resource-map.ts.html" class="button">View Source</a>
             <span>
-                <a href="engine_core_resource-map.ts.html">engine/core/resource-map.ts</a>, <a href="engine_core_resource-map.ts.html#line75">line 75</a>
+                <a href="engine_core_resource-map.ts.html">engine/core/resource-map.ts</a>, <a href="engine_core_resource-map.ts.html#line81">line 81</a>
             </span>
         </p>
     
@@ -1450,7 +1451,7 @@
         <p class="tag-source">
             <a href="engine_core_resource-map.ts.html" class="button">View Source</a>
             <span>
-                <a href="engine_core_resource-map.ts.html">engine/core/resource-map.ts</a>, <a href="engine_core_resource-map.ts.html#line97">line 97</a>
+                <a href="engine_core_resource-map.ts.html">engine/core/resource-map.ts</a>, <a href="engine_core_resource-map.ts.html#line103">line 103</a>
             </span>
         </p>
     
@@ -1581,7 +1582,7 @@
         <p class="tag-source">
             <a href="engine_core_resource-map.ts.html" class="button">View Source</a>
             <span>
-                <a href="engine_core_resource-map.ts.html">engine/core/resource-map.ts</a>, <a href="engine_core_resource-map.ts.html#line160">line 160</a>
+                <a href="engine_core_resource-map.ts.html">engine/core/resource-map.ts</a>, <a href="engine_core_resource-map.ts.html#line169">line 169</a>
             </span>
         </p>
     
@@ -1650,7 +1651,7 @@
         
         <span class="code-name">
             
-                DecodeResource<span class="signature">(res)</span><span class="type-signature"> &rarr; {Promise.&lt;unknown>}</span>
+                DecodeResource<span class="signature">(res)</span><span class="type-signature"> &rarr; {Promise.&lt;T>}</span>
             
         </span>
     </h4>
@@ -1757,7 +1758,7 @@
         <p class="tag-source">
             <a href="engine_core_resource-map.ts.html" class="button">View Source</a>
             <span>
-                <a href="engine_core_resource-map.ts.html">engine/core/resource-map.ts</a>, <a href="engine_core_resource-map.ts.html#line111">line 111</a>
+                <a href="engine_core_resource-map.ts.html">engine/core/resource-map.ts</a>, <a href="engine_core_resource-map.ts.html#line117">line 117</a>
             </span>
         </p>
     
@@ -1792,7 +1793,7 @@
     <div class='column is-5 has-text-left'>
         <label>Type: </label>
         
-<code class="param-type">Promise.&lt;unknown></code>
+<code class="param-type">Promise.&lt;T></code>
 
 
     </div>
@@ -1817,7 +1818,7 @@
         
         <span class="code-name">
             
-                ParseResource<span class="signature">(data)</span><span class="type-signature"> &rarr; {Promise.&lt;unknown>}</span>
+                ParseResource<span class="signature">(data)</span><span class="type-signature"> &rarr; {T}</span>
             
         </span>
     </h4>
@@ -1866,7 +1867,7 @@
   <td class="type">
   
       
-<code class="param-type">unknown</code>
+<code class="param-type">T</code>
 
 
   
@@ -1924,7 +1925,7 @@
         <p class="tag-source">
             <a href="engine_core_resource-map.ts.html" class="button">View Source</a>
             <span>
-                <a href="engine_core_resource-map.ts.html">engine/core/resource-map.ts</a>, <a href="engine_core_resource-map.ts.html#line117">line 117</a>
+                <a href="engine_core_resource-map.ts.html">engine/core/resource-map.ts</a>, <a href="engine_core_resource-map.ts.html#line124">line 124</a>
             </span>
         </p>
     
@@ -1959,7 +1960,7 @@
     <div class='column is-5 has-text-left'>
         <label>Type: </label>
         
-<code class="param-type">Promise.&lt;unknown></code>
+<code class="param-type">T</code>
 
 
     </div>

@@ -1,15 +1,18 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * @module ResourceMap
  */
 
-export class MapEntry {
-  mData: unknown | null;
+export class MapEntry<T> {
+  mData: T | null;
   mRefCount: number;
 
   /**
-   * @param {unknown} data The data to load
+   * @class
+   * @template T
+   * @param {T} data The data to load
    */
-  constructor(data: unknown) {
+  constructor(data: T | null) {
     this.mData = data;
     this.mRefCount = 1;
   }
@@ -29,18 +32,20 @@ export class MapEntry {
   }
 
   /**
+   * @template T
    * @description Sets data to be loaded
-   * @param {unknown} data The data to be loaded
+   * @param {T} data The data to be loaded
    */
-  set(data: unknown): void {
+  set(data: T): void {
     this.mData = data;
   }
 
   /**
+   * @template T
    * @description Gets loaded data from the resource map
-   * @returns {unknown | null} loaded data if found
+   * @returns {T | null} loaded data if found
    */
-  data(): unknown | null {
+  data(): T | null {
     return this.mData;
   }
 
@@ -53,8 +58,8 @@ export class MapEntry {
   }
 }
 
-const mMap = new Map<string, MapEntry>();
-let mOutstandingPromises: Array<Promise<unknown>> = [];
+const mMap = new Map<string, MapEntry<any>>();
+let mOutstandingPromises: Array<Promise<void>> = [];
 
 /**
  *
@@ -67,10 +72,11 @@ export function has(path: string): boolean {
 
 /**
  *
+ * @template T
  * @param {string} path The resource file path
- * @returns {unknown | null} data if it exists in the map
+ * @returns {T | null} data if it exists in the map
  */
-export function get(path: string): unknown | null {
+export function get<T = any>(path: string): T | null {
   if (!has(path)) {
     throw new Error(`Error [${path}]: not loaded`);
   }
@@ -79,11 +85,11 @@ export function get(path: string): unknown | null {
 }
 
 /**
- *
+ * @template T
  * @param {string} key The key to put data in the map at the correct place
- * @param {unknown} value The data to be added
+ * @param {T} value The data to be added
  */
-export function set(key: string, value: unknown): void {
+export function set<T = any>(key: string, value: T): void {
   mMap.get(key)?.set(value);
 }
 
@@ -91,8 +97,8 @@ export function set(key: string, value: unknown): void {
  *
  * @param {string} path The resource file path
  */
-export function loadRequested(path: string): void {
-  mMap.set(path, new MapEntry(null));
+export function loadRequested<T = any>(path: string): void {
+  mMap.set(path, new MapEntry<T>(null));
 }
 
 /**
@@ -118,29 +124,32 @@ export function unload(path: string): boolean | undefined {
 }
 
 /**
- *
- * @param {Promise<unknown>} p The promise to add to the array
+ * @description Push outstanding promise into the array
+ * @param {Promise<void>} p The promise to add to the array
  */
-export function pushPromise(p: Promise<unknown>): void {
+export function pushPromise(p: Promise<void>): void {
   mOutstandingPromises.push(p);
 }
 
 /**
  * @typedef
+ * @template T
  * @callback DecodeResource
  * @param {Response} res
- * @returns {Promise<unknown>}
+ * @returns {Promise<T>}
  */
 
 /**
  * @typedef
+ * @template T
  * @callback ParseResource
- * @param {unknown} data
- * @returns {Promise<unknown>}
+ * @param {T} data
+ * @returns {T}
  */
 
 /**
  * @async
+ * @template T
  * @description Generic loading function
  * 1: Fetch from server
  * 2: decodeResource on the loaded package
@@ -149,14 +158,14 @@ export function pushPromise(p: Promise<unknown>): void {
  * @param {string} path The resource file path
  * @param {DecodeResource} decodeResource The callback to decode the resource
  * @param {ParseResource} parseResource The callback to parse the resource
- * @returns {Promise<unknown> | null} the promise stored if data has not already been loaded
+ * @returns {Promise<void>} the promise stored if data has not already been loaded
  */
-export function loadDecodeParse(
+export function loadDecodeParse<T = any>(
   path: string,
-  decodeResource: (res: Response) => Promise<unknown>,
-  parseResource: (data: unknown) => Promise<unknown>
-): Promise<unknown> | null {
-  let fetchPromise = null;
+  decodeResource: (res: Response) => Promise<T>,
+  parseResource: (data: T) => T
+): Promise<void> | undefined {
+  let fetchPromise: Promise<void> | undefined = undefined;
 
   if (!has(path)) {
     loadRequested(path);
@@ -171,7 +180,7 @@ export function loadDecodeParse(
         throw err;
       });
 
-    pushPromise(fetchPromise);
+    fetchPromise && pushPromise(fetchPromise);
   } else {
     incRef(path);
   }

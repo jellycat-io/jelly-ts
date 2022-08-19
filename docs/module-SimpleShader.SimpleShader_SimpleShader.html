@@ -5,7 +5,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> Engine</title>
+  <title> SimpleShader</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -77,8 +77,8 @@
         <div class="core" id="main-content-wrapper">
             <div class="content">
                 <header class="page-title">
-                    <p>Module</p>
-                    <h1>Engine</h1>
+                    <p>Class</p>
+                    <h1>SimpleShader</h1>
                 </header>
                 
 
@@ -89,6 +89,8 @@
 
 <header>
     
+        <h2><span class="attribs"><span class="type-signature"></span></span>
+            <span class="ancestors"><a href="module-SimpleShader.html">SimpleShader</a><a href="module-SimpleShader.SimpleShader.html">.SimpleShader</a>#</span>SimpleShader<span class="signature">(vertexSourceFile, fragmentSourceFile)</span><span class="type-signature"></span></h2>
         
     
 </header>
@@ -97,54 +99,28 @@
     <div class="container-overview">
     
         
-
-        
-    
-    </div>
-    
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <div class='vertical-section'>
-            <h1>Methods</h1>
-            <div class="members">
-            
-                <div class="member">
+            <div class='vertical-section'>
+                <div class="members">
+                    <div class="member">
+                        <div class=name>
+                            <span class="tag">Constructor</span>
+                        </div>
+                        
 
 
     
-    <h4 class="name" id=".clearCanvas">
-        <a class="href-link" href="#.clearCanvas">#</a>
-        
-            
-                <span class='tag'>static</span>
-            
+    <h4 class="name" id="SimpleShader">
+        <a class="href-link" href="#SimpleShader">#</a>
         
         <span class="code-name">
             
-                clearCanvas<span class="signature">(color)</span><span class="type-signature"></span>
+                new SimpleShader<span class="signature">(vertexSourceFile, fragmentSourceFile)</span><span class="type-signature"></span>
             
         </span>
     </h4>
     
 
     
-    
-    <div class="description">
-        Clears the canvas before next render
-    </div>
     
 
 
@@ -181,356 +157,7 @@
             
 <tr class="deep-level-0">
   
-      <td class="name"><code>color</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">GLColorTuple</code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">The canvas background color</td>
-</tr>
-
-
-        
-        </tbody>
-    </table>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="engine_index.ts.html" class="button">View Source</a>
-            <span>
-                <a href="engine_index.ts.html">engine/index.ts</a>, <a href="engine_index.ts.html#line29">line 29</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id=".getGL">
-        <a class="href-link" href="#.getGL">#</a>
-        
-            
-                <span class='tag'>static</span>
-            
-        
-        <span class="code-name">
-            
-                getGL<span class="signature">()</span><span class="type-signature"> &rarr; {WebGL2RenderingContext|null}</span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Gets the WebGL context
-    </div>
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="engine_index.ts.html" class="button">View Source</a>
-            <span>
-                <a href="engine_index.ts.html">engine/index.ts</a>, <a href="engine_index.ts.html#line38">line 38</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <div class='columns method-parameter'>
-        <div class="column is-2"><label>Returns:</label></div>
-        <div class="column is-10">
-            
-                    
-
-<div class="columns">
-    
-    <div class='param-desc column is-7'>the WebGL context</div>
-    
-    
-    <div class='column is-5 has-text-left'>
-        <label>Type: </label>
-        
-<code class="param-type">WebGL2RenderingContext</code>
-|
-
-<code class="param-type">null</code>
-
-
-    </div>
-    
-</div>
-
-                
-        </div>
-    </div>
-
-
-
-
-</div>
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id=".init">
-        <a class="href-link" href="#.init">#</a>
-        
-            
-                <span class='tag'>static</span>
-            
-        
-        <span class="code-name">
-            
-                init<span class="signature">(width, height, canvasID<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Initializes the engine
-    </div>
-    
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-<div class="table-container">
-    <table class="params table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-            <th>Attributes</th>
-            
-
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>width</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">number</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-
-      
-
-      
-      </td>
-  
-
-  
-
-  <td class="description last">The canvas width</td>
-</tr>
-
-
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>height</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">number</code>
-
-
-  
-  </td>
-
-  
-      <td class="attributes">
-      
-
-      
-
-      
-      </td>
-  
-
-  
-
-  <td class="description last">The canvas height</td>
-</tr>
-
-
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>canvasID</code></td>
+      <td class="name"><code>vertexSourceFile</code></td>
   
 
   <td class="type">
@@ -543,20 +170,35 @@
   </td>
 
   
-      <td class="attributes">
-      
-          &lt;optional><br>
-      
 
-      
+  
 
+  <td class="description last">The vertex shader file path</td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>fragmentSourceFile</code></td>
+  
+
+  <td class="type">
+  
       
-      </td>
+<code class="param-type">string</code>
+
+
+  
+  </td>
+
   
 
   
 
-  <td class="description last">The canvas tag ID</td>
+  <td class="description last">The fragment shader file path</td>
 </tr>
 
 
@@ -602,9 +244,9 @@
 
     
         <p class="tag-source">
-            <a href="engine_index.ts.html" class="button">View Source</a>
+            <a href="engine_simple-shader.ts.html" class="button">View Source</a>
             <span>
-                <a href="engine_index.ts.html">engine/index.ts</a>, <a href="engine_index.ts.html#line19">line 19</a>
+                <a href="engine_simple-shader.ts.html">engine/simple-shader.ts</a>, <a href="engine_simple-shader.ts.html#line124">line 124</a>
             </span>
         </p>
     
@@ -630,10 +272,28 @@
 
 
 
-</div>
-            
+
+                    </div>
+                </div>
             </div>
-        </div>
+        
+    
+    </div>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
     
 
     

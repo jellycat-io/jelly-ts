@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,7 +7,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> VertexBuffer</title>
+  <title> engine/resources/text.ts</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -77,315 +79,56 @@
         <div class="core" id="main-content-wrapper">
             <div class="content">
                 <header class="page-title">
-                    <p>Module</p>
-                    <h1>VertexBuffer</h1>
+                    <p>Source</p>
+                    <h1>engine/resources/text.ts</h1>
                 </header>
                 
 
 
 
-
-<section>
-
-<header>
-    
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-
-        
-    
-    </div>
-    
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <div class='vertical-section'>
-            <h1>Methods</h1>
-            <div class="members">
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id=".get">
-        <a class="href-link" href="#.get">#</a>
-        
-            
-                <span class='tag'>static</span>
-            
-        
-        <span class="code-name">
-            
-                get<span class="signature">()</span><span class="type-signature"> &rarr; {WebGLBuffer|null}</span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Gets the vertex buffer
-    </div>
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="engine_core_vertex-buffer.ts.html" class="button">View Source</a>
-            <span>
-                <a href="engine_core_vertex-buffer.ts.html">engine/core/vertex-buffer.ts</a>, <a href="engine_core_vertex-buffer.ts.html#line18">line 18</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <div class='columns method-parameter'>
-        <div class="column is-2"><label>Returns:</label></div>
-        <div class="column is-10">
-            
-                    
-
-<div class="columns">
-    
-    <div class='param-desc column is-7'>the vertex buffer</div>
-    
     
-    <div class='column is-5 has-text-left'>
-        <label>Type: </label>
-        
-<code class="param-type">WebGLBuffer</code>
-|
-
-<code class="param-type">null</code>
-
-
-    </div>
-    
-</div>
-
-                
-        </div>
-    </div>
-
-
-
-
-</div>
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id=".init">
-        <a class="href-link" href="#.init">#</a>
-        
-            
-                <span class='tag'>static</span>
-            
-        
-        <span class="code-name">
-            
-                init<span class="signature">()</span><span class="type-signature"> &rarr; {void}</span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Initializes the vertex buffer
-    </div>
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="engine_core_vertex-buffer.ts.html" class="button">View Source</a>
-            <span>
-                <a href="engine_core_vertex-buffer.ts.html">engine/core/vertex-buffer.ts</a>, <a href="engine_core_vertex-buffer.ts.html#line25">line 25</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <div class='columns method-parameter'>
-        <div class="column is-2"><label>Returns:</label></div>
-        <div class="column is-10">
-            
-                    
-
-<div class="columns">
-    
-    <div class='param-desc column is-7'>nothing</div>
-    
-    
-    <div class='column is-5 has-text-left'>
-        <label>Type: </label>
-        
-<code class="param-type">void</code>
-
-
-    </div>
-    
-</div>
-
-                
-        </div>
-    </div>
-
-
-
-
-</div>
-            
-            </div>
-        </div>
-    
-
-    
-
-    
-</article>
-
-</section>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import * as map from "../core/resource-map";
+
+/**
+ * @module TextResource
+ */
+
+// Resource map functions refs
+export const unload = map.unload;
+export const has = map.has;
+export const get = map.get;
+
+/**
+ * @description Decodes string from response
+ * @param {Response} data The fetch response to decode
+ * @returns {Promise&lt;string>} the decoded string
+ */
+function decodeText(data: Response): Promise&lt;string> {
+  return data.text();
+}
+
+/**
+ * @description Parses decoded string
+ * @param {string} text The string to parse
+ * @returns {Promise&lt;string>} the parsed string
+ */
+function parseText(text: string): string {
+  return text;
+}
+
+/**
+ *
+ * @param {string} path The resource file path
+ * @returns {Promise&lt;void>}
+ */
+export function load(path: string): Promise&lt;void> | undefined {
+  return map.loadDecodeParse&lt;string>(path, decodeText, parseText);
+}
+</code></pre>
+        </article>
+    </section>
 
 
 
