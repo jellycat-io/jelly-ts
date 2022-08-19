@@ -7,7 +7,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> engine/core/shader-resources.ts</title>
+  <title> engine/index.ts</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -80,7 +80,7 @@
             <div class="content">
                 <header class="page-title">
                     <p>Source</p>
-                    <h1>engine/core/shader-resources.ts</h1>
+                    <h1>engine/index.ts</h1>
                 </header>
                 
 
@@ -89,39 +89,51 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/**
- * @module ShaderResources
- */
-
-import SimpleShader from "../simple-shader";
-
-const kSimpleVS = "src/shaders/simple.vs.glsl";
-const kSimpleFS = "src/shaders/simple.fs.glsl";
-let mConstColorShader: SimpleShader | null = null;
+            <pre class="prettyprint source linenums"><code>import * as glSys from "./core/gl";
+import * as vertexBuffer from "./core/vertex-buffer";
+import * as shaderResources from "./core/shader-resources";
+import * as Input from "./input";
+import Renderable from "./renderable";
+import Transform from "./transform";
+import Camera from "./camera";
+import { GLColorTuple } from "../utils/palette";
 
 /**
- * @description Initializes shaders
- * @returns {void} nothing
+ * @module Engine
  */
-export function init() {
-  createShaders();
+
+/**
+ * @description Initializes the engine
+ * @param {number} width The canvas width
+ * @param {number} height The canvas height
+ * @param {string} [canvasID] The canvas tag ID
+ */
+export function init(width: number, height: number, canvasID?: string) {
+  glSys.init(width, height, canvasID);
+  vertexBuffer.init();
+  shaderResources.init();
+  Input.init();
 }
 
 /**
- * @description Gets the core shader
- * @returns {SimpleShader | null} the core shader
+ * @description Clears the canvas before next render
+ * @param {GLColorTuple} color The canvas background color
  */
-export function getConstColorShader(): SimpleShader | null {
-  return mConstColorShader;
+export function clearCanvas(color: GLColorTuple): void {
+  const gl = glSys.get();
+  gl?.clearColor(...color);
+  gl?.clear(gl.COLOR_BUFFER_BIT);
 }
 
 /**
- * @description Creates the core shader
- * @returns {void} nothing
+ * @description Gets the WebGL context
+ * @returns {WebGL2RenderingContext | null} the WebGL context
  */
-function createShaders(): void {
-  mConstColorShader = new SimpleShader(kSimpleVS, kSimpleFS);
+export function getGL(): WebGL2RenderingContext | null {
+  return glSys.get();
 }
+
+export { Renderable, Transform, Camera, Input };
 </code></pre>
         </article>
     </section>

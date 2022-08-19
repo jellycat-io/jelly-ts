@@ -7,22 +7,39 @@ import Transform from "./transform";
 import Camera from "./camera";
 import { GLColorTuple } from "../utils/palette";
 
-// General engine utils
-function init(width: number, height: number, canvasID?: string) {
+/**
+ * @module Engine
+ */
+
+/**
+ * @description Initializes the engine
+ * @param {number} width The canvas width
+ * @param {number} height The canvas height
+ * @param {string} [canvasID] The canvas tag ID
+ */
+export function init(width: number, height: number, canvasID?: string) {
   glSys.init(width, height, canvasID);
   vertexBuffer.init();
   shaderResources.init();
   Input.init();
 }
 
-function clearCanvas(color: GLColorTuple): void {
+/**
+ * @description Clears the canvas before next render
+ * @param {GLColorTuple} color The canvas background color
+ */
+export function clearCanvas(color: GLColorTuple): void {
   const gl = glSys.get();
   gl?.clearColor(...color);
   gl?.clear(gl.COLOR_BUFFER_BIT);
 }
 
-function getGL(): WebGL2RenderingContext | null {
+/**
+ * @description Gets the WebGL context
+ * @returns {WebGL2RenderingContext | null} the WebGL context
+ */
+export function getGL(): WebGL2RenderingContext | null {
   return glSys.get();
 }
 
-export { Renderable, Transform, Camera, Input, init, clearCanvas, getGL };
+export { Renderable, Transform, Camera, Input };

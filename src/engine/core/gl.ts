@@ -15,7 +15,7 @@ export function get(): WebGL2RenderingContext | null {
 
 /**
  *
- * @param {number} width The canvas width
+ * @param {number} width The canvas width
  * @param {number} height The canvas height
  * @param {string} [canvasID] The canvas tag id
  */

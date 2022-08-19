@@ -72,7 +72,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-GameLoop.html">GameLoop</a></li><li><a href="module-GL.html">GL</a></li><li><a href="module-ResourceMap.html">ResourceMap</a></li><li><a href="module-ShaderResources.html">ShaderResources</a></li><li><a href="module-VertexBuffer.html">VertexBuffer</a></li></ul><h3>Classes</h3><ul><li><a href="module-ResourceMap.MapEntry.html">MapEntry</a></li><li><a href="module-ResourceMap.MapEntry_MapEntry.html">MapEntry</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Color">Color</a></li><li><a href="global.html#DecodeResource">DecodeResource</a></li><li><a href="global.html#Palette">Palette</a></li><li><a href="global.html#rgbaToGL">rgbaToGL</a></li></ul></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-Engine.html">Engine</a></li><li><a href="module-GameLoop.html">GameLoop</a></li><li><a href="module-GL.html">GL</a></li><li><a href="module-ResourceMap.html">ResourceMap</a></li><li><a href="module-ShaderResources.html">ShaderResources</a></li><li><a href="module-VertexBuffer.html">VertexBuffer</a></li></ul><h3>Classes</h3><ul><li><a href="module-ResourceMap.MapEntry.html">MapEntry</a></li><li><a href="module-ResourceMap.MapEntry_MapEntry.html">MapEntry</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Color">Color</a></li><li><a href="global.html#DecodeResource">DecodeResource</a></li><li><a href="global.html#Engine">Engine</a></li><li><a href="global.html#Palette">Palette</a></li><li><a href="global.html#rgbaToGL">rgbaToGL</a></li></ul></div>
                 
             </nav>
         </div>
@@ -145,14 +145,14 @@ export class MapEntry {
 }
 
 const mMap = new Map&lt;string, MapEntry>();
-const mOutstandingPromises: Array&lt;Promise&lt;unknown>> = [];
+let mOutstandingPromises: Array&lt;Promise&lt;unknown>> = [];
 
 /**
  *
  * @param {string} path The resource file path
  * @returns {boolean} true if data exists in the map
  */
-function has(path: string): boolean {
+export function has(path: string): boolean {
   return mMap.has(path);
 }
 
@@ -161,7 +161,7 @@ function has(path: string): boolean {
  * @param {string} path The resource file path
  * @returns {unknown | null} data if it exists in the map
  */
-function get(path: string): unknown | null {
+export function get(path: string): unknown | null {
   if (!has(path)) {
     throw new Error(`Error [${path}]: not loaded`);
   }
@@ -174,7 +174,7 @@ function get(path: string): unknown | null {
  * @param {string} key The key to put data in the map at the correct place
  * @param {unknown} value The data to be added
  */
-function set(key: string, value: unknown): void {
+export function set(key: string, value: unknown): void {
   mMap.get(key)?.set(value);
 }
 
@@ -182,7 +182,7 @@ function set(key: string, value: unknown): void {
  *
  * @param {string} path The resource file path
  */
-function loadRequested(path: string): void {
+export function loadRequested(path: string): void {
   mMap.set(path, new MapEntry(null));
 }
 
@@ -190,7 +190,7 @@ function loadRequested(path: string): void {
  *
  * @param {string} path The resource file path
  */
-function incRef(path: string): void {
+export function incRef(path: string): void {
   mMap.get(path)?.incRef();
 }
 
@@ -199,7 +199,7 @@ function incRef(path: string): void {
  * @param {string} path The resource file path
  * @returns {boolean | undefined} true if resource can be removed from the map
  */
-function unload(path: string): boolean | undefined {
+export function unload(path: string): boolean | undefined {
   const entry = mMap.get(path);
   entry?.decRef();
 
@@ -212,7 +212,7 @@ function unload(path: string): boolean | undefined {
  *
  * @param {Promise&lt;unknown>} p The promise to add to the array
  */
-function pushPromise(p: Promise&lt;unknown>): void {
+export function pushPromise(p: Promise&lt;unknown>): void {
   mOutstandingPromises.push(p);
 }
 
@@ -242,7 +242,7 @@ function pushPromise(p: Promise&lt;unknown>): void {
  * @param {ParseResource} parseResource The callback to parse the resource
  * @returns {Promise&lt;unknown> | null} the promise stored if data has not already been loaded
  */
-function loadDecodeParse(
+export function loadDecodeParse(
   path: string,
   decodeResource: (res: Response) => Promise&lt;unknown>,
   parseResource: (data: unknown) => Promise&lt;unknown>
@@ -268,6 +268,16 @@ function loadDecodeParse(
   }
 
   return fetchPromise;
+}
+
+/**
+ * @async
+ * @description Waits for all promises to complete
+ * @returns {Promise&lt;void>}
+ */
+export async function waitOnPromises(): Promise&lt;void> {
+  await Promise.all(mOutstandingPromises);
+  mOutstandingPromises = [];
 }
 </code></pre>
         </article>
