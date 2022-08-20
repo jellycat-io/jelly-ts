@@ -8,6 +8,7 @@ import Transform from "./transform";
 /**
  * @class
  * @classdesc A drawable entity
+ * @typedef {Float32Array | number[]} Float32List
  */
 class Renderable {
   /**

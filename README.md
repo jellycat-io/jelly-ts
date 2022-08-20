@@ -31,4 +31,10 @@ yarn docs:watch
 - [X] Game loop
 - [X] Keyboard input
 - [X] Asynchronous resource loading
-- [ ] Load scene from XML file
+- [X] XML Scene definition
+- [X] Scene management
+- [ ] Audio
+- [ ] Textures
+- [ ] Sprites
+- [ ] Fonts
+- [ ] GameObjects

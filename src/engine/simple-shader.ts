@@ -5,6 +5,7 @@ import * as TextResource from "./resources/text";
 
 /**
  * @module SimpleShader
+ * @typedef {Float32Array | number[]} Float32List
  */
 
 /**

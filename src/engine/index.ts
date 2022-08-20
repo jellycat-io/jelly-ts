@@ -13,6 +13,7 @@ import { Palette, Color } from "./utils/palette";
 
 /**
  * @module Engine
+ * @typedef {Float32Array | number[]} Float32List
  */
 
 /**
