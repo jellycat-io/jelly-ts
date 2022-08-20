@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,7 +7,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> SimpleShader</title>
+  <title> camera.ts</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -77,272 +79,204 @@
         <div class="core" id="main-content-wrapper">
             <div class="content">
                 <header class="page-title">
-                    <p>Module</p>
-                    <h1>SimpleShader</h1>
+                    <p>Source</p>
+                    <h1>camera.ts</h1>
                 </header>
                 
 
 
 
-
-<section>
-
-<header>
     
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-
-        
-    
-    </div>
-    
-    
-
-    
-
-    
-        <h3 class="subsection-title">Classes</h3>
-
-        <dl>
-            <dt><a href="module-SimpleShader.SimpleShader.html">SimpleShader</a></dt>
-            <dd></dd>
-        </dl>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <div class='vertical-section'>
-            <h1>Methods</h1>
-            <div class="members">
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id="~compileShader">
-        <a class="href-link" href="#~compileShader">#</a>
-        
-            
-                <span class='tag'>inner</span>
-            
-        
-        <span class="code-name">
-            
-                compileShader<span class="signature">(filePath, shaderType)</span><span class="type-signature"> &rarr; {WebGLShader|null}</span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Compiles the shader
-    </div>
-    
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-<div class="table-container">
-    <table class="params table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>filePath</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">string</code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">The shader file path</td>
-</tr>
-
-
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>shaderType</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">number</code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">The shader type</td>
-</tr>
-
-
-        
-        </tbody>
-    </table>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="simple-shader.ts.html" class="button">View Source</a>
-            <span>
-                <a href="simple-shader.ts.html">simple-shader.ts</a>, <a href="simple-shader.ts.html#line134">line 134</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <div class='columns method-parameter'>
-        <div class="column is-2"><label>Returns:</label></div>
-        <div class="column is-10">
-            
-                    
-
-<div class="columns">
-    
-    <div class='param-desc column is-7'>the compiled shader</div>
-    
-    
-    <div class='column is-5 has-text-left'>
-        <label>Type: </label>
-        
-<code class="param-type">WebGLShader</code>
-|
-
-<code class="param-type">null</code>
-
-
-    </div>
-    
-</div>
-
-                
-        </div>
-    </div>
-
-
-
-
-</div>
-            
-            </div>
-        </div>
-    
-
-    
-
-    
-</article>
-
-</section>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { mat4, vec2, vec3 } from "gl-matrix";
+import * as glSys from "./core/gl";
+import { Color, Palette } from "./utils/palette";
+import { VIEWPORT } from "./utils/common";
+
+/**
+ * @class
+ * @classdesc The game camera
+ * @typedef {Float32Array | number[]} Float32List
+ */
+class Camera {
+  /**
+   * @private
+   * @type {vec2}
+   */
+  mWCCenter: vec2;
+  /**
+   * @private
+   * @type {number}
+   */
+  mWCWidth: number;
+  /**
+   * @private
+   * @type {Float32List}
+   */
+  mViewport: Float32List;
+  /**
+   * @private
+   * @type {mat4}
+   */
+  mCameraMatrix: mat4;
+  /**
+   * @private
+   * @type {Float32List}
+   */
+  mBGColor: Float32List;
+
+  /**
+   * @param {vec2} wcCenter The camera center position
+   * @param {number} wcWidth The camera width
+   * @param {Float32List} viewportArray The viewport size and position on the canvas
+   * @param {Float32List} bgColor The camera background color
+   */
+  constructor(
+    wcCenter: vec2,
+    wcWidth: number,
+    viewportArray: Float32List,
+    bgColor?: Float32List
+  ) {
+    this.mWCCenter = wcCenter;
+    this.mWCWidth = wcWidth;
+    this.mViewport = viewportArray; // [x,y,w,h]
+
+    // Camera transform operator
+    this.mCameraMatrix = mat4.create();
+
+    // Set background color
+    this.mBGColor = bgColor ?? Palette[Color.White];
+  }
+
+  /**
+   * @description Sets the camera center position
+   * @param {number} x The new x position of the camera center
+   * @param {number} y The new y position of the camera center
+   */
+  setWCCenter(x: number, y: number): void {
+    this.mWCCenter[0] = x;
+    this.mWCCenter[1] = y;
+  }
+  /**
+   * @description Gets the camera center position
+   * @returns {vec2} the camera center position
+   */
+  getWCCenter(): vec2 {
+    return this.mWCCenter;
+  }
+  /**
+   * @description Sets the camera width
+   * @param {number} w The new camera width
+   */
+  setWCWidth(w: number): void {
+    this.mWCWidth = w;
+  }
+  /**
+   * @description Gets the camera width
+   * @returns {number} the camera width
+   */
+  getWCWidth(): number {
+    return this.mWCWidth;
+  }
+
+  /**
+   * @description Computes and gets camera height based on h/w ratio
+   * @returns {number} the camera height
+   */
+  getWCHeight(): number {
+    const ratio =
+      this.mViewport[VIEWPORT.HEIGHT] / this.mViewport[VIEWPORT.WIDTH];
+
+    return this.getWCWidth() * ratio;
+  }
+
+  /**
+   * @description Sets the viewport size and position
+   * @param {Float32List} viewportArray The new viewport size and position
+   */
+  setViewport(viewportArray: Float32List): void {
+    this.mViewport = viewportArray;
+  }
+  /**
+   * @description Gets viewport size and position
+   * @returns {Float32Array | number} the viewport size and position
+   */
+  getViewport(): Float32List {
+    return this.mViewport;
+  }
+
+  /**
+   * @description Sets the camera background color
+   * @param {Float32List} c The new camera background color
+   */
+  setBackgroundColor(c: Float32List): void {
+    this.mBGColor = c;
+  }
+  /**
+   * @description Gets the camera background color
+   * @returns {Float32List} the camera background color
+   */
+  getBackgroundColor(): Float32List {
+    return this.mBGColor;
+  }
+
+  /**
+   * @description Gets the camera matrix
+   * @returns {mat4} the camera matrix
+   */
+  getCameraMatrix(): mat4 {
+    return this.mCameraMatrix;
+  }
+
+  /**
+   * @description Initializes the camera to begin drawing
+   */
+  setViewAndCameraMatrix(): void {
+    const gl = glSys.get();
+    const [vx, vy, vw, vh] = this.getViewport();
+
+    // Configure the viewport
+    gl?.viewport(
+      vx, // x of bottom-left corner of area to be drawn
+      vy, // y of bottom-left corner of area to be drawn
+      vw, // width of area to be drawn
+      vh // height of area to be drawn
+    );
+
+    // Set up corresponding scissor to limit the clear area
+    gl?.scissor(vx, vy, vw, vh);
+
+    // Set the color to be cleared
+    const [r, g, b, a] = this.getBackgroundColor();
+    gl?.clearColor(r, g, b, a);
+
+    // Enable scissor area, clear and disable scissor area to save performance
+    gl?.enable(gl.SCISSOR_TEST);
+    gl?.clear(gl.COLOR_BUFFER_BIT);
+    gl?.disable(gl.SCISSOR_TEST);
+
+    // Compute camera matrix
+    const center = this.getWCCenter();
+
+    // After translation, scale to -1 to 1: 2x2 square at origin
+    mat4.scale(
+      this.getCameraMatrix(),
+      mat4.create(),
+      vec3.fromValues(2.0 / this.getWCWidth(), 2.0 / this.getWCHeight(), 1.0)
+    );
+    mat4.translate(
+      this.getCameraMatrix(),
+      this.getCameraMatrix(),
+      vec3.fromValues(-center[0], -center[1], 0)
+    );
+  }
+}
+
+export default Camera;
+</code></pre>
+        </article>
+    </section>
 
 
 

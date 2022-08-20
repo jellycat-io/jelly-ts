@@ -1,38 +1,39 @@
+import { vec2 } from "gl-matrix";
 import * as Engine from "../engine";
-import * as loop from "../engine/core/loop";
-import Scene from "../engine/scene";
-import { Color, Palette } from "../utils/palette";
-import SceneFileParser from "./util";
+import BlueLevel from "./blue-scene";
 
-class Game extends Scene {
-  mSceneFile: string;
-  mSqSet: Array<Engine.Renderable>;
-  mCamera!: Engine.Camera;
+class Game extends Engine.Scene {
+  mPlayer: Engine.Renderable | null;
+  mSupport: Engine.Renderable | null;
+  mCamera: Engine.Camera | null;
 
   constructor() {
     super();
-    this.mSceneFile = "src/assets/scene.xml";
-    this.mSqSet = [];
-  }
 
-  load(): void {
-    Engine.XMLResource.load(this.mSceneFile);
-  }
-
-  unload(): void {
-    Engine.XMLResource.unload(this.mSceneFile);
+    this.mCamera = null;
+    this.mPlayer = null;
+    this.mSupport = null;
   }
 
   init(): void {
-    const sceneFile = Engine.XMLResource.get(this.mSceneFile);
-    const sceneParser = new SceneFileParser(sceneFile);
+    this.mCamera = new Engine.Camera(
+      vec2.fromValues(20, 60),
+      20,
+      [0, 0, 640, 480]
+    );
 
-    this.mCamera = sceneParser.parseCamera();
-    sceneParser.parseSquares(this.mSqSet);
+    this.mSupport = new Engine.Renderable();
+    this.mSupport.setColor(Engine.Palette[Engine.Color.Red]);
+    this.mSupport.getTransform().setPosition(20, 60);
+    this.mSupport.getTransform().setScale(5, 5); // Step C: Create the hero object in blue
+    this.mPlayer = new Engine.Renderable();
+    this.mPlayer.setColor(Engine.Palette[Engine.Color.Blue]);
+    this.mPlayer.getTransform().setPosition(20, 60);
+    this.mPlayer.getTransform().setScale(2, 3);
   }
 
   draw(): void {
-    Engine.clearCanvas(Palette[Color.Black]);
+    Engine.clearCanvas(Engine.Palette[Engine.Color.Black]);
 
     if (!this.mCamera) {
       throw new Error("Error: No viewport found");
@@ -41,36 +42,42 @@ class Game extends Scene {
     // Start drawing by activating the camera
     this.mCamera?.setViewAndCameraMatrix();
 
-    // Draw squares
-    this.mSqSet.forEach((sq) => sq.draw(this.mCamera));
+    // Draw entities
+    this.mSupport?.draw(this.mCamera);
+    this.mPlayer?.draw(this.mCamera);
   }
 
-  update() {
-    const blueTransform = this.mSqSet[0].getTransform();
+  update(): void {
     const deltaX = 0.05;
+    const player = this.mPlayer?.getTransform();
 
-    // Move blue square
-    if (Engine.Input.isKeyPressed(Engine.Input.KEYS.ARROW_RIGHT)) {
-      if (blueTransform.getXPos() > 30) blueTransform.setPosition(10, 60);
-      blueTransform.translateX(deltaX);
+    // Move player
+    if (player) {
+      if (Engine.Input.isKeyPressed(Engine.Input.KEYS.ARROW_RIGHT)) {
+        player.translateX(deltaX);
+        if (player.getXPos() > 30) player.setPosition(12, 60);
+      }
+      if (Engine.Input.isKeyPressed(Engine.Input.KEYS.ARROW_LEFT)) {
+        player.translateX(-deltaX);
+        if (player.getXPos() < 11) this.next();
+      }
     }
 
-    if (Engine.Input.isKeyClicked(Engine.Input.KEYS.ARROW_UP)) {
-      blueTransform.rotateDeg(1);
+    if (Engine.Input.isKeyPressed(Engine.Input.KEYS.KEY_Q)) {
+      this.stop();
     }
+  }
 
-    // pulse red square
-    const redTransform = this.mSqSet[1].getTransform();
+  next(): void {
+    super.next();
 
-    if (Engine.Input.isKeyPressed(Engine.Input.KEYS.ARROW_DOWN)) {
-      if (redTransform.getWidth() > 5) redTransform.setScale(2, 2);
-      redTransform.scale(0.05);
-    }
+    const nextLevel = new BlueLevel();
+    nextLevel.start();
   }
 }
 
 window.onload = () => {
   Engine.init(640, 480, "GLCanvas");
   const game = new Game();
-  loop.start(game);
+  game.start();
 };

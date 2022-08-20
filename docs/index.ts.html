@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,7 +7,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> SimpleShader</title>
+  <title> index.ts</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -77,272 +79,90 @@
         <div class="core" id="main-content-wrapper">
             <div class="content">
                 <header class="page-title">
-                    <p>Module</p>
-                    <h1>SimpleShader</h1>
+                    <p>Source</p>
+                    <h1>index.ts</h1>
                 </header>
                 
 
 
 
-
-<section>
-
-<header>
     
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-
-        
-    
-    </div>
-    
-    
-
-    
-
-    
-        <h3 class="subsection-title">Classes</h3>
-
-        <dl>
-            <dt><a href="module-SimpleShader.SimpleShader.html">SimpleShader</a></dt>
-            <dd></dd>
-        </dl>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <div class='vertical-section'>
-            <h1>Methods</h1>
-            <div class="members">
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id="~compileShader">
-        <a class="href-link" href="#~compileShader">#</a>
-        
-            
-                <span class='tag'>inner</span>
-            
-        
-        <span class="code-name">
-            
-                compileShader<span class="signature">(filePath, shaderType)</span><span class="type-signature"> &rarr; {WebGLShader|null}</span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Compiles the shader
-    </div>
-    
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-<div class="table-container">
-    <table class="params table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>filePath</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">string</code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">The shader file path</td>
-</tr>
-
-
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>shaderType</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">number</code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">The shader type</td>
-</tr>
-
-
-        
-        </tbody>
-    </table>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="simple-shader.ts.html" class="button">View Source</a>
-            <span>
-                <a href="simple-shader.ts.html">simple-shader.ts</a>, <a href="simple-shader.ts.html#line134">line 134</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <div class='columns method-parameter'>
-        <div class="column is-2"><label>Returns:</label></div>
-        <div class="column is-10">
-            
-                    
-
-<div class="columns">
-    
-    <div class='param-desc column is-7'>the compiled shader</div>
-    
-    
-    <div class='column is-5 has-text-left'>
-        <label>Type: </label>
-        
-<code class="param-type">WebGLShader</code>
-|
-
-<code class="param-type">null</code>
-
-
-    </div>
-    
-</div>
-
-                
-        </div>
-    </div>
-
-
-
-
-</div>
-            
-            </div>
-        </div>
-    
-
-    
-
-    
-</article>
-
-</section>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import * as glSys from "./core/gl";
+import * as vertexBuffer from "./core/vertex-buffer";
+import * as shaderResources from "./core/shader-resources";
+import * as loop from "./core/loop";
+import * as Input from "./input";
+import * as TextResource from "./resources/text";
+import * as XMLResource from "./resources/xml";
+import Renderable from "./renderable";
+import Transform from "./transform";
+import Camera from "./camera";
+import Scene from "./scene";
+import { Palette, Color } from "./utils/palette";
+
+/**
+ * @module Engine
+ */
+
+/**
+ * @description Initializes the engine
+ * @param {number} width The canvas width
+ * @param {number} height The canvas height
+ * @param {string} [canvasID] The canvas tag ID
+ */
+export function init(width: number, height: number, canvasID?: string) {
+  glSys.init(width, height, canvasID);
+  vertexBuffer.init();
+  shaderResources.init();
+  Input.init();
+}
+
+/**
+ * @description Clears the canvas before next render
+ * @param {Float32List} color The canvas background color
+ */
+export function clearCanvas(color: Float32List): void {
+  const gl = glSys.get();
+  const [r, g, b, a] = color;
+  gl?.clearColor(r, g, b, a);
+  gl?.clear(gl.COLOR_BUFFER_BIT);
+}
+
+/**
+ * @description Gets the WebGL context
+ * @returns {WebGL2RenderingContext | null} the WebGL context
+ */
+export function getGL(): WebGL2RenderingContext | null {
+  return glSys.get();
+}
+
+/**
+ * @description Cleans up the core engine
+ */
+export function cleanUp(): void {
+  loop.cleanUp();
+  Input.cleanUp();
+  shaderResources.cleanUp();
+  vertexBuffer.cleanUp();
+  glSys.cleanUp();
+}
+
+export {
+  Renderable,
+  Transform,
+  Camera,
+  Scene,
+  Input,
+  TextResource,
+  XMLResource,
+  Palette,
+  Color,
+};
+</code></pre>
+        </article>
+    </section>
 
 
 

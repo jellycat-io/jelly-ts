@@ -1,6 +1,5 @@
 import { vec2 } from "gl-matrix";
 import * as Engine from "../engine";
-import { Color, GLColorTuple, Palette } from "../utils/palette";
 
 class SceneFileParser {
   xml: XMLDocument;
@@ -69,16 +68,19 @@ function getElm(
 }
 
 /**
- * @description Parses color from XML into a {@link GLColorTuple}.
+ * @typedef {Float32Array | number[]} Float32List
+ * @description Parses color from XML into a Float32List.
  * Allows to write color in XML as r,g,b,a or as a palette enum key
  * @param {Array<string>} unparsedColor the color string splitted into an array
- * @returns {GLColorTuple} the parsed background color
+ * @returns {Float32List} the parsed background color
  */
-function parseColor(unparsedColor: string[] | undefined): GLColorTuple {
+function parseColor(unparsedColor: string[] | undefined): Float32List {
   if (unparsedColor?.length === 1) {
-    return Palette[Color[unparsedColor[0] as keyof typeof Color]];
+    return Engine.Palette[
+      Engine.Color[unparsedColor[0] as keyof typeof Engine.Color]
+    ];
   }
-  return unparsedColor?.map((n) => Number(n)) as GLColorTuple;
+  return unparsedColor?.map((n) => Number(n)) as Float32List;
 }
 
 export default SceneFileParser;

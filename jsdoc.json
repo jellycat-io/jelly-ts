@@ -7,8 +7,7 @@
   },
   "source": {
     "include": [
-      "src/engine",
-      "src/utils"
+      "src/engine"
     ],
     "includePattern": "\\.(jsx|js|ts|tsx)$",
     "excludePattern": "(^|\\/|\\\\)_"

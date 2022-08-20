@@ -9,7 +9,7 @@ import Renderable from "./renderable";
 import Transform from "./transform";
 import Camera from "./camera";
 import Scene from "./scene";
-import { GLColorTuple } from "../utils/palette";
+import { Palette, Color } from "./utils/palette";
 
 /**
  * @module Engine
@@ -30,11 +30,12 @@ export function init(width: number, height: number, canvasID?: string) {
 
 /**
  * @description Clears the canvas before next render
- * @param {GLColorTuple} color The canvas background color
+ * @param {Float32List} color The canvas background color
  */
-export function clearCanvas(color: GLColorTuple): void {
+export function clearCanvas(color: Float32List): void {
   const gl = glSys.get();
-  gl?.clearColor(...color);
+  const [r, g, b, a] = color;
+  gl?.clearColor(r, g, b, a);
   gl?.clear(gl.COLOR_BUFFER_BIT);
 }
 
@@ -65,4 +66,6 @@ export {
   Input,
   TextResource,
   XMLResource,
+  Palette,
+  Color,
 };

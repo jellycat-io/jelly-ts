@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,7 +7,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> SimpleShader</title>
+  <title> core/loop.ts</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -77,272 +79,119 @@
         <div class="core" id="main-content-wrapper">
             <div class="content">
                 <header class="page-title">
-                    <p>Module</p>
-                    <h1>SimpleShader</h1>
+                    <p>Source</p>
+                    <h1>core/loop.ts</h1>
                 </header>
                 
 
 
 
-
-<section>
-
-<header>
     
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-
-        
-    
-    </div>
-    
-    
-
-    
-
-    
-        <h3 class="subsection-title">Classes</h3>
-
-        <dl>
-            <dt><a href="module-SimpleShader.SimpleShader.html">SimpleShader</a></dt>
-            <dd></dd>
-        </dl>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <div class='vertical-section'>
-            <h1>Methods</h1>
-            <div class="members">
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id="~compileShader">
-        <a class="href-link" href="#~compileShader">#</a>
-        
-            
-                <span class='tag'>inner</span>
-            
-        
-        <span class="code-name">
-            
-                compileShader<span class="signature">(filePath, shaderType)</span><span class="type-signature"> &rarr; {WebGLShader|null}</span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Compiles the shader
-    </div>
-    
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-<div class="table-container">
-    <table class="params table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>filePath</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">string</code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">The shader file path</td>
-</tr>
-
-
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>shaderType</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">number</code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">The shader type</td>
-</tr>
-
-
-        
-        </tbody>
-    </table>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="simple-shader.ts.html" class="button">View Source</a>
-            <span>
-                <a href="simple-shader.ts.html">simple-shader.ts</a>, <a href="simple-shader.ts.html#line134">line 134</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <div class='columns method-parameter'>
-        <div class="column is-2"><label>Returns:</label></div>
-        <div class="column is-10">
-            
-                    
-
-<div class="columns">
-    
-    <div class='param-desc column is-7'>the compiled shader</div>
-    
-    
-    <div class='column is-5 has-text-left'>
-        <label>Type: </label>
-        
-<code class="param-type">WebGLShader</code>
-|
-
-<code class="param-type">null</code>
-
-
-    </div>
-    
-</div>
-
-                
-        </div>
-    </div>
-
-
-
-
-</div>
-            
-            </div>
-        </div>
-    
-
-    
-
-    
-</article>
-
-</section>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import Scene from "../scene";
+import * as input from "../input";
+import * as ResourceMap from "./resource-map";
+
+/**
+ * @module GameLoop
+ */
+
+/**
+ * @constant
+ */
+const kUPS = 60; // Updates per second
+/**
+ * @constant
+ */
+const kMPF = 1000 / kUPS; // Milliseconds per update
+
+// Variables for timing game loop
+let mPrevTime: number;
+let mLagTime: number;
+
+// The current loop state
+let mLoopRunning = false;
+let mCurrentScene: Scene | null;
+let mFrameID = -1;
+
+/**
+ * @function
+ * @description Loops every frame
+ */
+function loopOnce(): void {
+  if (mLoopRunning) {
+    // Set up for next call to loopOnce
+    mFrameID = requestAnimationFrame(loopOnce);
+
+    mCurrentScene?.draw(); // MUST be called before update() as update() may stop the loop
+
+    // Compute time elapsed since last loopOnce was executed
+    const currentTime = performance.now();
+    const elapsedTime = currentTime - mPrevTime;
+
+    mPrevTime = currentTime;
+    mLagTime += elapsedTime;
+
+    // Update the game the appropriate amount of times
+    // Update only every kMPF (1/60 of a second)
+    // If lag larger than update frames, update until caught up
+    while (mLagTime >= kMPF &amp;&amp; mLoopRunning) {
+      input.update();
+      mCurrentScene?.update();
+      mLagTime -= kMPF;
+    }
+  }
+}
+
+/**
+ * @async
+ * @description Starts the game loop
+ * @param {Scene} scene The starting scene of the game
+ * @returns {Promise&lt;void>}
+ */
+export async function start(scene: Scene): Promise&lt;void> {
+  if (mLoopRunning) {
+    throw new Error("Game loop already running");
+  }
+
+  mCurrentScene = scene;
+  mCurrentScene.load();
+
+  // Wait for any async request before game loading
+  await ResourceMap.waitOnPromises();
+
+  mCurrentScene.init();
+
+  mPrevTime = performance.now();
+  mLagTime = 0.0;
+  mLoopRunning = true;
+  mFrameID = requestAnimationFrame(loopOnce);
+}
+
+/**
+ * @description Stops the game loop
+ */
+export function stop(): void {
+  mLoopRunning = false;
+  // Make sure no more animation frames
+  cancelAnimationFrame(mFrameID);
+}
+
+/**
+ * @description Cleans up the loop
+ */
+export function cleanUp(): void {
+  if (mLoopRunning) {
+    stop();
+    // Unload all resources
+    mCurrentScene?.unload();
+    mCurrentScene = null;
+  }
+}
+</code></pre>
+        </article>
+    </section>
 
 
 

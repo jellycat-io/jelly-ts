@@ -1,17 +1,7 @@
 /**
  * @module Palette
- * @typedef {[number, number, number, number]} RGBATuple
+ * @typedef {Float32Array | number[]} Float32List
  */
-
-/**
- * @typedef {[number, number, number, number]} GLColorTuple
- */
-export type RGBATuple = [number, number, number, number];
-
-/**
- * @typedef {[number, number, number, number]} GLColorTuple
- */
-export type GLColorTuple = [number, number, number, number];
 
 /**
  * @description Enum listing palette's colors names
@@ -54,9 +44,9 @@ export enum Color {
 
 /**
  * @description Table containing palette's colors rgba values
- * @type {Array<RGBATuple>}
+ * @type {Array<Float32List>}
  */
-export const Palette: Array<RGBATuple> = [
+export const Palette: Array<Float32List> = [
   rgbaToGL([0, 0, 0, 255]), // #000000
   rgbaToGL([29, 43, 83, 255]), // #1D2B53
   rgbaToGL([126, 37, 83, 255]), // #7E2553
@@ -93,9 +83,9 @@ export const Palette: Array<RGBATuple> = [
 
 /**
  * @description Converts RGBA values to WebGL values
- * @param {RGBATuple} color The RGBA values to convert
- * @returns {GLColorTuple} the converted color
+ * @param {Float32List} color The RGBA values to convert
+ * @returns {Float32List} the converted color
  */
-export function rgbaToGL(color: [number, number, number, number]): RGBATuple {
-  return color.map((c) => (c > 0 ? c / 255 : 0)) as RGBATuple;
+export function rgbaToGL(color: [number, number, number, number]): Float32List {
+  return color.map((c) => (c > 0 ? c / 255 : 0)) as Float32List;
 }

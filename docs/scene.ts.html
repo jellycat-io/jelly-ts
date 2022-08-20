@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,7 +7,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> SimpleShader</title>
+  <title> scene.ts</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -77,272 +79,100 @@
         <div class="core" id="main-content-wrapper">
             <div class="content">
                 <header class="page-title">
-                    <p>Module</p>
-                    <h1>SimpleShader</h1>
+                    <p>Source</p>
+                    <h1>scene.ts</h1>
                 </header>
                 
 
 
 
-
-<section>
-
-<header>
     
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-
-        
-    
-    </div>
-    
-    
-
-    
-
-    
-        <h3 class="subsection-title">Classes</h3>
-
-        <dl>
-            <dt><a href="module-SimpleShader.SimpleShader.html">SimpleShader</a></dt>
-            <dd></dd>
-        </dl>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <div class='vertical-section'>
-            <h1>Methods</h1>
-            <div class="members">
-            
-                <div class="member">
-
-
-    
-    <h4 class="name" id="~compileShader">
-        <a class="href-link" href="#~compileShader">#</a>
-        
-            
-                <span class='tag'>inner</span>
-            
-        
-        <span class="code-name">
-            
-                compileShader<span class="signature">(filePath, shaderType)</span><span class="type-signature"> &rarr; {WebGLShader|null}</span>
-            
-        </span>
-    </h4>
-    
-
-    
-    
-    <div class="description">
-        Compiles the shader
-    </div>
-    
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-<div class="table-container">
-    <table class="params table">
-        <thead>
-        <tr>
-            
-            <th>Name</th>
-            
-
-            <th>Type</th>
-
-            
-
-            
-
-            <th class="last">Description</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>filePath</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">string</code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">The shader file path</td>
-</tr>
-
-
-        
-
-            
-<tr class="deep-level-0">
-  
-      <td class="name"><code>shaderType</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">number</code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">The shader type</td>
-</tr>
-
-
-        
-        </tbody>
-    </table>
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-
-    
-
-    
-
-    
-        <p class="tag-source">
-            <a href="simple-shader.ts.html" class="button">View Source</a>
-            <span>
-                <a href="simple-shader.ts.html">simple-shader.ts</a>, <a href="simple-shader.ts.html#line134">line 134</a>
-            </span>
-        </p>
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <div class='columns method-parameter'>
-        <div class="column is-2"><label>Returns:</label></div>
-        <div class="column is-10">
-            
-                    
-
-<div class="columns">
-    
-    <div class='param-desc column is-7'>the compiled shader</div>
-    
-    
-    <div class='column is-5 has-text-left'>
-        <label>Type: </label>
-        
-<code class="param-type">WebGLShader</code>
-|
-
-<code class="param-type">null</code>
-
-
-    </div>
-    
-</div>
-
-                
-        </div>
-    </div>
-
-
-
-
-</div>
-            
-            </div>
-        </div>
-    
-
-    
-
-    
-</article>
-
-</section>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import * as loop from "./core/loop";
+import * as engine from ".";
+
+const kAbstractClassError = new Error("Abstract Class");
+const kAbstractMethodError = new Error("Abstract Method");
+
+/**
+ * @class
+ * @classdesc The abstract Scene class
+ */
+class Scene {
+  constructor() {
+    if (this.constructor === Scene) {
+      throw kAbstractClassError;
+    }
+  }
+
+  /**
+   * @description Starts the scene
+   */
+  async start(): Promise&lt;void> {
+    await loop.start(this);
+  }
+
+  /**
+   * @description Loads next scene
+   * @todo Not fully implemented yet
+   */
+  next(): void {
+    loop.stop();
+    this.unload();
+  }
+
+  /**
+   * @description Stops the scene
+   */
+  stop(): void {
+    loop.stop();
+    this.unload();
+    engine.cleanUp();
+  }
+
+  /**
+   * @description Initializes the level (called from loop.start())
+   */
+  init(): void {
+    /* */
+  }
+  /**
+   * @description Loads necessary resources
+   */
+  load(): void {
+    /* */
+  }
+  /**
+   * @description Unloads all ressources
+   */
+  unload(): void {
+    /* */
+  }
+
+  /**
+   * @abstract
+   * @description Draws the scene (called every frame).
+   * Must be overwritten by subclass
+   */
+  draw(): void {
+    throw kAbstractMethodError;
+  }
+
+  /**
+   * @abstract
+   * @description Updates the scene (called every frame).
+   * Must be overwritten by subclass
+   */
+  update(): void {
+    throw kAbstractMethodError;
+  }
+}
+
+export default Scene;
+</code></pre>
+        </article>
+    </section>
 
 
 
