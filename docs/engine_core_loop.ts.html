@@ -72,7 +72,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-Engine.html">Engine</a></li><li><a href="module-GameLoop.html">GameLoop</a></li><li><a href="module-GL.html">GL</a></li><li><a href="module-Input.html">Input</a></li><li><a href="module-ResourceMap.html">ResourceMap</a></li><li><a href="module-ShaderResources.html">ShaderResources</a></li><li><a href="module-SimpleShader.html">SimpleShader</a></li><li><a href="module-TextResource.html">TextResource</a></li><li><a href="module-VertexBuffer.html">VertexBuffer</a></li></ul><h3>Classes</h3><ul><li><a href="Camera.html">Camera</a></li><li><a href="Camera_Camera.html">Camera</a></li><li><a href="module-ResourceMap.MapEntry.html">MapEntry</a></li><li><a href="module-ResourceMap.MapEntry_MapEntry.html">MapEntry</a></li><li><a href="module-SimpleShader.SimpleShader.html">SimpleShader</a></li><li><a href="module-SimpleShader.SimpleShader_SimpleShader.html">SimpleShader</a></li><li><a href="Renderable.html">Renderable</a></li><li><a href="Transform.html">Transform</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Color">Color</a></li><li><a href="global.html#DecodeResource">DecodeResource</a></li><li><a href="global.html#Engine">Engine</a></li><li><a href="global.html#Palette">Palette</a></li><li><a href="global.html#rgbaToGL">rgbaToGL</a></li></ul></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-Engine.html">Engine</a></li><li><a href="module-GameLoop.html">GameLoop</a></li><li><a href="module-GL.html">GL</a></li><li><a href="module-Input.html">Input</a></li><li><a href="module-ResourceMap.html">ResourceMap</a></li><li><a href="module-ShaderResources.html">ShaderResources</a></li><li><a href="module-SimpleShader.html">SimpleShader</a></li><li><a href="module-TextResource.html">TextResource</a></li><li><a href="module-VertexBuffer.html">VertexBuffer</a></li><li><a href="module-XMLResource.html">XMLResource</a></li></ul><h3>Classes</h3><ul><li><a href="Camera.html">Camera</a></li><li><a href="Camera_Camera.html">Camera</a></li><li><a href="module-ResourceMap.MapEntry.html">MapEntry</a></li><li><a href="module-ResourceMap.MapEntry_MapEntry.html">MapEntry</a></li><li><a href="module-SimpleShader.SimpleShader.html">SimpleShader</a></li><li><a href="module-SimpleShader.SimpleShader_SimpleShader.html">SimpleShader</a></li><li><a href="Renderable.html">Renderable</a></li><li><a href="Scene.html">Scene</a></li><li><a href="Transform.html">Transform</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Color">Color</a></li><li><a href="global.html#DecodeResource">DecodeResource</a></li><li><a href="global.html#Engine">Engine</a></li><li><a href="global.html#Palette">Palette</a></li><li><a href="global.html#rgbaToGL">rgbaToGL</a></li></ul></div>
                 
             </nav>
         </div>
@@ -112,7 +112,7 @@ let mLagTime: number;
 
 // The current loop state
 let mLoopRunning = false;
-let mCurrentScene: Scene;
+let mCurrentScene: Scene | null;
 let mFrameID = -1;
 
 /**
@@ -124,7 +124,7 @@ function loopOnce(): void {
     // Set up for next call to loopOnce
     mFrameID = requestAnimationFrame(loopOnce);
 
-    mCurrentScene.draw(); // MUST be called before update() as update() may stop the loop
+    mCurrentScene?.draw(); // MUST be called before update() as update() may stop the loop
 
     // Compute time elapsed since last loopOnce was executed
     const currentTime = performance.now();
@@ -138,7 +138,7 @@ function loopOnce(): void {
     // If lag larger than update frames, update until caught up
     while (mLagTime >= kMPF &amp;&amp; mLoopRunning) {
       input.update();
-      mCurrentScene.update();
+      mCurrentScene?.update();
       mLagTime -= kMPF;
     }
   }
@@ -155,10 +155,12 @@ export async function start(scene: Scene): Promise&lt;void> {
     throw new Error("Game loop already running");
   }
 
+  mCurrentScene = scene;
+  mCurrentScene.load();
+
   // Wait for any async request before game loading
   await ResourceMap.waitOnPromises();
 
-  mCurrentScene = scene;
   mCurrentScene.init();
 
   mPrevTime = performance.now();
@@ -174,6 +176,18 @@ export function stop(): void {
   mLoopRunning = false;
   // Make sure no more animation frames
   cancelAnimationFrame(mFrameID);
+}
+
+/**
+ * @description Cleans up the loop
+ */
+export function cleanUp(): void {
+  if (mLoopRunning) {
+    stop();
+    // Unload all resources
+    mCurrentScene?.unload();
+    mCurrentScene = null;
+  }
 }
 </code></pre>
         </article>

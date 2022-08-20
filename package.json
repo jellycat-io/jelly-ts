@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "doc": "jsdoc -c jsdoc.json",
+    "docs:build": "jsdoc -c jsdoc.json",
+    "docs:show": "open docs/index.html",
     "preview": "vite preview"
   },
   "devDependencies": {

@@ -72,7 +72,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-Engine.html">Engine</a></li><li><a href="module-GameLoop.html">GameLoop</a></li><li><a href="module-GL.html">GL</a></li><li><a href="module-Input.html">Input</a></li><li><a href="module-ResourceMap.html">ResourceMap</a></li><li><a href="module-ShaderResources.html">ShaderResources</a></li><li><a href="module-SimpleShader.html">SimpleShader</a></li><li><a href="module-TextResource.html">TextResource</a></li><li><a href="module-VertexBuffer.html">VertexBuffer</a></li></ul><h3>Classes</h3><ul><li><a href="Camera.html">Camera</a></li><li><a href="Camera_Camera.html">Camera</a></li><li><a href="module-ResourceMap.MapEntry.html">MapEntry</a></li><li><a href="module-ResourceMap.MapEntry_MapEntry.html">MapEntry</a></li><li><a href="module-SimpleShader.SimpleShader.html">SimpleShader</a></li><li><a href="module-SimpleShader.SimpleShader_SimpleShader.html">SimpleShader</a></li><li><a href="Renderable.html">Renderable</a></li><li><a href="Transform.html">Transform</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Color">Color</a></li><li><a href="global.html#DecodeResource">DecodeResource</a></li><li><a href="global.html#Engine">Engine</a></li><li><a href="global.html#Palette">Palette</a></li><li><a href="global.html#rgbaToGL">rgbaToGL</a></li></ul></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-Engine.html">Engine</a></li><li><a href="module-GameLoop.html">GameLoop</a></li><li><a href="module-GL.html">GL</a></li><li><a href="module-Input.html">Input</a></li><li><a href="module-ResourceMap.html">ResourceMap</a></li><li><a href="module-ShaderResources.html">ShaderResources</a></li><li><a href="module-SimpleShader.html">SimpleShader</a></li><li><a href="module-TextResource.html">TextResource</a></li><li><a href="module-VertexBuffer.html">VertexBuffer</a></li><li><a href="module-XMLResource.html">XMLResource</a></li></ul><h3>Classes</h3><ul><li><a href="Camera.html">Camera</a></li><li><a href="Camera_Camera.html">Camera</a></li><li><a href="module-ResourceMap.MapEntry.html">MapEntry</a></li><li><a href="module-ResourceMap.MapEntry_MapEntry.html">MapEntry</a></li><li><a href="module-SimpleShader.SimpleShader.html">SimpleShader</a></li><li><a href="module-SimpleShader.SimpleShader_SimpleShader.html">SimpleShader</a></li><li><a href="Renderable.html">Renderable</a></li><li><a href="Scene.html">Scene</a></li><li><a href="Transform.html">Transform</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Color">Color</a></li><li><a href="global.html#DecodeResource">DecodeResource</a></li><li><a href="global.html#Engine">Engine</a></li><li><a href="global.html#Palette">Palette</a></li><li><a href="global.html#rgbaToGL">rgbaToGL</a></li></ul></div>
                 
             </nav>
         </div>
@@ -90,14 +90,12 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * @desc RGBA Color Type
- * @type {number}
+ * @module Palette
+ * @typedef {Float32Array | number[]} Float32List
  */
-export type RGBATuple = [number, number, number, number];
-export type GLColorTuple = [number, number, number, number];
 
 /**
- * @desc Enum listing palette's colors names
+ * @description Enum listing palette's colors names
  * @enum {number}
  */
 export enum Color {
@@ -136,10 +134,10 @@ export enum Color {
 }
 
 /**
- * @desc Table containing palette's colors rgba values
- * @type {Array&lt;RGBATuple>}
+ * @description Table containing palette's colors rgba values
+ * @type {Array&lt;Float32List>}
  */
-export const Palette: Array&lt;RGBATuple> = [
+export const Palette: Array&lt;Float32List> = [
   rgbaToGL([0, 0, 0, 255]), // #000000
   rgbaToGL([29, 43, 83, 255]), // #1D2B53
   rgbaToGL([126, 37, 83, 255]), // #7E2553
@@ -175,12 +173,12 @@ export const Palette: Array&lt;RGBATuple> = [
 ];
 
 /**
- * @desc Converts RGBA values to WebGL values
- * @param {Array&lt;number>} colors The RGBA values to convert
- * @returns {Array&lt;number>}
+ * @description Converts RGBA values to WebGL values
+ * @param {Float32List} color The RGBA values to convert
+ * @returns {Float32List} the converted color
  */
-export function rgbaToGL(color: [number, number, number, number]): RGBATuple {
-  return color.map((c) => (c > 0 ? c / 255 : 0)) as RGBATuple;
+export function rgbaToGL(color: [number, number, number, number]): Float32List {
+  return color.map((c) => (c > 0 ? c / 255 : 0)) as Float32List;
 }
 </code></pre>
         </article>

@@ -1,7 +1,7 @@
 import { mat4, vec2, vec3 } from "gl-matrix";
 import * as glSys from "./core/gl";
-import { Color, GLColorTuple, Palette } from "../utils/palette";
-import { VIEWPORT } from "../utils/common";
+import { Color, Palette } from "./utils/palette";
+import { VIEWPORT } from "./utils/common";
 
 /**
  * @class
@@ -31,21 +31,21 @@ class Camera {
   mCameraMatrix: mat4;
   /**
    * @private
-   * @type {GLColorTuple}
+   * @type {Float32List}
    */
-  mBGColor: GLColorTuple;
+  mBGColor: Float32List;
 
   /**
    * @param {vec2} wcCenter The camera center position
    * @param {number} wcWidth The camera width
    * @param {Float32List} viewportArray The viewport size and position on the canvas
-   * @param {GLColorTuple} bgColor The camera background color
+   * @param {Float32List} bgColor The camera background color
    */
   constructor(
     wcCenter: vec2,
     wcWidth: number,
     viewportArray: Float32List,
-    bgColor?: GLColorTuple
+    bgColor?: Float32List
   ) {
     this.mWCCenter = wcCenter;
     this.mWCWidth = wcWidth;
@@ -117,16 +117,16 @@ class Camera {
 
   /**
    * @description Sets the camera background color
-   * @param {GLColorTuple} c The new camera background color
+   * @param {Float32List} c The new camera background color
    */
-  setBackgroundColor(c: GLColorTuple): void {
+  setBackgroundColor(c: Float32List): void {
     this.mBGColor = c;
   }
   /**
    * @description Gets the camera background color
-   * @returns {GLColorTuple} the camera background color
+   * @returns {Float32List} the camera background color
    */
-  getBackgroundColor(): GLColorTuple {
+  getBackgroundColor(): Float32List {
     return this.mBGColor;
   }
 
@@ -157,7 +157,8 @@ class Camera {
     gl?.scissor(vx, vy, vw, vh);
 
     // Set the color to be cleared
-    gl?.clearColor(...this.getBackgroundColor());
+    const [r, g, b, a] = this.getBackgroundColor();
+    gl?.clearColor(r, g, b, a);
 
     // Enable scissor area, clear and disable scissor area to save performance
     gl?.enable(gl.SCISSOR_TEST);

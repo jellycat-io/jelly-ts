@@ -1,12 +1,15 @@
 import * as glSys from "./core/gl";
 import * as vertexBuffer from "./core/vertex-buffer";
 import * as shaderResources from "./core/shader-resources";
+import * as loop from "./core/loop";
 import * as Input from "./input";
 import * as TextResource from "./resources/text";
+import * as XMLResource from "./resources/xml";
 import Renderable from "./renderable";
 import Transform from "./transform";
 import Camera from "./camera";
-import { GLColorTuple } from "../utils/palette";
+import Scene from "./scene";
+import { Palette, Color } from "./utils/palette";
 
 /**
  * @module Engine
@@ -27,11 +30,12 @@ export function init(width: number, height: number, canvasID?: string) {
 
 /**
  * @description Clears the canvas before next render
- * @param {GLColorTuple} color The canvas background color
+ * @param {Float32List} color The canvas background color
  */
-export function clearCanvas(color: GLColorTuple): void {
+export function clearCanvas(color: Float32List): void {
   const gl = glSys.get();
-  gl?.clearColor(...color);
+  const [r, g, b, a] = color;
+  gl?.clearColor(r, g, b, a);
   gl?.clear(gl.COLOR_BUFFER_BIT);
 }
 
@@ -43,4 +47,25 @@ export function getGL(): WebGL2RenderingContext | null {
   return glSys.get();
 }
 
-export { Renderable, Transform, Camera, Input, TextResource };
+/**
+ * @description Cleans up the core engine
+ */
+export function cleanUp(): void {
+  loop.cleanUp();
+  Input.cleanUp();
+  shaderResources.cleanUp();
+  vertexBuffer.cleanUp();
+  glSys.cleanUp();
+}
+
+export {
+  Renderable,
+  Transform,
+  Camera,
+  Scene,
+  Input,
+  TextResource,
+  XMLResource,
+  Palette,
+  Color,
+};

@@ -1,4 +1,4 @@
-import { Color, GLColorTuple, Palette } from "../utils/palette";
+import { Color, Palette } from "./utils/palette";
 import Camera from "./camera";
 import * as glSys from "./core/gl";
 import * as shaderResources from "./core/shader-resources";
@@ -17,9 +17,9 @@ class Renderable {
   mShader: SimpleShader | null;
   /**
    * @private
-   * @type {GLColorTuple}
+   * @type {Float32List}
    */
-  mColor: GLColorTuple;
+  mColor: Float32List;
   /**
    * @private
    * @type {Transform}
@@ -34,17 +34,17 @@ class Renderable {
 
   /**
    * @description Changes Renderable's color
-   * @param {GLColorTuple} color The new renderable color
+   * @param {Float32List} color The new renderable color
    */
-  setColor(color: GLColorTuple): void {
+  setColor(color: Float32List): void {
     this.mColor = color;
   }
 
   /**
    * @description Gets Renderable color
-   * @returns {GLColorTuple} the Renderable color
+   * @returns {Float32List} the Renderable color
    */
-  getColor(): GLColorTuple {
+  getColor(): Float32List {
     return this.mColor;
   }
 

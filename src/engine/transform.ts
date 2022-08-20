@@ -1,5 +1,5 @@
 import { mat4, vec2, vec3 } from "gl-matrix";
-import { DEGREE } from "../utils/common";
+import { DEGREE } from "./utils/common";
 
 /**
  * @class

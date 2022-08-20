@@ -1,5 +1,4 @@
 import { mat4 } from "gl-matrix";
-import { GLColorTuple } from "../utils/palette";
 import * as glSys from "./core/gl";
 import * as vertexBuffer from "./core/vertex-buffer";
 import * as TextResource from "./resources/text";
@@ -18,6 +17,16 @@ export class SimpleShader {
    * @type {WebGLProgram | null}
    */
   mCompiledShader: WebGLProgram | null;
+  /**
+   * @private
+   * @type {WebGLShader | null}
+   */
+  mVertexShader: WebGLShader | null;
+  /**
+   * @private
+   * @type {WebGLShader | null}
+   */
+  mFragmentShader: WebGLShader | null;
   /**
    * @private
    * @type {number | null}
@@ -45,6 +54,8 @@ export class SimpleShader {
    */
   constructor(vertexSourceFile: string, fragmentSourceFile: string) {
     this.mCompiledShader = null;
+    this.mVertexShader = null;
+    this.mFragmentShader = null;
     this.mVertexPositionRef = null;
     this.mPixelColorRef = null;
     this.mModelMatrixRef = null;
@@ -55,13 +66,13 @@ export class SimpleShader {
     if (!gl) return;
 
     // Load and compile both shaders
-    const vertexShader = compileShader(vertexSourceFile, gl.VERTEX_SHADER);
-    const fragmentShader = compileShader(
+    this.mVertexShader = compileShader(vertexSourceFile, gl.VERTEX_SHADER);
+    this.mFragmentShader = compileShader(
       fragmentSourceFile,
       gl.FRAGMENT_SHADER
     );
 
-    if (!vertexShader || !fragmentShader) {
+    if (!this.mVertexShader || !this.mFragmentShader) {
       throw new Error("Error loading shader source");
     }
 
@@ -72,8 +83,8 @@ export class SimpleShader {
       throw new Error("Error creating shader program");
     }
 
-    gl.attachShader(this.mCompiledShader, vertexShader);
-    gl.attachShader(this.mCompiledShader, fragmentShader);
+    gl.attachShader(this.mCompiledShader, this.mVertexShader);
+    gl.attachShader(this.mCompiledShader, this.mFragmentShader);
     gl.linkProgram(this.mCompiledShader);
 
     if (!gl.getProgramParameter(this.mCompiledShader, gl.LINK_STATUS)) {
@@ -107,15 +118,11 @@ export class SimpleShader {
 
   /**
    * @description Activates the shader
-   * @param {GLColorTuple} pixelColor The color to apply to the shader
+   * @param {Float32List} pixelColor The color to apply to the shader
    * @param {mat4} trsMatrix The transform matrix
    * @param {mat4} cameraMatrix The camera matrix
    */
-  activate(
-    pixelColor: GLColorTuple,
-    trsMatrix: mat4,
-    cameraMatrix: mat4
-  ): void {
+  activate(pixelColor: Float32List, trsMatrix: mat4, cameraMatrix: mat4): void {
     const gl = glSys.get();
 
     if (!gl || this.mVertexPositionRef === null) return;
@@ -139,6 +146,22 @@ export class SimpleShader {
     gl.uniform4fv(this.mPixelColorRef, pixelColor);
     gl.uniformMatrix4fv(this.mModelMatrixRef, false, trsMatrix);
     gl.uniformMatrix4fv(this.mCameraMatrixRed, false, cameraMatrix);
+  }
+
+  /**
+   * @description Cleans up shader from GPU
+   */
+  cleanUp(): void {
+    const gl = glSys.get();
+
+    if (!this.mCompiledShader || !this.mVertexShader || !this.mFragmentShader)
+      return;
+
+    gl?.detachShader(this.mCompiledShader, this.mVertexShader);
+    gl?.detachShader(this.mCompiledShader, this.mFragmentShader);
+    gl?.deleteShader(this.mVertexShader);
+    gl?.deleteShader(this.mFragmentShader);
+    gl?.deleteProgram(this.mCompiledShader);
   }
 }
 

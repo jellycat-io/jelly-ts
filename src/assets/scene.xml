@@ -1,0 +1,15 @@
+<SampleLevel>
+  <!--  *** be careful!! comma (,) is not a supported syntax!!  -->
+  <!--  make sure there are no comma in between attributes -->
+  <!--  e.g., do NOT do:  PosX="20", PosY="30" -->
+  <!--  notice the "comma" between PosX and PosY: Syntax error! -->
+
+  <!-- Cameras -->
+  <!-- Viewport: x, y, w, h -->
+  <Camera CenterX="20" CenterY="60" Width="20" Viewport="0 0 640 480" BgColor="LightGrey" />
+
+  <!-- Squares rotation is in degrees -->
+  <Square PosX="20" PosY="60" Width="5" Height="5" Rotation="30" Color="Blue" />
+  <Square PosX="20" PosY="60" Width="2" Height="2" Rotation="0" Color="Red" />
+
+</SampleLevel>
