@@ -47,7 +47,9 @@ export function init(width: number, height: number, canvasID?: string): void {
 export function cleanUp(): void {
   if (!mGL || !mCanvas)
     throw new Error("Engine cleanup: system not initialized");
-
+  mCanvas.style.position = "fixed";
+  mCanvas.style.backgroundColor = "rgba(200, 200, 200, 0.5)";
   mGL = null;
   mCanvas = null;
+  document.body.innerHTML += "<h1>End of game</h1><h2>GL System shut down</h2>";
 }

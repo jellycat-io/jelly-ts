@@ -5,6 +5,7 @@ import * as loop from "./core/loop";
 import * as Input from "./input";
 import * as TextResource from "./resources/text";
 import * as XMLResource from "./resources/xml";
+import * as Audio from "./resources/audio";
 import Renderable from "./renderable";
 import Transform from "./transform";
 import Camera from "./camera";
@@ -27,6 +28,7 @@ export function init(width: number, height: number, canvasID?: string) {
   vertexBuffer.init();
   shaderResources.init();
   Input.init();
+  Audio.init();
 }
 
 /**
@@ -54,6 +56,7 @@ export function getGL(): WebGL2RenderingContext | null {
 export function cleanUp(): void {
   loop.cleanUp();
   Input.cleanUp();
+  Audio.cleanUp();
   shaderResources.cleanUp();
   vertexBuffer.cleanUp();
   glSys.cleanUp();
@@ -69,4 +72,5 @@ export {
   XMLResource,
   Palette,
   Color,
+  Audio,
 };
