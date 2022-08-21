@@ -34,15 +34,16 @@ class Game extends Engine.Scene {
     this.mCamera = new Engine.Camera(
       vec2.fromValues(20, 60),
       20,
-      [0, 0, 640, 480]
+      [0, 0, 640, 480],
+      Engine.Palette.getGLColor("Black")
     );
 
     this.mSupport = new Engine.Renderable();
-    this.mSupport.setColor(Engine.Palette[Engine.Color.Red]);
+    this.mSupport.setColor(Engine.Palette.getGLColor("Red"));
     this.mSupport.getTransform().setPosition(20, 60);
     this.mSupport.getTransform().setScale(5, 5); // Step C: Create the hero object in blue
     this.mPlayer = new Engine.Renderable();
-    this.mPlayer.setColor(Engine.Palette[Engine.Color.Blue]);
+    this.mPlayer.setColor(Engine.Palette.getGLColor("Blue"));
     this.mPlayer.getTransform().setPosition(20, 60);
     this.mPlayer.getTransform().setScale(2, 3);
 
@@ -50,7 +51,7 @@ class Game extends Engine.Scene {
   }
 
   draw(): void {
-    Engine.clearCanvas(Engine.Palette[Engine.Color.Black]);
+    Engine.clearCanvas(Engine.Palette.getGLColor("Black"));
 
     if (!this.mCamera) {
       throw new Error("Error: No viewport found");

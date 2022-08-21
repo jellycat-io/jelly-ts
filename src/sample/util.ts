@@ -70,15 +70,16 @@ function getElm(
 /**
  * @typedef {Float32Array | number[]} Float32List
  * @description Parses color from XML into a Float32List.
- * Allows to write color in XML as r,g,b,a or as a palette enum key
+ * Allows to write color in XML as r,g,b,a or as a palette key
  * @param {Array<string>} unparsedColor the color string splitted into an array
  * @returns {Float32List} the parsed background color
  */
 function parseColor(unparsedColor: string[] | undefined): Float32List {
-  if (unparsedColor?.length === 1) {
-    return Engine.Palette[
-      Engine.Color[unparsedColor[0] as keyof typeof Engine.Color]
-    ];
+  if (unparsedColor?.length === 2) {
+    return Engine.Palette.getGLColor(
+      unparsedColor[0],
+      Number(unparsedColor[1])
+    );
   }
   return unparsedColor?.map((n) => Number(n)) as Float32List;
 }

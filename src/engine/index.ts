@@ -6,11 +6,11 @@ import * as Input from "./input";
 import * as TextResource from "./resources/text";
 import * as XMLResource from "./resources/xml";
 import * as Audio from "./resources/audio";
+import * as Palette from "./palette";
 import Renderable from "./renderable";
 import Transform from "./transform";
 import Camera from "./camera";
 import Scene from "./scene";
-import { Palette, Color } from "./utils/palette";
 
 /**
  * @module Engine
@@ -27,6 +27,7 @@ export function init(width: number, height: number, canvasID?: string) {
   glSys.init(width, height, canvasID);
   vertexBuffer.init();
   shaderResources.init();
+  Palette.init();
   Input.init();
   Audio.init();
 }
@@ -71,6 +72,5 @@ export {
   TextResource,
   XMLResource,
   Palette,
-  Color,
   Audio,
 };

@@ -1,6 +1,6 @@
 import { mat4, vec2, vec3 } from "gl-matrix";
 import * as glSys from "./core/gl";
-import { Color, Palette } from "./utils/palette";
+import * as Palette from "./palette";
 import { VIEWPORT } from "./utils/common";
 
 /**
@@ -55,7 +55,7 @@ class Camera {
     this.mCameraMatrix = mat4.create();
 
     // Set background color
-    this.mBGColor = bgColor ?? Palette[Color.White];
+    this.mBGColor = bgColor ?? Palette.getGLColor("White");
   }
 
   /**

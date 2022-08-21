@@ -1,4 +1,4 @@
-import { Color, Palette } from "./utils/palette";
+import * as Palette from "./palette";
 import Camera from "./camera";
 import * as glSys from "./core/gl";
 import * as shaderResources from "./core/shader-resources";
@@ -29,7 +29,7 @@ class Renderable {
 
   constructor() {
     this.mShader = shaderResources.getConstColorShader();
-    this.mColor = Palette[Color.LightPeach];
+    this.mColor = Palette.getGLColor("Cream");
     this.mTransform = new Transform();
   }
 
