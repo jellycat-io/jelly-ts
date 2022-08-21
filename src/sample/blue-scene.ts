@@ -29,7 +29,7 @@ export default class extends Engine.Scene {
   }
 
   draw(): void {
-    Engine.clearCanvas(Engine.Palette[Engine.Color.Black]);
+    Engine.clearCanvas(Engine.Palette.getGLColor("black"));
 
     if (!this.mCamera) {
       throw new Error("Error: No viewport found");

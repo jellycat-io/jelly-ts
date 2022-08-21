@@ -34,8 +34,8 @@ class Game extends Engine.Scene {
     this.mCamera = new Engine.Camera(
       vec2.fromValues(20, 60),
       20,
-      [0, 0, 640, 480],
-      Engine.Palette.getGLColor("Black")
+      [20, 40, 600, 300],
+      Engine.Palette.getGLColor("Cream", 1)
     );
 
     this.mSupport = new Engine.Renderable();
