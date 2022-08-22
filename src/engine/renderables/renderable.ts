@@ -6,9 +6,12 @@ import Shader from "../shaders/shader";
 import Transform from "../transform";
 
 /**
+ * @typedef {Float32Array | number[]} Float32List
+ */
+
+/**
  * @class
  * @classdesc A drawable entity
- * @typedef {Float32Array | number[]} Float32List
  */
 class Renderable {
   /**

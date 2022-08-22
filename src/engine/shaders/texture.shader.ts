@@ -6,14 +6,16 @@
 import { mat4 } from "gl-matrix";
 import * as glSys from "../core/gl";
 import * as vertexBuffer from "../core/vertex_buffer";
+import { kWebGLNotFound } from "../utils/utils";
 import Shader from "./shader";
 
 /**
  * @class
  * @classdesc The textured shader class
- * @augments {Shader}
+ * @augments Shader
  */
 class TextureShader extends Shader {
+  mTexCoordBuffer: WebGLBuffer | null;
   mTextureCoordRef: number;
   mSamplerRef: WebGLUniformLocation | null;
 
@@ -24,9 +26,10 @@ class TextureShader extends Shader {
    */
   constructor(vertexShaderPath: string, fragmentShaderPath: string) {
     super(vertexShaderPath, fragmentShaderPath);
+    this.mTexCoordBuffer = null;
 
     const gl = glSys.get();
-    if (!gl) throw new Error("WebGL system not initialized");
+    if (!gl) throw kWebGLNotFound;
 
     if (!this.mCompiledShader) {
       throw new Error("Error creating shader program");
@@ -50,15 +53,27 @@ class TextureShader extends Shader {
   activate(pixelColor: Float32List, trsMatrix: mat4, cameraMatrix: mat4) {
     super.activate(pixelColor, trsMatrix, cameraMatrix);
 
-    // Enable texture coordinate array
     const gl = glSys.get();
-    gl?.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer.getTexCoord());
+    if (!gl) throw kWebGLNotFound;
+
+    // Enable texture coordinate array
+    this.mTexCoordBuffer = gl.createBuffer();
+    gl?.bindBuffer(gl.ARRAY_BUFFER, this._getTexCoordBuffer());
     gl?.vertexAttribPointer(this.mTextureCoordRef, 2, gl.FLOAT, false, 0, 0);
     gl?.enableVertexAttribArray(this.mTextureCoordRef);
 
     // Bind uSampler to texture 0
     gl?.uniform1i(this.mSamplerRef, 0);
     // texture.activateTexture() binds to Texture0
+  }
+
+  /**
+   * @protected
+   * @description Gets the global texture coordinate buffer
+   * @returns {WebGLBuffer | null} the global texture coordinate buffer
+   */
+  _getTexCoordBuffer(): WebGLBuffer | null {
+    return vertexBuffer.getTexCoord();
   }
 }
 

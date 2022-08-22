@@ -4,9 +4,12 @@ import * as Palette from "./palette";
 import { Viewport } from "./utils/utils";
 
 /**
- * @class
- * @classdesc The game camera
  * @typedef {Float32Array | number[]} Float32List
+ */
+
+/**
+ * @class
+ * @classdesc The viewport camera
  */
 class Camera {
   /**
@@ -61,13 +64,13 @@ class Camera {
    * @param {vec2} wcCenter The camera center position
    * @param {number} wcWidth The camera width
    * @param {Float32List} viewportArray The viewport size and position on the canvas
-   * @param {Float32List} bgColor The camera background color
+   * @param {Float32List} [bgColor=[0, 0, 0, 0]] The camera background color
    */
   constructor(
     wcCenter: vec2,
     wcWidth: number,
     viewportArray: Float32List,
-    bgColor?: Float32List
+    bgColor = Palette.getGLColor("Black", 1)
   ) {
     this.mWCCenter = wcCenter;
     this.mWCWidth = wcWidth;
@@ -81,7 +84,7 @@ class Camera {
     this.mVPMatrix = mat4.create();
 
     // Set background color
-    this.mBGColor = bgColor ?? Palette.getGLColor("White");
+    this.mBGColor = bgColor;
   }
 
   /**

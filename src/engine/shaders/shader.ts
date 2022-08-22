@@ -2,17 +2,13 @@ import { mat4 } from "gl-matrix";
 import * as glSys from "../core/gl";
 import * as vertexBuffer from "../core/vertex_buffer";
 import * as TextResource from "../resources/text";
-
-/**
- * @module SimpleShader
- * @typedef {Float32Array | number[]} Float32List
- */
+import { kWebGLNotFound } from "../utils/utils";
 
 /**
  * @class
  * @classdesc The core shader class
  */
-export class Shader {
+class Shader {
   /**
    * @private
    * @type {WebGLProgram | null}
@@ -64,7 +60,7 @@ export class Shader {
 
     const gl = glSys.get();
 
-    if (!gl) return;
+    if (!gl) throw kWebGLNotFound;
 
     // Load and compile both shaders
     this.mVertexShader = compileShader(vertexSourceFile, gl.VERTEX_SHADER);
@@ -165,6 +161,11 @@ export class Shader {
     gl?.deleteProgram(this.mCompiledShader);
   }
 }
+
+/**
+ * @module SimpleShader
+ * @typedef {Float32Array | number[]} Float32List
+ */
 
 /**
  * @description Compiles the shader

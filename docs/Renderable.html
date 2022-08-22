@@ -70,7 +70,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-Engine.html">Engine</a></li><li><a href="module-GameLoop.html">GameLoop</a></li><li><a href="module-GL.html">GL</a></li><li><a href="module-Input.html">Input</a></li><li><a href="module-ResourceMap.html">ResourceMap</a></li><li><a href="module-ShaderResources.html">ShaderResources</a></li><li><a href="module-SimpleShader.html">SimpleShader</a></li><li><a href="module-TextResource.html">TextResource</a></li><li><a href="module-VertexBuffer.html">VertexBuffer</a></li><li><a href="module-XMLResource.html">XMLResource</a></li></ul><h3>Classes</h3><ul><li><a href="Camera.html">Camera</a></li><li><a href="Camera_Camera.html">Camera</a></li><li><a href="module-ResourceMap.MapEntry.html">MapEntry</a></li><li><a href="module-ResourceMap.MapEntry_MapEntry.html">MapEntry</a></li><li><a href="module-SimpleShader.SimpleShader.html">SimpleShader</a></li><li><a href="module-SimpleShader.SimpleShader_SimpleShader.html">SimpleShader</a></li><li><a href="Renderable.html">Renderable</a></li><li><a href="Scene.html">Scene</a></li><li><a href="Transform.html">Transform</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Color">Color</a></li><li><a href="global.html#DecodeResource">DecodeResource</a></li><li><a href="global.html#Engine">Engine</a></li><li><a href="global.html#Palette">Palette</a></li><li><a href="global.html#rgbaToGL">rgbaToGL</a></li></ul></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-Audio.html">Audio</a></li><li><a href="module-Engine.html">Engine</a></li><li><a href="module-GameLoop.html">GameLoop</a></li><li><a href="module-GL.html">GL</a></li><li><a href="module-Input.html">Input</a></li><li><a href="module-ResourceMap.html">ResourceMap</a></li><li><a href="module-ShaderResources.html">ShaderResources</a></li><li><a href="module-TextResource.html">TextResource</a></li><li><a href="module-TextureResource.html">TextureResource</a></li><li><a href="module-Utils.html">Utils</a></li><li><a href="module-VertexBuffer.html">VertexBuffer</a></li><li><a href="module-XMLResource.html">XMLResource</a></li></ul><h3>Classes</h3><ul><li><a href="Camera.html">Camera</a></li><li><a href="Camera_Camera.html">Camera</a></li><li><a href="MapEntry_MapEntry.html">MapEntry</a></li><li><a href="module-TextureResource.TextureInfo.html">TextureInfo</a></li><li><a href="module-TextureResource.TextureInfo_TextureInfo.html">TextureInfo</a></li><li><a href="Renderable.html">Renderable</a></li><li><a href="Scene.html">Scene</a></li><li><a href="Shader.html">Shader</a></li><li><a href="Shader_Shader.html">Shader</a></li><li><a href="SpriteRenderable.html">SpriteRenderable</a></li><li><a href="SpriteRenderable_SpriteRenderable.html">SpriteRenderable</a></li><li><a href="SpriteShader.html">SpriteShader</a></li><li><a href="SpriteShader_Shader.html">Shader</a></li><li><a href="SpriteShader_SpriteShader.html">SpriteShader</a></li><li><a href="SpriteShader_TextureShader.html">TextureShader</a></li><li><a href="TextureRenderable.html">TextureRenderable</a></li><li><a href="TextureShader.html">TextureShader</a></li><li><a href="TextureShader_Shader.html">Shader</a></li><li><a href="TextureShader_TextureShader.html">TextureShader</a></li><li><a href="Transform.html">Transform</a></li></ul><h3>Global</h3><ul><li><a href="global.html#compileShader">compileShader</a></li><li><a href="global.html#DecodeResource">DecodeResource</a></li><li><a href="global.html#Engine">Engine</a></li><li><a href="global.html#getGLColor">getGLColor</a></li><li><a href="global.html#getHexColor">getHexColor</a></li><li><a href="global.html#getRGBColor">getRGBColor</a></li><li><a href="global.html#glToRgb">glToRgb</a></li><li><a href="global.html#hexToRgb">hexToRgb</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#rgbToGl">rgbToGl</a></li><li><a href="global.html#rgbToHex">rgbToHex</a></li><li><a href="global.html#setGLColor">setGLColor</a></li><li><a href="global.html#setHexColor">setHexColor</a></li><li><a href="global.html#setRGBColor">setRGBColor</a></li></ul></div>
                 
             </nav>
         </div>
@@ -169,9 +169,9 @@
 
     
         <p class="tag-source">
-            <a href="renderable.ts.html" class="button">View Source</a>
+            <a href="renderables_renderable.ts.html" class="button">View Source</a>
             <span>
-                <a href="renderable.ts.html">renderable.ts</a>, <a href="renderable.ts.html#line10">line 10</a>
+                <a href="renderables_renderable.ts.html">renderables/renderable.ts</a>, <a href="renderables_renderable.ts.html#line13">line 13</a>
             </span>
         </p>
     
@@ -223,6 +223,158 @@
         <div class='vertical-section'>
             <h1>Methods</h1>
             <div class="members">
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="_setShader">
+        <a class="href-link" href="#_setShader">#</a>
+        
+            
+                <span class='tag'>protected</span>
+            
+        
+        <span class="code-name">
+            
+                _setShader<span class="signature">(s)</span><span class="type-signature"></span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Sets the Renderable shader
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>s</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type"><a href="Shader.html">Shader</a></code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">The shader to set</td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="renderables_renderable.ts.html" class="button">View Source</a>
+            <span>
+                <a href="renderables_renderable.ts.html">renderables/renderable.ts</a>, <a href="renderables_renderable.ts.html#line107">line 107</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
             
                 <div class="member">
 
@@ -342,9 +494,9 @@
 
     
         <p class="tag-source">
-            <a href="renderable.ts.html" class="button">View Source</a>
+            <a href="renderables_renderable.ts.html" class="button">View Source</a>
             <span>
-                <a href="renderable.ts.html">renderable.ts</a>, <a href="renderable.ts.html#line114">line 114</a>
+                <a href="renderables_renderable.ts.html">renderables/renderable.ts</a>, <a href="renderables_renderable.ts.html#line133">line 133</a>
             </span>
         </p>
     
@@ -462,9 +614,9 @@
 
     
         <p class="tag-source">
-            <a href="renderable.ts.html" class="button">View Source</a>
+            <a href="renderables_renderable.ts.html" class="button">View Source</a>
             <span>
-                <a href="renderable.ts.html">renderable.ts</a>, <a href="renderable.ts.html#line101">line 101</a>
+                <a href="renderables_renderable.ts.html">renderables/renderable.ts</a>, <a href="renderables_renderable.ts.html#line120">line 120</a>
             </span>
         </p>
     
@@ -584,9 +736,9 @@
 
     
         <p class="tag-source">
-            <a href="renderable.ts.html" class="button">View Source</a>
+            <a href="renderables_renderable.ts.html" class="button">View Source</a>
             <span>
-                <a href="renderable.ts.html">renderable.ts</a>, <a href="renderable.ts.html#line107">line 107</a>
+                <a href="renderables_renderable.ts.html">renderables/renderable.ts</a>, <a href="renderables_renderable.ts.html#line126">line 126</a>
             </span>
         </p>
     
@@ -757,9 +909,9 @@
 
     
         <p class="tag-source">
-            <a href="renderable.ts.html" class="button">View Source</a>
+            <a href="renderables_renderable.ts.html" class="button">View Source</a>
             <span>
-                <a href="renderable.ts.html">renderable.ts</a>, <a href="renderable.ts.html#line95">line 95</a>
+                <a href="renderables_renderable.ts.html">renderables/renderable.ts</a>, <a href="renderables_renderable.ts.html#line114">line 114</a>
             </span>
         </p>
     

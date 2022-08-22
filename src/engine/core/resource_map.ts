@@ -1,7 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/**
- * @module ResourceMap
- */
 
 export class MapEntry<T> {
   mData: T | null;
@@ -9,6 +6,7 @@ export class MapEntry<T> {
 
   /**
    * @class
+   * @classdesc A asynchronous resource map entry
    * @template T
    * @param {T} data The data to load
    */
@@ -57,6 +55,10 @@ export class MapEntry<T> {
     return this.mRefCount === 0;
   }
 }
+
+/**
+ * @module ResourceMap
+ */
 
 const mMap = new Map<string, MapEntry<any>>();
 let mOutstandingPromises: Array<Promise<void>> = [];
