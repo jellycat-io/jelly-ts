@@ -1,8 +1,8 @@
 import * as Palette from "../palette";
 import Camera from "../camera";
 import * as glSys from "../core/gl";
-import * as shaderResources from "../core/shader-resources";
-import Shader from "../shaders/simple-shader";
+import * as shaderResources from "../core/shader_resources";
+import Shader from "../shaders/shader";
 import Transform from "../transform";
 
 /**

@@ -1,6 +1,6 @@
 import * as Engine from "../engine";
 import { Game } from "./sample";
-import SceneFileParser from "./scene-file-parser";
+import SceneFileParser from "./scene_file_parser";
 
 export default class extends Engine.Scene {
   kSceneFile: string;

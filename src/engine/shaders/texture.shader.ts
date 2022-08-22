@@ -5,8 +5,8 @@
 
 import { mat4 } from "gl-matrix";
 import * as glSys from "../core/gl";
-import * as vertexBuffer from "../core/vertex-buffer";
-import Shader from "./simple-shader";
+import * as vertexBuffer from "../core/vertex_buffer";
+import Shader from "./shader";
 
 /**
  * @class

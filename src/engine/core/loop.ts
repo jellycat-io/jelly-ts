@@ -1,6 +1,6 @@
 import Scene from "../scene";
 import * as input from "../input";
-import * as ResourceMap from "./resource-map";
+import * as ResourceMap from "./resource_map";
 
 /**
  * @module GameLoop

@@ -1,7 +1,7 @@
 import * as TextResource from "../resources/text";
-import * as ResourceMap from "./resource-map";
-import Shader from "../shaders/simple-shader";
-import TextureShader from "../shaders/texture-shader";
+import * as ResourceMap from "./resource_map";
+import Shader from "../shaders/shader";
+import TextureShader from "../shaders/texture.shader";
 
 /**
  * @module ShaderResources

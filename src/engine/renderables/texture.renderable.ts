@@ -1,5 +1,5 @@
 import * as Palette from "../palette";
-import * as shaderResources from "../core/shader-resources";
+import * as shaderResources from "../core/shader_resources";
 import * as TextureResource from "../resources/texture";
 import Renderable from "./renderable";
 import Camera from "../camera";

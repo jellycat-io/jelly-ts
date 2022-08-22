@@ -1,6 +1,6 @@
 import * as glSys from "./core/gl";
-import * as vertexBuffer from "./core/vertex-buffer";
-import * as shaderResources from "./core/shader-resources";
+import * as vertexBuffer from "./core/vertex_buffer";
+import * as shaderResources from "./core/shader_resources";
 import * as loop from "./core/loop";
 import * as Input from "./input";
 import * as TextureResource from "./resources/texture";
@@ -10,7 +10,7 @@ import * as Audio from "./resources/audio";
 import * as Palette from "./palette";
 import * as Utils from "./utils/utils";
 import Renderable from "./renderables/renderable";
-import TextureRenderable from "./renderables/texture-renderable";
+import TextureRenderable from "./renderables/texture.renderable";
 import Transform from "./transform";
 import Camera from "./camera";
 import Scene from "./scene";

@@ -1,6 +1,6 @@
 import { vec2 } from "gl-matrix";
 import * as Engine from "../engine";
-import BlueLevel from "./blue-scene";
+import BlueLevel from "./blue_scene";
 
 export class Game extends Engine.Scene {
   mPlayer: Engine.Renderable | null;

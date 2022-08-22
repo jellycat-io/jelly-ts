@@ -1,4 +1,4 @@
-import * as map from "../core/resource-map";
+import * as map from "../core/resource_map";
 
 /**
  * @module Audio
