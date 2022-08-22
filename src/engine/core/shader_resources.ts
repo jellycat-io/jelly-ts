@@ -2,6 +2,7 @@ import * as TextResource from "../resources/text";
 import * as ResourceMap from "./resource_map";
 import Shader from "../shaders/shader";
 import TextureShader from "../shaders/texture.shader";
+import SpriteShader from "../shaders/sprite.shader";
 
 /**
  * @module ShaderResources
@@ -14,6 +15,7 @@ const kTextureFS = "src/shaders/texture.fs.glsl";
 
 let mConstColorShader: Shader | null = null;
 let mTextureShader: TextureShader | null = null;
+let mSpriteShader: SpriteShader | null = null;
 
 /**
  * @description Initializes shaders
@@ -51,12 +53,21 @@ export function getTextureShader(): TextureShader | null {
 }
 
 /**
+ * @description Gets the sprite shader
+ * @returns {SpriteShader | null} the sprite shader
+ */
+export function getSpriteShader(): SpriteShader | null {
+  return mSpriteShader;
+}
+
+/**
  * @description Creates the core shader
  * @returns {void} nothing
  */
 function createShaders(): void {
   mConstColorShader = new Shader(kSimpleVS, kSimpleFS);
   mTextureShader = new TextureShader(kTextureVS, kTextureFS);
+  mSpriteShader = new SpriteShader(kTextureVS, kTextureFS);
 }
 
 /**
@@ -65,6 +76,7 @@ function createShaders(): void {
 export function cleanUp(): void {
   mConstColorShader?.cleanUp();
   mTextureShader?.cleanUp();
+  mSpriteShader?.cleanUp();
   TextResource.unload(kSimpleVS);
   TextResource.unload(kSimpleFS);
   TextResource.unload(kTextureVS);

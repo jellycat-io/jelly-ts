@@ -30,6 +30,31 @@ export class TextureInfo {
     this.mHeight = h;
     this.mGLTexID = id;
   }
+
+  /**
+   * Gets texture width
+   *
+   * @returns {number} the texture width
+   */
+  getWidth(): number {
+    return this.mWidth;
+  }
+  /**
+   * Gets texture height
+   *
+   * @returns {number} the texture height
+   */
+  getHeight(): number {
+    return this.mHeight;
+  }
+  /**
+   * Gets texture id
+   *
+   * @returns {WebGLTexture | null} the texture id
+   */
+  getGLTexID(): WebGLTexture | null {
+    return this.mGLTexID;
+  }
 }
 
 /**
@@ -70,29 +95,29 @@ export function unload(textureName: string): void {
 
   if (map.unload(textureName)) {
     const gl = glSys.get();
-    gl?.deleteTexture(texInfo.mGLTexID);
+    gl?.deleteTexture(texInfo.getGLTexID());
   }
 }
 
 /**
  * @description Activates the texture in WebGL context
  * @param {string} textureName The texture file path
- * @param {TextureFilter} filtering The filter to apply to the texture
+ * @param {TextureFilter} filter The filter to apply to the texture
  */
-export function activate(textureName: string, filtering: TextureFilter): void {
+export function activate(textureName: string, filter: TextureFilter): void {
   const gl = glSys.get();
   const texInfo = get(textureName);
 
   // Bind texture reference to the current WebGL texture functionality
   gl?.activeTexture(gl.TEXTURE0);
-  gl?.bindTexture(gl.TEXTURE_2D, texInfo.mGLTexID);
+  gl?.bindTexture(gl.TEXTURE_2D, texInfo.getGLTexID());
 
   // To prevent texture wrapping
   gl?.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
   gl?.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
 
   // Handle how magnification and minimization filters will work
-  switch (filtering) {
+  switch (filter) {
     case TextureFilter.LINEAR:
       gl?.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
       gl?.texParameteri(

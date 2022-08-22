@@ -1,11 +1,10 @@
 import * as glSys from "../core/gl";
-import * as vertexBuffer from "../core/vertex_buffer";
 import { kWebGLNotFound } from "../utils/utils";
 import TextureShader from "./texture.shader";
 
 /**
  * @class
- * @augments {TextureShader}
+ * @augments TextureShader
  * @classdesc A TextureRenderable coming from a spritesheet
  */
 class SpriteShader extends TextureShader {

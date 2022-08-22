@@ -12,7 +12,7 @@ import Shader from "./shader";
 /**
  * @class
  * @classdesc The textured shader class
- * @augments {Shader}
+ * @augments Shader
  */
 class TextureShader extends Shader {
   mTexCoordBuffer: WebGLBuffer | null;

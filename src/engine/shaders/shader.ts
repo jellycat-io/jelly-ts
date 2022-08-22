@@ -5,15 +5,10 @@ import * as TextResource from "../resources/text";
 import { kWebGLNotFound } from "../utils/utils";
 
 /**
- * @module SimpleShader
- * @typedef {Float32Array | number[]} Float32List
- */
-
-/**
  * @class
  * @classdesc The core shader class
  */
-export class Shader {
+class Shader {
   /**
    * @private
    * @type {WebGLProgram | null}
@@ -166,6 +161,11 @@ export class Shader {
     gl?.deleteProgram(this.mCompiledShader);
   }
 }
+
+/**
+ * @module SimpleShader
+ * @typedef {Float32Array | number[]} Float32List
+ */
 
 /**
  * @description Compiles the shader

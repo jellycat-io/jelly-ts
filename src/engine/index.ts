@@ -11,6 +11,7 @@ import * as Palette from "./palette";
 import * as Utils from "./utils/utils";
 import Renderable from "./renderables/renderable";
 import TextureRenderable from "./renderables/texture.renderable";
+import SpriteRenderable from "./renderables/sprite.renderable";
 import Transform from "./transform";
 import Camera from "./camera";
 import Scene from "./scene";
@@ -72,6 +73,7 @@ export function cleanUp(): void {
 export {
   Renderable,
   TextureRenderable,
+  SpriteRenderable,
   Transform,
   Camera,
   Scene,

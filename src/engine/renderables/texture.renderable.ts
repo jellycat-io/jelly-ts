@@ -5,10 +5,6 @@ import Renderable from "./renderable";
 import Camera from "../camera";
 import { TextureFilter } from "../utils/utils";
 
-/**
- * @class
- * @classdesc A textured renderable
- */
 class TextureRenderable extends Renderable {
   /**
    * @private
@@ -19,14 +15,16 @@ class TextureRenderable extends Renderable {
    * @private
    * @type {TextureFilter}
    */
-  mFiltering: TextureFilter;
+  mFilter: TextureFilter;
 
   /**
-   *
+   * @class
+   * @classdesc A Renderable with texture
+   * @augments Renderable
    * @param {string} texture The texture to apply
-   * @param {TextureFilter} [filtering=TextureFilter.NEAREST] The filter to apply
+   * @param {TextureFilter} [filter=TextureFilter.NEAREST] The filter to apply
    */
-  constructor(texture: string | undefined, filtering = TextureFilter.NEAREST) {
+  constructor(texture: string | undefined, filter = TextureFilter.NEAREST) {
     if (!texture) {
       throw new Error(`Texture ${texture} not found`);
     }
@@ -34,7 +32,7 @@ class TextureRenderable extends Renderable {
     super.setColor(Palette.getGLColor("White", 0)); // No texture tinting
     super._setShader(shaderResources.getTextureShader());
     this.mTexture = texture;
-    this.mFiltering = filtering;
+    this.mFilter = filter;
   }
 
   /**
@@ -43,7 +41,7 @@ class TextureRenderable extends Renderable {
    */
   draw(camera: Camera): void {
     // Activate the texture
-    TextureResource.activate(this.mTexture, this.mFiltering);
+    TextureResource.activate(this.mTexture, this.mFilter);
     super.draw(camera);
   }
 
