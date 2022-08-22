@@ -52,7 +52,7 @@ export function load(textureName: string): Promise<void> | null {
         return processLoadedImage(textureName, image);
       })
       .catch((e) => {
-        throw new Error(`Failed to load image ${textureName}`);
+        throw new Error(`Failed to load image ${textureName}: ${e}`);
       });
 
     map.pushPromise(texturePromise);
@@ -76,8 +76,8 @@ export function unload(textureName: string): void {
 
 /**
  * @description Activates the texture in WebGL context
- * @param filtering
  * @param {string} textureName The texture file path
+ * @param {TextureFilter} filtering The filter to apply to the texture
  */
 export function activate(textureName: string, filtering: TextureFilter): void {
   const gl = glSys.get();
