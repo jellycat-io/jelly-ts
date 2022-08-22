@@ -2,6 +2,7 @@
  * @module VertexBuffer
  */
 
+import { kWebGLNotFound } from "../utils/utils";
 import * as glSys from "./gl";
 
 // prettier-ignore
@@ -46,7 +47,7 @@ export function getTexCoord(): WebGLBuffer | null {
 export function init(): void {
   const gl = glSys.get();
 
-  if (!gl) return;
+  if (!gl) throw kWebGLNotFound;
 
   // Create buffer for vertex positions
   mGLVertexBuffer = gl.createBuffer();

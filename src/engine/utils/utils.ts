@@ -28,3 +28,10 @@ export enum TextureFilter {
   LINEAR,
   NEAREST,
 }
+
+/**
+ * WebGL not found error
+ *
+ * @type {Error}
+ */
+export const kWebGLNotFound = new Error("Error: WebGL system not initialized");

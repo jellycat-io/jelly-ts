@@ -2,6 +2,7 @@ import { mat4 } from "gl-matrix";
 import * as glSys from "../core/gl";
 import * as vertexBuffer from "../core/vertex_buffer";
 import * as TextResource from "../resources/text";
+import { kWebGLNotFound } from "../utils/utils";
 
 /**
  * @module SimpleShader
@@ -64,7 +65,7 @@ export class Shader {
 
     const gl = glSys.get();
 
-    if (!gl) return;
+    if (!gl) throw kWebGLNotFound;
 
     // Load and compile both shaders
     this.mVertexShader = compileShader(vertexSourceFile, gl.VERTEX_SHADER);

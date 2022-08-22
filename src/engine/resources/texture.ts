@@ -1,6 +1,6 @@
 import * as map from "../core/resource_map";
 import * as glSys from "../core/gl";
-import { TextureFilter } from "../utils/utils";
+import { kWebGLNotFound, TextureFilter } from "../utils/utils";
 
 /**
  * @module TextureResource
@@ -124,9 +124,7 @@ export function deactivate(): void {
 function processLoadedImage(path: string, image: HTMLImageElement): void {
   const gl = glSys.get();
 
-  if (!gl) {
-    throw new Error("WebGL system not initialized");
-  }
+  if (!gl) throw kWebGLNotFound;
 
   // Generate a texture reference to the WebGL context
   const textureID = gl.createTexture();
