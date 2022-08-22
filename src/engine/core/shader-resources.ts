@@ -1,6 +1,7 @@
 import * as TextResource from "../resources/text";
 import * as ResourceMap from "./resource-map";
-import SimpleShader from "../simple-shader";
+import Shader from "../shaders/simple-shader";
+import TextureShader from "../shaders/texture-shader";
 
 /**
  * @module ShaderResources
@@ -8,7 +9,11 @@ import SimpleShader from "../simple-shader";
 
 const kSimpleVS = "src/shaders/simple.vs.glsl";
 const kSimpleFS = "src/shaders/simple.fs.glsl";
-let mConstColorShader: SimpleShader | null = null;
+const kTextureVS = "src/shaders/texture.vs.glsl";
+const kTextureFS = "src/shaders/texture.fs.glsl";
+
+let mConstColorShader: Shader | null = null;
+let mTextureShader: TextureShader | null = null;
 
 /**
  * @description Initializes shaders
@@ -20,6 +25,8 @@ export function init() {
     await Promise.all([
       TextResource.load(kSimpleVS),
       TextResource.load(kSimpleFS),
+      TextResource.load(kTextureVS),
+      TextResource.load(kTextureFS),
     ]);
     resolve();
   }).then(() => createShaders());
@@ -29,10 +36,18 @@ export function init() {
 
 /**
  * @description Gets the core shader
- * @returns {SimpleShader | null} the core shader
+ * @returns {Shader | null} the core shader
  */
-export function getConstColorShader(): SimpleShader | null {
+export function getConstColorShader(): Shader | null {
   return mConstColorShader;
+}
+
+/**
+ * @description Gets the texture shader
+ * @returns {TextureShader | null} the texture shader
+ */
+export function getTextureShader(): TextureShader | null {
+  return mTextureShader;
 }
 
 /**
@@ -40,7 +55,8 @@ export function getConstColorShader(): SimpleShader | null {
  * @returns {void} nothing
  */
 function createShaders(): void {
-  mConstColorShader = new SimpleShader(kSimpleVS, kSimpleFS);
+  mConstColorShader = new Shader(kSimpleVS, kSimpleFS);
+  mTextureShader = new TextureShader(kTextureVS, kTextureFS);
 }
 
 /**
@@ -48,6 +64,9 @@ function createShaders(): void {
  */
 export function cleanUp(): void {
   mConstColorShader?.cleanUp();
+  mTextureShader?.cleanUp();
   TextResource.unload(kSimpleVS);
   TextResource.unload(kSimpleFS);
+  TextResource.unload(kTextureVS);
+  TextResource.unload(kTextureFS);
 }

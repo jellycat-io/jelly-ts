@@ -72,7 +72,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-Audio.html">Audio</a></li><li><a href="module-GameLoop.html">GameLoop</a></li><li><a href="module-GL.html">GL</a></li><li><a href="module-Input.html">Input</a></li><li><a href="module-ResourceMap.html">ResourceMap</a></li><li><a href="module-ShaderResources.html">ShaderResources</a></li><li><a href="module-TextResource.html">TextResource</a></li><li><a href="module-VertexBuffer.html">VertexBuffer</a></li><li><a href="module-XMLResource.html">XMLResource</a></li></ul><h3>Classes</h3><ul><li><a href="Camera.html">Camera</a></li><li><a href="Camera_Camera.html">Camera</a></li><li><a href="module-ResourceMap.MapEntry.html">MapEntry</a></li><li><a href="module-ResourceMap.MapEntry_MapEntry.html">MapEntry</a></li><li><a href="Scene.html">Scene</a></li><li><a href="SimpleShader.html">SimpleShader</a></li><li><a href="SimpleShader_SimpleShader.html">SimpleShader</a></li><li><a href="Transform.html">Transform</a></li></ul><h3>Global</h3><ul><li><a href="global.html#cleanUp">cleanUp</a></li><li><a href="global.html#clearCanvas">clearCanvas</a></li><li><a href="global.html#Color">Color</a></li><li><a href="global.html#compileShader">compileShader</a></li><li><a href="global.html#DecodeResource">DecodeResource</a></li><li><a href="global.html#getGL">getGL</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#Palette">Palette</a></li><li><a href="global.html#rgbaToGL">rgbaToGL</a></li></ul></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-Audio.html">Audio</a></li><li><a href="module-Engine.html">Engine</a></li><li><a href="module-GameLoop.html">GameLoop</a></li><li><a href="module-GL.html">GL</a></li><li><a href="module-Input.html">Input</a></li><li><a href="module-ResourceMap.html">ResourceMap</a></li><li><a href="module-ShaderResources.html">ShaderResources</a></li><li><a href="module-TextResource.html">TextResource</a></li><li><a href="module-TextureResource.html">TextureResource</a></li><li><a href="module-Utils.html">Utils</a></li><li><a href="module-VertexBuffer.html">VertexBuffer</a></li><li><a href="module-XMLResource.html">XMLResource</a></li></ul><h3>Classes</h3><ul><li><a href="Camera.html">Camera</a></li><li><a href="Camera_Camera.html">Camera</a></li><li><a href="module-ResourceMap.MapEntry.html">MapEntry</a></li><li><a href="module-ResourceMap.MapEntry_MapEntry.html">MapEntry</a></li><li><a href="module-TextureResource.TextureInfo.html">TextureInfo</a></li><li><a href="module-TextureResource.TextureInfo_TextureInfo.html">TextureInfo</a></li><li><a href="Scene.html">Scene</a></li><li><a href="Shader.html">Shader</a></li><li><a href="Shader_Shader.html">Shader</a></li><li><a href="TextureRenderable.html">TextureRenderable</a></li><li><a href="TextureRenderable_TextureRenderable.html">TextureRenderable</a></li><li><a href="TextureShader.html">TextureShader</a></li><li><a href="TextureShader_Shader.html">Shader</a></li><li><a href="TextureShader_TextureShader.html">TextureShader</a></li><li><a href="Transform.html">Transform</a></li></ul><h3>Global</h3><ul><li><a href="global.html#compileShader">compileShader</a></li><li><a href="global.html#DecodeResource">DecodeResource</a></li><li><a href="global.html#Engine">Engine</a></li><li><a href="global.html#getGLColor">getGLColor</a></li><li><a href="global.html#getHexColor">getHexColor</a></li><li><a href="global.html#getRGBColor">getRGBColor</a></li><li><a href="global.html#glToRgb">glToRgb</a></li><li><a href="global.html#hexToRgb">hexToRgb</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#rgbToGl">rgbToGl</a></li><li><a href="global.html#rgbToHex">rgbToHex</a></li><li><a href="global.html#setGLColor">setGLColor</a></li><li><a href="global.html#setHexColor">setHexColor</a></li><li><a href="global.html#setRGBColor">setRGBColor</a></li></ul></div>
                 
             </nav>
         </div>
@@ -89,10 +89,10 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import { mat4, vec2, vec3 } from "gl-matrix";
+            <pre class="prettyprint source linenums"><code>import { mat4, vec2 } from "gl-matrix";
 import * as glSys from "./core/gl";
-import { Color, Palette } from "./utils/palette";
-import { VIEWPORT } from "./utils/common";
+import * as Palette from "./palette";
+import { Viewport } from "./utils/utils";
 
 /**
  * @class
@@ -117,9 +117,31 @@ class Camera {
   mViewport: Float32List;
   /**
    * @private
+   * @type {number}
+   */
+  mNearPlane: number;
+  /**
+   * @private
+   * @type {number}
+   */
+  mFarPlane: number;
+
+  /**
+   * @private
    * @type {mat4}
    */
-  mCameraMatrix: mat4;
+  mViewMatrix: mat4;
+  /**
+   * @private
+   * @type {mat4}
+   */
+  mProjMatrix: mat4;
+  /**
+   * @private
+   * @type {mat4}
+   */
+  mVPMatrix: mat4;
+
   /**
    * @private
    * @type {Float32List}
@@ -141,12 +163,16 @@ class Camera {
     this.mWCCenter = wcCenter;
     this.mWCWidth = wcWidth;
     this.mViewport = viewportArray; // [x,y,w,h]
+    this.mNearPlane = 0;
+    this.mFarPlane = 1000;
 
-    // Camera transform operator
-    this.mCameraMatrix = mat4.create();
+    // Camera transform matrices
+    this.mViewMatrix = mat4.create();
+    this.mProjMatrix = mat4.create();
+    this.mVPMatrix = mat4.create();
 
     // Set background color
-    this.mBGColor = bgColor ?? Palette[Color.White];
+    this.mBGColor = bgColor ?? Palette.getGLColor("White");
   }
 
   /**
@@ -186,7 +212,7 @@ class Camera {
    */
   getWCHeight(): number {
     const ratio =
-      this.mViewport[VIEWPORT.HEIGHT] / this.mViewport[VIEWPORT.WIDTH];
+      this.mViewport[Viewport.HEIGHT] / this.mViewport[Viewport.WIDTH];
 
     return this.getWCWidth() * ratio;
   }
@@ -225,14 +251,14 @@ class Camera {
    * @description Gets the camera matrix
    * @returns {mat4} the camera matrix
    */
-  getCameraMatrix(): mat4 {
-    return this.mCameraMatrix;
+  getVPMatrix(): mat4 {
+    return this.mVPMatrix;
   }
 
   /**
    * @description Initializes the camera to begin drawing
    */
-  setViewAndCameraMatrix(): void {
+  setupViewProjection(): void {
     const gl = glSys.get();
     const [vx, vy, vw, vh] = this.getViewport();
 
@@ -259,17 +285,28 @@ class Camera {
     // Compute camera matrix
     const center = this.getWCCenter();
 
-    // After translation, scale to -1 to 1: 2x2 square at origin
-    mat4.scale(
-      this.getCameraMatrix(),
-      mat4.create(),
-      vec3.fromValues(2.0 / this.getWCWidth(), 2.0 / this.getWCHeight(), 1.0)
+    mat4.lookAt(
+      this.mViewMatrix,
+      [center[0], center[1], 10],
+      [center[0], center[1], 0],
+      [0, 1, 0]
     );
-    mat4.translate(
-      this.getCameraMatrix(),
-      this.getCameraMatrix(),
-      vec3.fromValues(-center[0], -center[1], 0)
+
+    const ratio = vh / vw;
+    const halfWCWidth = 0.5 * this.mWCWidth;
+    const halfWCHeight = halfWCWidth * ratio;
+
+    mat4.ortho(
+      this.mProjMatrix,
+      -halfWCWidth, // distance to left of WC
+      halfWCWidth, // distance to right of WC
+      -halfWCHeight, // distance to bottom of WC
+      halfWCHeight, // distance to top of WC
+      this.mNearPlane, // z-distance to near plane
+      this.mFarPlane // z-distanceto far plane
     );
+
+    mat4.multiply(this.mVPMatrix, this.mProjMatrix, this.mViewMatrix);
   }
 }
 

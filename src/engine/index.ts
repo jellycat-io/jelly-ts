@@ -3,17 +3,23 @@ import * as vertexBuffer from "./core/vertex-buffer";
 import * as shaderResources from "./core/shader-resources";
 import * as loop from "./core/loop";
 import * as Input from "./input";
+import * as TextureResource from "./resources/texture";
 import * as TextResource from "./resources/text";
 import * as XMLResource from "./resources/xml";
 import * as Audio from "./resources/audio";
-import Renderable from "./renderable";
+import * as Palette from "./palette";
+import * as Utils from "./utils/utils";
+import Renderable from "./renderables/renderable";
+import TextureRenderable from "./renderables/texture-renderable";
 import Transform from "./transform";
 import Camera from "./camera";
 import Scene from "./scene";
-import { Palette, Color } from "./utils/palette";
 
 /**
  * @module Engine
+ */
+
+/**
  * @typedef {Float32Array | number[]} Float32List
  */
 
@@ -27,6 +33,7 @@ export function init(width: number, height: number, canvasID?: string) {
   glSys.init(width, height, canvasID);
   vertexBuffer.init();
   shaderResources.init();
+  Palette.init();
   Input.init();
   Audio.init();
 }
@@ -64,13 +71,15 @@ export function cleanUp(): void {
 
 export {
   Renderable,
+  TextureRenderable,
   Transform,
   Camera,
   Scene,
+  Utils,
   Input,
   TextResource,
   XMLResource,
+  TextureResource,
   Palette,
-  Color,
   Audio,
 };

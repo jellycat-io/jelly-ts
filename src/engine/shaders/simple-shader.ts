@@ -1,7 +1,7 @@
 import { mat4 } from "gl-matrix";
-import * as glSys from "./core/gl";
-import * as vertexBuffer from "./core/vertex-buffer";
-import * as TextResource from "./resources/text";
+import * as glSys from "../core/gl";
+import * as vertexBuffer from "../core/vertex-buffer";
+import * as TextResource from "../resources/text";
 
 /**
  * @module SimpleShader
@@ -12,7 +12,7 @@ import * as TextResource from "./resources/text";
  * @class
  * @classdesc The core shader class
  */
-export class SimpleShader {
+export class Shader {
   /**
    * @private
    * @type {WebGLProgram | null}
@@ -47,7 +47,7 @@ export class SimpleShader {
    * @private
    * @type {WebGLUniformLocation | null}
    */
-  mCameraMatrixRed: WebGLUniformLocation | null;
+  mViewProjMatrixRef: WebGLUniformLocation | null;
 
   /**
    * @param {string} vertexSourceFile The vertex shader file path
@@ -60,7 +60,7 @@ export class SimpleShader {
     this.mVertexPositionRef = null;
     this.mPixelColorRef = null;
     this.mModelMatrixRef = null;
-    this.mCameraMatrixRed = null;
+    this.mViewProjMatrixRef = null;
 
     const gl = glSys.get();
 
@@ -111,9 +111,9 @@ export class SimpleShader {
       this.mCompiledShader,
       "uModelTransformMatrix"
     );
-    this.mCameraMatrixRed = gl.getUniformLocation(
+    this.mViewProjMatrixRef = gl.getUniformLocation(
       this.mCompiledShader,
-      "uCameraTransformMatrix"
+      "uViewProjTransformMatrix"
     );
   }
 
@@ -146,7 +146,7 @@ export class SimpleShader {
     // Load uniforms
     gl.uniform4fv(this.mPixelColorRef, pixelColor);
     gl.uniformMatrix4fv(this.mModelMatrixRef, false, trsMatrix);
-    gl.uniformMatrix4fv(this.mCameraMatrixRed, false, cameraMatrix);
+    gl.uniformMatrix4fv(this.mViewProjMatrixRef, false, cameraMatrix);
   }
 
   /**
@@ -208,4 +208,4 @@ function compileShader(
   return compiledShader;
 }
 
-export default SimpleShader;
+export default Shader;

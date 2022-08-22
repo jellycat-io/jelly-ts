@@ -1,0 +1,332 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> shaders/simple-shader.ts</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Jelly Engine</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-Audio.html">Audio</a></li><li><a href="module-Engine.html">Engine</a></li><li><a href="module-GameLoop.html">GameLoop</a></li><li><a href="module-GL.html">GL</a></li><li><a href="module-Input.html">Input</a></li><li><a href="module-ResourceMap.html">ResourceMap</a></li><li><a href="module-ShaderResources.html">ShaderResources</a></li><li><a href="module-TextResource.html">TextResource</a></li><li><a href="module-TextureResource.html">TextureResource</a></li><li><a href="module-Utils.html">Utils</a></li><li><a href="module-VertexBuffer.html">VertexBuffer</a></li><li><a href="module-XMLResource.html">XMLResource</a></li></ul><h3>Classes</h3><ul><li><a href="Camera.html">Camera</a></li><li><a href="Camera_Camera.html">Camera</a></li><li><a href="module-ResourceMap.MapEntry.html">MapEntry</a></li><li><a href="module-ResourceMap.MapEntry_MapEntry.html">MapEntry</a></li><li><a href="module-TextureResource.TextureInfo.html">TextureInfo</a></li><li><a href="module-TextureResource.TextureInfo_TextureInfo.html">TextureInfo</a></li><li><a href="Scene.html">Scene</a></li><li><a href="Shader.html">Shader</a></li><li><a href="Shader_Shader.html">Shader</a></li><li><a href="TextureRenderable.html">TextureRenderable</a></li><li><a href="TextureRenderable_TextureRenderable.html">TextureRenderable</a></li><li><a href="TextureShader.html">TextureShader</a></li><li><a href="TextureShader_Shader.html">Shader</a></li><li><a href="TextureShader_TextureShader.html">TextureShader</a></li><li><a href="Transform.html">Transform</a></li></ul><h3>Global</h3><ul><li><a href="global.html#compileShader">compileShader</a></li><li><a href="global.html#DecodeResource">DecodeResource</a></li><li><a href="global.html#Engine">Engine</a></li><li><a href="global.html#getGLColor">getGLColor</a></li><li><a href="global.html#getHexColor">getHexColor</a></li><li><a href="global.html#getRGBColor">getRGBColor</a></li><li><a href="global.html#glToRgb">glToRgb</a></li><li><a href="global.html#hexToRgb">hexToRgb</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#rgbToGl">rgbToGl</a></li><li><a href="global.html#rgbToHex">rgbToHex</a></li><li><a href="global.html#setGLColor">setGLColor</a></li><li><a href="global.html#setHexColor">setHexColor</a></li><li><a href="global.html#setRGBColor">setRGBColor</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>shaders/simple-shader.ts</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { mat4 } from "gl-matrix";
+import * as glSys from "../core/gl";
+import * as vertexBuffer from "../core/vertex-buffer";
+import * as TextResource from "../resources/text";
+
+/**
+ * @module SimpleShader
+ * @typedef {Float32Array | number[]} Float32List
+ */
+
+/**
+ * @class
+ * @classdesc The core shader class
+ */
+export class Shader {
+  /**
+   * @private
+   * @type {WebGLProgram | null}
+   */
+  mCompiledShader: WebGLProgram | null;
+  /**
+   * @private
+   * @type {WebGLShader | null}
+   */
+  mVertexShader: WebGLShader | null;
+  /**
+   * @private
+   * @type {WebGLShader | null}
+   */
+  mFragmentShader: WebGLShader | null;
+  /**
+   * @private
+   * @type {number | null}
+   */
+  mVertexPositionRef: number | null;
+  /**
+   * @private
+   * @type {WebGLUniformLocation | null}
+   */
+  mPixelColorRef: WebGLUniformLocation | null;
+  /**
+   * @private
+   * @type {WebGLUniformLocation | null}
+   */
+  mModelMatrixRef: WebGLUniformLocation | null;
+  /**
+   * @private
+   * @type {WebGLUniformLocation | null}
+   */
+  mViewProjMatrixRef: WebGLUniformLocation | null;
+
+  /**
+   * @param {string} vertexSourceFile The vertex shader file path
+   * @param {string} fragmentSourceFile The fragment shader file path
+   */
+  constructor(vertexSourceFile: string, fragmentSourceFile: string) {
+    this.mCompiledShader = null;
+    this.mVertexShader = null;
+    this.mFragmentShader = null;
+    this.mVertexPositionRef = null;
+    this.mPixelColorRef = null;
+    this.mModelMatrixRef = null;
+    this.mViewProjMatrixRef = null;
+
+    const gl = glSys.get();
+
+    if (!gl) return;
+
+    // Load and compile both shaders
+    this.mVertexShader = compileShader(vertexSourceFile, gl.VERTEX_SHADER);
+    this.mFragmentShader = compileShader(
+      fragmentSourceFile,
+      gl.FRAGMENT_SHADER
+    );
+
+    if (!this.mVertexShader || !this.mFragmentShader) {
+      throw new Error("Error loading shader source");
+    }
+
+    // Link shaders into a new program
+    this.mCompiledShader = gl.createProgram();
+
+    if (!this.mCompiledShader) {
+      throw new Error("Error creating shader program");
+    }
+
+    gl.attachShader(this.mCompiledShader, this.mVertexShader);
+    gl.attachShader(this.mCompiledShader, this.mFragmentShader);
+    gl.linkProgram(this.mCompiledShader);
+
+    if (!gl.getProgramParameter(this.mCompiledShader, gl.LINK_STATUS)) {
+      throw new Error(
+        `Error linking shader: ${gl.getProgramInfoLog(this.mCompiledShader)}`
+      );
+    }
+
+    // Get reference to aPosition in the shader
+    this.mVertexPositionRef = gl.getAttribLocation(
+      this.mCompiledShader,
+      "aVertexPosition"
+    );
+
+    // Gets uniform variable uPixelColor in fragment shader
+    this.mPixelColorRef = gl.getUniformLocation(
+      this.mCompiledShader,
+      "uPixelColor"
+    );
+
+    // Gets uniform variables in vertex shader
+    this.mModelMatrixRef = gl.getUniformLocation(
+      this.mCompiledShader,
+      "uModelTransformMatrix"
+    );
+    this.mViewProjMatrixRef = gl.getUniformLocation(
+      this.mCompiledShader,
+      "uViewProjTransformMatrix"
+    );
+  }
+
+  /**
+   * @description Activates the shader
+   * @param {Float32List} pixelColor The color to apply to the shader
+   * @param {mat4} trsMatrix The transform matrix
+   * @param {mat4} cameraMatrix The camera matrix
+   */
+  activate(pixelColor: Float32List, trsMatrix: mat4, cameraMatrix: mat4): void {
+    const gl = glSys.get();
+
+    if (!gl || this.mVertexPositionRef === null) return;
+
+    // Identify the compiled shader to use
+    gl.useProgram(this.mCompiledShader);
+
+    // Bind vertex buffer to attribute defined in vertex shader
+    gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer.get());
+    gl.vertexAttribPointer(
+      this.mVertexPositionRef,
+      3, // each element is a 3-float (x,y,z)
+      gl.FLOAT, // data type is FLOAT
+      false, // is content normalized vectors?
+      0, // number of bytes to skip in between elements
+      0 // offsets to the first element
+    );
+    gl.enableVertexAttribArray(this.mVertexPositionRef);
+
+    // Load uniforms
+    gl.uniform4fv(this.mPixelColorRef, pixelColor);
+    gl.uniformMatrix4fv(this.mModelMatrixRef, false, trsMatrix);
+    gl.uniformMatrix4fv(this.mViewProjMatrixRef, false, cameraMatrix);
+  }
+
+  /**
+   * @description Cleans up shader from GPU
+   */
+  cleanUp(): void {
+    const gl = glSys.get();
+
+    if (!this.mCompiledShader || !this.mVertexShader || !this.mFragmentShader)
+      return;
+
+    gl?.detachShader(this.mCompiledShader, this.mVertexShader);
+    gl?.detachShader(this.mCompiledShader, this.mFragmentShader);
+    gl?.deleteShader(this.mVertexShader);
+    gl?.deleteShader(this.mFragmentShader);
+    gl?.deleteProgram(this.mCompiledShader);
+  }
+}
+
+/**
+ * @description Compiles the shader
+ * @param {string} filePath The shader file path
+ * @param {number} shaderType The shader type
+ * @returns {WebGLShader | null} the compiled shader
+ */
+function compileShader(
+  filePath: string,
+  shaderType: number
+): WebGLShader | null {
+  let shaderSource: string | null = null;
+  let compiledShader = null;
+
+  const gl = glSys.get();
+
+  // Access shader text file
+  shaderSource = TextResource.get(filePath);
+
+  if (!shaderSource) {
+    throw new Error(`WARNING: Loading of ${filePath} failed.`);
+  }
+
+  // Create the shader with correct type
+  compiledShader = gl?.createShader(shaderType);
+
+  if (!compiledShader) return null;
+
+  // Compile the shader with correct data
+  gl?.shaderSource(compiledShader, shaderSource);
+  gl?.compileShader(compiledShader);
+
+  if (!gl?.getShaderParameter(compiledShader, gl.COMPILE_STATUS)) {
+    throw new Error(
+      `A shader compiling error occured: ${gl?.getShaderInfoLog(
+        compiledShader
+      )}`
+    );
+  }
+
+  return compiledShader;
+}
+
+export default Shader;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.11</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>

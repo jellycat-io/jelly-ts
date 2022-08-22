@@ -33,8 +33,8 @@ yarn docs:watch
 - [X] Asynchronous resource loading
 - [X] XML Scene definition
 - [X] Scene management
-- [ ] Audio
-- [ ] Textures
+- [X] Audio
+- [X] Textures
 - [ ] Sprites
 - [ ] Fonts
 - [ ] GameObjects

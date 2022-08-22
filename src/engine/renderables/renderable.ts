@@ -1,9 +1,9 @@
-import { Color, Palette } from "./utils/palette";
-import Camera from "./camera";
-import * as glSys from "./core/gl";
-import * as shaderResources from "./core/shader-resources";
-import SimpleShader from "./simple-shader";
-import Transform from "./transform";
+import * as Palette from "../palette";
+import Camera from "../camera";
+import * as glSys from "../core/gl";
+import * as shaderResources from "../core/shader-resources";
+import Shader from "../shaders/simple-shader";
+import Transform from "../transform";
 
 /**
  * @class
@@ -13,9 +13,9 @@ import Transform from "./transform";
 class Renderable {
   /**
    * @private
-   * @type {SimpleShader | null}
+   * @type {Shader | null}
    */
-  mShader: SimpleShader | null;
+  mShader: Shader | null;
   /**
    * @private
    * @type {Float32List}
@@ -29,8 +29,17 @@ class Renderable {
 
   constructor() {
     this.mShader = shaderResources.getConstColorShader();
-    this.mColor = Palette[Color.LightPeach];
+    this.mColor = Palette.getGLColor("Cream");
     this.mTransform = new Transform();
+  }
+
+  /**
+   * @protected
+   * @description Sets the Renderable shader
+   * @param {Shader} s The shader to set
+   */
+  protected _setShader(s: Shader | null) {
+    this.mShader = s;
   }
 
   /**
@@ -66,7 +75,7 @@ class Renderable {
     this.mShader?.activate(
       this.mColor,
       this.mTransform.getTRSMatrix(),
-      camera.getCameraMatrix()
+      camera.getVPMatrix()
     );
     gl?.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
   }
