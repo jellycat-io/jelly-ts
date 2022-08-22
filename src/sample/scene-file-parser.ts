@@ -47,6 +47,30 @@ class SceneFileParser {
       sqSet.push(sq);
     }
   }
+
+  parseTextureSquares(sqSet: Array<Engine.Renderable>) {
+    const elm = getElm(this.xml, "TextureSquare");
+
+    for (let i = 0; i < elm.length; i++) {
+      const x = Number(elm.item(i)?.attributes.getNamedItem("PosX")?.value);
+      const y = Number(elm.item(i)?.attributes.getNamedItem("PosY")?.value);
+      const w = Number(elm.item(i)?.attributes.getNamedItem("Width")?.value);
+      const h = Number(elm.item(i)?.attributes.getNamedItem("Height")?.value);
+      const r = Number(elm.item(i)?.attributes.getNamedItem("Rotation")?.value);
+      const c = parseColor(
+        elm.item(i)?.attributes.getNamedItem("Color")?.value.split(" ")
+      );
+      const t = elm.item(i)?.attributes.getNamedItem("Texture")?.value;
+
+      const sq = new Engine.TextureRenderable(t);
+      sq.setColor(c);
+      sq.getTransform().setPosition(x, y);
+      sq.getTransform().setRotationDeg(r);
+      sq.getTransform().setScale(w, h);
+
+      sqSet.push(sq);
+    }
+  }
 }
 
 /**

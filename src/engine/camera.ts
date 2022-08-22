@@ -1,7 +1,7 @@
 import { mat4, vec2 } from "gl-matrix";
 import * as glSys from "./core/gl";
 import * as Palette from "./palette";
-import { VIEWPORT } from "./utils/common";
+import { Viewport } from "./utils/utils";
 
 /**
  * @class
@@ -121,7 +121,7 @@ class Camera {
    */
   getWCHeight(): number {
     const ratio =
-      this.mViewport[VIEWPORT.HEIGHT] / this.mViewport[VIEWPORT.WIDTH];
+      this.mViewport[Viewport.HEIGHT] / this.mViewport[Viewport.WIDTH];
 
     return this.getWCWidth() * ratio;
   }

@@ -1,7 +1,7 @@
 import { mat4 } from "gl-matrix";
-import * as glSys from "./core/gl";
-import * as vertexBuffer from "./core/vertex-buffer";
-import * as TextResource from "./resources/text";
+import * as glSys from "../core/gl";
+import * as vertexBuffer from "../core/vertex-buffer";
+import * as TextResource from "../resources/text";
 
 /**
  * @module SimpleShader
@@ -12,7 +12,7 @@ import * as TextResource from "./resources/text";
  * @class
  * @classdesc The core shader class
  */
-export class SimpleShader {
+export class Shader {
   /**
    * @private
    * @type {WebGLProgram | null}
@@ -208,4 +208,4 @@ function compileShader(
   return compiledShader;
 }
 
-export default SimpleShader;
+export default Shader;

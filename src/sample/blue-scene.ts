@@ -1,35 +1,56 @@
 import * as Engine from "../engine";
-import SceneFileParser from "./util";
+import { Game } from "./sample";
+import SceneFileParser from "./scene-file-parser";
 
 export default class extends Engine.Scene {
-  mSceneFile: string;
+  kSceneFile: string;
+  kPortal: string;
+  kCollector: string;
   mSqSet: Array<Engine.Renderable>;
   mCamera!: Engine.Camera;
+  mBackgroundAudio: string;
+  mCue: string;
 
   constructor() {
     super();
-    this.mSceneFile = "src/assets/blue-scene.xml";
+    this.kSceneFile = "src/assets/blue_level.xml";
+    this.kPortal = "src/assets/minion_portal.jpg";
+    this.kCollector = "src/assets/minion_collector.jpg";
     this.mSqSet = [];
+    this.mBackgroundAudio = "src/assets/sounds/bg_clip.mp3";
+    this.mCue = "src/assets/sounds/blue_level_cue.wav";
   }
 
   load(): void {
-    Engine.XMLResource.load(this.mSceneFile);
+    Engine.XMLResource.load(this.kSceneFile);
+    Engine.TextureResource.load(this.kPortal);
+    Engine.TextureResource.load(this.kCollector);
+    Engine.Audio.load(this.mBackgroundAudio);
+    Engine.Audio.load(this.mCue);
   }
 
   unload(): void {
-    Engine.XMLResource.unload(this.mSceneFile);
+    Engine.Audio.stopBackground();
+    Engine.XMLResource.unload(this.kSceneFile);
+    Engine.TextureResource.unload(this.kPortal);
+    Engine.TextureResource.unload(this.kCollector);
+    Engine.Audio.unload(this.mBackgroundAudio);
+    Engine.Audio.unload(this.mCue);
   }
 
   init(): void {
-    const sceneFile = Engine.XMLResource.get(this.mSceneFile);
+    const sceneFile = Engine.XMLResource.get(this.kSceneFile);
     const sceneParser = new SceneFileParser(sceneFile);
 
     this.mCamera = sceneParser.parseCamera();
     sceneParser.parseSquares(this.mSqSet);
+    sceneParser.parseTextureSquares(this.mSqSet);
+
+    Engine.Audio.playBackground(this.mBackgroundAudio, 1.0);
   }
 
   draw(): void {
-    Engine.clearCanvas(Engine.Palette.getGLColor("black"));
+    Engine.clearCanvas(Engine.Palette.getGLColor("Black"));
 
     if (!this.mCamera) {
       throw new Error("Error: No viewport found");
@@ -43,25 +64,47 @@ export default class extends Engine.Scene {
   }
 
   update() {
-    const whiteTransform = this.mSqSet[0].getTransform();
+    const redSquare = this.mSqSet[0].getTransform();
     const deltaX = 0.05;
 
-    // Move blue square
-    if (Engine.Input.isKeyPressed(Engine.Input.KEYS.ARROW_RIGHT)) {
-      if (whiteTransform.getXPos() > 30) whiteTransform.setPosition(10, 60);
-      whiteTransform.translateX(deltaX);
-    }
-
-    if (Engine.Input.isKeyClicked(Engine.Input.KEYS.ARROW_UP)) {
-      whiteTransform.rotateDeg(1);
+    if (redSquare) {
+      if (Engine.Input.isKeyPressed(Engine.Input.KEYS.ARROW_RIGHT)) {
+        // Engine.Audio.playCue(this.mCue, 0.5);
+        Engine.Audio.incBackgroundVolume(0.05);
+        redSquare.translateX(deltaX);
+        if (redSquare.getXPos() > 30) this.next();
+      }
+      if (Engine.Input.isKeyPressed(Engine.Input.KEYS.ARROW_LEFT)) {
+        // Engine.Audio.playCue(this.mCue, 1.5);
+        Engine.Audio.incBackgroundVolume(-0.05);
+        redSquare.translateX(-deltaX);
+        if (redSquare.getXPos() < 11) redSquare.setPosition(30, 60);
+      }
     }
 
     // pulse red square
-    const redTransform = this.mSqSet[1].getTransform();
+    const minion = this.mSqSet[1].getTransform();
 
     if (Engine.Input.isKeyPressed(Engine.Input.KEYS.ARROW_DOWN)) {
-      if (redTransform.getWidth() > 5) redTransform.setScale(2, 2);
-      redTransform.scale(0.05);
+      if (minion.getWidth() > 5) minion.setScale(2, 2);
+      minion.scale(0.05);
     }
+
+    const c = this.mSqSet[1].getColor();
+    let ca = c[3] + deltaX;
+    if (ca > 1) {
+      ca = 0;
+    }
+    c[3] = ca;
+
+    if (Engine.Input.isKeyPressed(Engine.Input.KEYS.KEY_Q)) {
+      this.stop();
+    }
+  }
+
+  next() {
+    super.next();
+    const nextLevel = new Game();
+    nextLevel.start();
   }
 }

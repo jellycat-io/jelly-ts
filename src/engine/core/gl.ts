@@ -34,11 +34,18 @@ export function init(width: number, height: number, canvasID?: string): void {
   mCanvas.width = width;
   mCanvas.height = height;
 
-  mGL = mCanvas.getContext("webgl2");
+  mGL = mCanvas.getContext("webgl2", { alpha: false });
 
   if (!mGL) {
     throw new Error("Unable to initialize WebGL2");
   }
+
+  // Allows transparency with textures
+  mGL.blendFunc(mGL.SRC_ALPHA, mGL.ONE_MINUS_SRC_ALPHA);
+  mGL.enable(mGL.BLEND);
+
+  // Set images to flip y axis to match the texture coordinate space
+  mGL.pixelStorei(mGL.UNPACK_FLIP_Y_WEBGL, true);
 }
 
 /**

@@ -1,17 +1,17 @@
 /**
  * @module Palette
- * @typedef {Float32Array | number[]} Float32List
  */
 
 /**
- * @typedef {[number, number, number]} ColorArray
+ * @typedef {Float32Array | number[]} Float32List
  */
+
 type ColorArray = [number, number, number];
 
 const mColors = new Map<string, ColorArray>();
 
 /**
- *
+ * @description Initializes palette with default colors
  */
 export function init(): void {
   setHexColor("Black", "#000000");
