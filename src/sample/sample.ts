@@ -32,19 +32,19 @@ class Game extends Engine.Scene {
 
   init(): void {
     this.mCamera = new Engine.Camera(
-      vec2.fromValues(20, 60),
+      vec2.fromValues(50, 50),
       20,
-      [20, 40, 600, 300],
+      [0, 0, 1024, 1024],
       Engine.Palette.getGLColor("Cream", 1)
     );
 
     this.mSupport = new Engine.Renderable();
     this.mSupport.setColor(Engine.Palette.getGLColor("Red"));
-    this.mSupport.getTransform().setPosition(20, 60);
+    this.mSupport.getTransform().setPosition(42.5, 42.5);
     this.mSupport.getTransform().setScale(5, 5); // Step C: Create the hero object in blue
     this.mPlayer = new Engine.Renderable();
     this.mPlayer.setColor(Engine.Palette.getGLColor("Blue"));
-    this.mPlayer.getTransform().setPosition(20, 60);
+    this.mPlayer.getTransform().setPosition(50, 50);
     this.mPlayer.getTransform().setScale(2, 3);
 
     Engine.Audio.playBackground(this.mBackgroundAudio, 1.0);
@@ -58,7 +58,7 @@ class Game extends Engine.Scene {
     }
 
     // Start drawing by activating the camera
-    this.mCamera?.setViewAndCameraMatrix();
+    this.mCamera?.setupViewProjection();
 
     // Draw entities
     this.mSupport?.draw(this.mCamera);
@@ -99,7 +99,7 @@ class Game extends Engine.Scene {
 }
 
 window.onload = () => {
-  Engine.init(640, 480, "GLCanvas");
+  Engine.init(1024, 1024, "GLCanvas");
   const game = new Game();
   game.start();
 };

@@ -66,7 +66,7 @@ class Renderable {
     this.mShader?.activate(
       this.mColor,
       this.mTransform.getTRSMatrix(),
-      camera.getCameraMatrix()
+      camera.getVPMatrix()
     );
     gl?.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
   }

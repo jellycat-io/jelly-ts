@@ -1,4 +1,4 @@
-import { mat4, vec2, vec3 } from "gl-matrix";
+import { mat4, vec2 } from "gl-matrix";
 import * as glSys from "./core/gl";
 import * as Palette from "./palette";
 import { VIEWPORT } from "./utils/common";
@@ -26,9 +26,31 @@ class Camera {
   mViewport: Float32List;
   /**
    * @private
+   * @type {number}
+   */
+  mNearPlane: number;
+  /**
+   * @private
+   * @type {number}
+   */
+  mFarPlane: number;
+
+  /**
+   * @private
    * @type {mat4}
    */
-  mCameraMatrix: mat4;
+  mViewMatrix: mat4;
+  /**
+   * @private
+   * @type {mat4}
+   */
+  mProjMatrix: mat4;
+  /**
+   * @private
+   * @type {mat4}
+   */
+  mVPMatrix: mat4;
+
   /**
    * @private
    * @type {Float32List}
@@ -50,9 +72,13 @@ class Camera {
     this.mWCCenter = wcCenter;
     this.mWCWidth = wcWidth;
     this.mViewport = viewportArray; // [x,y,w,h]
+    this.mNearPlane = 0;
+    this.mFarPlane = 1000;
 
-    // Camera transform operator
-    this.mCameraMatrix = mat4.create();
+    // Camera transform matrices
+    this.mViewMatrix = mat4.create();
+    this.mProjMatrix = mat4.create();
+    this.mVPMatrix = mat4.create();
 
     // Set background color
     this.mBGColor = bgColor ?? Palette.getGLColor("White");
@@ -134,14 +160,14 @@ class Camera {
    * @description Gets the camera matrix
    * @returns {mat4} the camera matrix
    */
-  getCameraMatrix(): mat4 {
-    return this.mCameraMatrix;
+  getVPMatrix(): mat4 {
+    return this.mVPMatrix;
   }
 
   /**
    * @description Initializes the camera to begin drawing
    */
-  setViewAndCameraMatrix(): void {
+  setupViewProjection(): void {
     const gl = glSys.get();
     const [vx, vy, vw, vh] = this.getViewport();
 
@@ -168,17 +194,28 @@ class Camera {
     // Compute camera matrix
     const center = this.getWCCenter();
 
-    // After translation, scale to -1 to 1: 2x2 square at origin
-    mat4.scale(
-      this.getCameraMatrix(),
-      mat4.create(),
-      vec3.fromValues(2.0 / this.getWCWidth(), 2.0 / this.getWCHeight(), 1.0)
+    mat4.lookAt(
+      this.mViewMatrix,
+      [center[0], center[1], 10],
+      [center[0], center[1], 0],
+      [0, 1, 0]
     );
-    mat4.translate(
-      this.getCameraMatrix(),
-      this.getCameraMatrix(),
-      vec3.fromValues(-center[0], -center[1], 0)
+
+    const ratio = vh / vw;
+    const halfWCWidth = 0.5 * this.mWCWidth;
+    const halfWCHeight = halfWCWidth * ratio;
+
+    mat4.ortho(
+      this.mProjMatrix,
+      -halfWCWidth, // distance to left of WC
+      halfWCWidth, // distance to right of WC
+      -halfWCHeight, // distance to bottom of WC
+      halfWCHeight, // distance to top of WC
+      this.mNearPlane, // z-distance to near plane
+      this.mFarPlane // z-distanceto far plane
     );
+
+    mat4.multiply(this.mVPMatrix, this.mProjMatrix, this.mViewMatrix);
   }
 }
 

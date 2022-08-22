@@ -36,7 +36,7 @@ export default class extends Engine.Scene {
     }
 
     // Start drawing by activating the camera
-    this.mCamera?.setViewAndCameraMatrix();
+    this.mCamera?.setupViewProjection();
 
     // Draw squares
     this.mSqSet.forEach((sq) => sq.draw(this.mCamera));
